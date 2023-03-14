@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Users\\caitl\\OneDrive\\Desktop\\UniProject\\PlantingCalendar\\PlantingCalendar\\PlantingCalendar\\PlantingCalendar.csproj": {}
+    "C:\\Users\\caitl\\OneDrive\\Desktop\\UniProject\\PlantingCalendar\\Service\\PlantingCalendar.csproj": {}
   },
   "projects": {
-    "C:\\Users\\caitl\\OneDrive\\Desktop\\UniProject\\PlantingCalendar\\PlantingCalendar\\PlantingCalendar\\PlantingCalendar.csproj": {
+    "C:\\Users\\caitl\\OneDrive\\Desktop\\UniProject\\PlantingCalendar\\Service\\PlantingCalendar.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\caitl\\OneDrive\\Desktop\\UniProject\\PlantingCalendar\\PlantingCalendar\\PlantingCalendar\\PlantingCalendar.csproj",
+        "projectUniqueName": "C:\\Users\\caitl\\OneDrive\\Desktop\\UniProject\\PlantingCalendar\\Service\\PlantingCalendar.csproj",
         "projectName": "PlantingCalendar",
-        "projectPath": "C:\\Users\\caitl\\OneDrive\\Desktop\\UniProject\\PlantingCalendar\\PlantingCalendar\\PlantingCalendar\\PlantingCalendar.csproj",
+        "projectPath": "C:\\Users\\caitl\\OneDrive\\Desktop\\UniProject\\PlantingCalendar\\Service\\PlantingCalendar.csproj",
         "packagesPath": "C:\\Users\\caitl\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\caitl\\OneDrive\\Desktop\\UniProject\\PlantingCalendar\\PlantingCalendar\\PlantingCalendar\\obj\\",
+        "outputPath": "C:\\Users\\caitl\\OneDrive\\Desktop\\UniProject\\PlantingCalendar\\Service\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
           "C:\\Users\\caitl\\AppData\\Roaming\\NuGet\\NuGet.Config",
