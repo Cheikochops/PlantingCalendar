@@ -1,0 +1,10 @@
+{
+  "version": 2,
+  "dgSpecHash": "4EUoOuDbhIh9AZco9+qFHCqhEQ/Vn9rfp17I988R18R3fB+f4mC/HRMjd1Din1gHkgz779+mv/dd3nsseLl/Vg==",
+  "success": true,
+  "projectFilePath": "C:\\Users\\caitl\\OneDrive\\Desktop\\UniProject\\Project\\PlantingCalendar\\PlantingCalendar\\PlantingCalendar.csproj",
+  "expectedPackageFiles": [
+    "C:\\Users\\caitl\\.nuget\\packages\\microsoft.visualstudio.azure.containers.tools.targets\\1.17.2\\microsoft.visualstudio.azure.containers.tools.targets.1.17.2.nupkg.sha512"
+  ],
+  "logs": []
+}
