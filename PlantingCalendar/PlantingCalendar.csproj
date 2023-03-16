@@ -1,4 +1,4 @@
-<Project Sdk="Microsoft.NET.Sdk.Web">
+﻿<Project Sdk="Microsoft.NET.Sdk.Web">
 
   <PropertyGroup>
     <TargetFramework>net6.0</TargetFramework>
@@ -13,11 +13,9 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Interfaces\" />
     <Folder Include="Controllers\" />
     <Folder Include="Helpers\" />
-    <Folder Include="Models\" />
-    <Folder Include="DataAccess\" />
+    <Folder Include="NewFolder\" />
   </ItemGroup>
 
 </Project>

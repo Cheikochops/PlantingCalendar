@@ -23,6 +23,12 @@
                             <a class="nav-link text-dark" asp-area="" asp-page="/Seeds">Seeds</a>
                         </li>
                         <li class="nav-item">
+                            <select>
+                                @foreach (var item in Model)
+                                {
+                                    <option>item</option>
+                                }
+                            </select>
                             <a class="nav-link text-dark" asp-area="" asp-page="/Calendar">Calendar</a>
                         </li>
                     </ul>
