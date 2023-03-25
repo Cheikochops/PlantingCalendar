@@ -1,8 +1,8 @@
 namespace PlantingCalendar.Models
 {
-    public class CalendarModel
+    public class CalendarItemModel
     {
-        public string Name { get; set; }   
+        public string CalendarName { get; set; }   
 
         public int Year { get; set; }
 

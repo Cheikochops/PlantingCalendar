@@ -1,4 +1,7 @@
-﻿<!DOCTYPE html>
+﻿@using PlantingCalendar.Models;
+@model BaseLayoutPageModel
+
+<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="utf-8" />
@@ -23,13 +26,14 @@
                             <a class="nav-link text-dark" asp-area="" asp-page="/Seeds">Seeds</a>
                         </li>
                         <li class="nav-item">
-                            <select>
-                                @foreach (var item in Model)
-                                {
-                                    <option>item</option>
-                                }
-                            </select>
+          
                             <a class="nav-link text-dark" asp-area="" asp-page="/Calendar">Calendar</a>
+
+                            @foreach(var calendar in Model.Calendars)
+                            {
+                                <p>@calendar.CalendarName</p>
+                            }
+
                         </li>
                     </ul>
                 </div>

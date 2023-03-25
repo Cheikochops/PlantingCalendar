@@ -37,6 +37,12 @@ C:\Users\caitl\OneDrive\Desktop\UniProject\Project\PlantingCalendar\PlantingCale
 C:\Users\caitl\OneDrive\Desktop\UniProject\Project\PlantingCalendar\PlantingCalendar\bin\Debug\net6.0\PlantingCalendar.runtimeconfig.json
 C:\Users\caitl\OneDrive\Desktop\UniProject\Project\PlantingCalendar\PlantingCalendar\bin\Debug\net6.0\PlantingCalendar.dll
 C:\Users\caitl\OneDrive\Desktop\UniProject\Project\PlantingCalendar\PlantingCalendar\bin\Debug\net6.0\PlantingCalendar.pdb
+C:\Users\caitl\OneDrive\Desktop\UniProject\Project\PlantingCalendar\PlantingCalendar\bin\Debug\net6.0\System.Data.SqlClient.dll
+C:\Users\caitl\OneDrive\Desktop\UniProject\Project\PlantingCalendar\PlantingCalendar\bin\Debug\net6.0\runtimes\win-arm64\native\sni.dll
+C:\Users\caitl\OneDrive\Desktop\UniProject\Project\PlantingCalendar\PlantingCalendar\bin\Debug\net6.0\runtimes\win-x64\native\sni.dll
+C:\Users\caitl\OneDrive\Desktop\UniProject\Project\PlantingCalendar\PlantingCalendar\bin\Debug\net6.0\runtimes\win-x86\native\sni.dll
+C:\Users\caitl\OneDrive\Desktop\UniProject\Project\PlantingCalendar\PlantingCalendar\bin\Debug\net6.0\runtimes\unix\lib\netcoreapp2.1\System.Data.SqlClient.dll
+C:\Users\caitl\OneDrive\Desktop\UniProject\Project\PlantingCalendar\PlantingCalendar\bin\Debug\net6.0\runtimes\win\lib\netcoreapp2.1\System.Data.SqlClient.dll
 C:\Users\caitl\OneDrive\Desktop\UniProject\Project\PlantingCalendar\PlantingCalendar\obj\Debug\net6.0\PlantingCalendar.csproj.AssemblyReference.cache
 C:\Users\caitl\OneDrive\Desktop\UniProject\Project\PlantingCalendar\PlantingCalendar\obj\Debug\net6.0\PlantingCalendar.GeneratedMSBuildEditorConfig.editorconfig
 C:\Users\caitl\OneDrive\Desktop\UniProject\Project\PlantingCalendar\PlantingCalendar\obj\Debug\net6.0\PlantingCalendar.AssemblyInfoInputs.cache
@@ -55,6 +61,7 @@ C:\Users\caitl\OneDrive\Desktop\UniProject\Project\PlantingCalendar\PlantingCale
 C:\Users\caitl\OneDrive\Desktop\UniProject\Project\PlantingCalendar\PlantingCalendar\obj\Debug\net6.0\scopedcss\Pages\Shared\_Layout.cshtml.rz.scp.css
 C:\Users\caitl\OneDrive\Desktop\UniProject\Project\PlantingCalendar\PlantingCalendar\obj\Debug\net6.0\scopedcss\bundle\PlantingCalendar.styles.css
 C:\Users\caitl\OneDrive\Desktop\UniProject\Project\PlantingCalendar\PlantingCalendar\obj\Debug\net6.0\scopedcss\projectbundle\PlantingCalendar.bundle.scp.css
+C:\Users\caitl\OneDrive\Desktop\UniProject\Project\PlantingCalendar\PlantingCalendar\obj\Debug\net6.0\PlantingCalendar.csproj.CopyComplete
 C:\Users\caitl\OneDrive\Desktop\UniProject\Project\PlantingCalendar\PlantingCalendar\obj\Debug\net6.0\PlantingCalendar.dll
 C:\Users\caitl\OneDrive\Desktop\UniProject\Project\PlantingCalendar\PlantingCalendar\obj\Debug\net6.0\refint\PlantingCalendar.dll
 C:\Users\caitl\OneDrive\Desktop\UniProject\Project\PlantingCalendar\PlantingCalendar\obj\Debug\net6.0\PlantingCalendar.pdb

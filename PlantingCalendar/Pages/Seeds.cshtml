@@ -5,5 +5,47 @@
 }
 
 <div class="text-center">
-    <h1 class="display-4">This is the seeds page</h1>
+    <div>
+        Buttons
+        <div>
+            <input />
+            <button></button>
+        </div>
+        <div>
+            <button>New Seed</button>
+        </div>
+        <div />
+        <div>
+            <table>
+                <tr>
+                    <th>Plant Type</th>
+                    <th>Breed</th>
+                    <th>Sowing Dates</th>
+                    <th>Harvesting Dates</th>
+                    <th>Sun Requirement</th>
+                    <th>Weekly Water Requirement</th>
+                </tr>
+
+                @foreach (var seed in Model.Seeds)
+                {
+                    <tr onclick="togglePopup('seedInfoPopup')">
+                        <td>@seed.PlantType</td>
+                        <td>@seed.Breed</td>
+                        <td>@seed.SowingDates</td>
+                        <td>@seed.HarvestingDates</td>
+                        <td>@seed.SunRequirement</td>
+                        <td>@seed.WaterRequirement</td>
+                    </tr>
+                }
+
+            </table>
+        </div>
+    </div>
+</div>
+<div id="seedInfoPopup" class="popupBox">
+    helllooo
+    <br />
+    aaaa
+    <br />
+    aaaaaa
 </div>

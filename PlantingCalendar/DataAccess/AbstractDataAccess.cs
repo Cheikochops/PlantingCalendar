@@ -20,7 +20,7 @@ namespace PlantingCalendar.DataAccess
 
         internal async Task<List<T>> ExecuteSql<T>(string sql) where T : class
         {
-            var sqlConnection = new SqlConnection(_dataAccessSettings.ConnectionString);
+            var sqlConnection = new SqlConnection(_dataAccessSettings.Plantbase);
 
             var command = new SqlCommand(sql, sqlConnection);
             SqlDataAdapter dataAdapter = new SqlDataAdapter(sql, sqlConnection);
