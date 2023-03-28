@@ -1,37 +1,13 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using PlantingCalendar.Interfaces;
-using System.Globalization;
-using System.Text.Encodings.Web;
+using PlantingCalendar.Models;
+//using System.Web.Http;
 
-namespace PlantingCalendar.Controllers;
-
-public class CalendarController : Controller
+public class CalendarController : ControllerBase
 {
     private readonly ICalendarDataAccess _dataAccess;
     public CalendarController (ICalendarDataAccess dataAccess)
     {
         _dataAccess = dataAccess;
-    }
-
-    public async Task<ActionResult<List<Calendar>>> Index()
-    {
-        var calendars = await GetAll();
-        ViewBag.Calendars = calendars;
-
-        return View();
-
-    }
-
-    public async Task<ActionResult<List<Calendar>>> GetAll()
-    {
-        try
-        {
-            var calendars = await _dataAccess.GetAllCalendars();
-            return Ok(calendars);
-        }
-        catch (Exception ex)
-        {
-           return BadRequest(ex.Message);
-        }
     }
 }

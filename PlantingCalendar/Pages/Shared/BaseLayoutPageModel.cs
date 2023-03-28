@@ -8,16 +8,16 @@ namespace PlantingCalendar.Pages
     public class BaseLayoutPageModel : PageModel
     {
         public ICalendarDataAccess CalendarDataAccess { get; set; }
-        public List<CalendarItemModel> Calendars = new List<CalendarItemModel>();
+        public List<CalendarItemBasicModel> Calendars = new List<CalendarItemBasicModel>();
 
         public BaseLayoutPageModel(ICalendarDataAccess calendarDataAccess)
         {
             CalendarDataAccess = calendarDataAccess;
         }
 
-        public async Task GetCalendars()
+        public async Task GetDropDownCalendars()
         {
-            Calendars = await CalendarDataAccess.GetAllCalendars();
+            Calendars = await CalendarDataAccess.GetBasicCalendars();
         }
     }
 }

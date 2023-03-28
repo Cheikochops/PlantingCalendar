@@ -15,7 +15,7 @@ namespace PlantingCalendar.Pages
 
         public async Task OnGet()
         {
-            await GetCalendars();
+            await GetDropDownCalendars();
         }
     }
 }

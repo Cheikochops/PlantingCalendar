@@ -5,24 +5,24 @@ using System.Threading.Tasks;
 
 namespace PlantingCalendar.DataAccess
 {
-    public class CalendarDataAccess : AbstractDataAccess, ICalendarDataAccess
+    public class SeedDataAccess : AbstractDataAccess, ISeedDataAccess
     {
-        public CalendarDataAccess(IOptions<DataAccessSettings> dataAccessSettings) : base(dataAccessSettings)
+        public SeedDataAccess(IOptions<DataAccessSettings> dataAccessSettings) : base(dataAccessSettings)
         {
         }
 
-        public async Task<List<CalendarItemModel>> GetAllCalendars()
+        public async Task<List<SeedItemModel>> GetAllSeeds()
         {
             try
             {
-                var calendars = await ExecuteSql<CalendarItemModel>("Exec plantbase.Calendar_Read");
+                var seeds = await ExecuteSql<SeedItemModel>("Exec plantbase.Seeds_Read");
 
-                if (calendars == null)
+                if (seeds == null)
                 {
-                    return new List<CalendarItemModel>();
+                    return new List<SeedItemModel>();
                 }
 
-                return calendars;
+                return seeds;
             }
             catch (Exception ex)
             {

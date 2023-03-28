@@ -1,4 +1,4 @@
-﻿@using PlantingCalendar.Models;
+﻿@using PlantingCalendar.Pages;
 @model BaseLayoutPageModel
 
 <!DOCTYPE html>
@@ -26,13 +26,15 @@
                             <a class="nav-link text-dark" asp-area="" asp-page="/Seeds">Seeds</a>
                         </li>
                         <li class="nav-item">
-          
-                            <a class="nav-link text-dark" asp-area="" asp-page="/Calendar">Calendar</a>
-
+  
+                            <select onchange="calendarDropdown(this.value)">
+                                <option disabled selected>Select a calendar to view</option>
                             @foreach(var calendar in Model.Calendars)
                             {
-                                <p>@calendar.CalendarName</p>
+                                <option value="@calendar.CalendarId">@calendar.CalendarName</option>
                             }
+                                <option value="new">Create a new calendar</option>
+                            </select>
 
                         </li>
                     </ul>
@@ -55,6 +57,7 @@
     <script src="~/lib/jquery/dist/jquery.min.js"></script>
     <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
     <script src="~/js/site.js" asp-append-version="true"></script>
+    <script src="_framework/blazor.server.js"></script>
 
     @await RenderSectionAsync("Scripts", required: false)
 </body>

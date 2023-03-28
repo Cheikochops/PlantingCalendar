@@ -13,12 +13,14 @@ builder.Services.AddRazorPages(options =>
     options.Conventions.AddPageRoute("/Home", ""); 
 });
 
+builder.Services.AddControllers();
+
 //Dependency Injection
 builder.Services.AddScoped<ICalendarDataAccess, CalendarDataAccess>();
 builder.Services.AddScoped<ISeedDataAccess, SeedDataAccess>();
 builder.Services.Configure<DataAccessSettings>(builder.Configuration.GetSection(DataAccessSettings.SectionName));
 
-builder.Services.AddControllers();
+builder.Services.AddServerSideBlazor(o => o.DetailedErrors = true);
 
 var app = builder.Build();
 
@@ -37,10 +39,14 @@ app.UseRouting();
 
 app.UseAuthorization();
 
-app.MapRazorPages();
-
-app.MapControllerRoute(
-    name: "default",
-    pattern: "{controller=Home}/{action=Index}/{id?}");
+app.UseEndpoints(endpoints =>
+{
+    endpoints.MapRazorPages();
+    endpoints.MapControllerRoute(
+        name: "default",
+        pattern: "{controller=Home}/{action=Index}/{id?}");
+    endpoints.MapControllers();
+    endpoints.MapBlazorHub();
+});
 
 app.Run();

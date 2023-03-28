@@ -4,6 +4,8 @@
     ViewData["Title"] = "Seeds";
 }
 
+<script src="~/js/seeds.js" asp-append-version="true"></script>
+
 <div class="text-center">
     <div>
         Buttons
@@ -28,7 +30,7 @@
 
                 @foreach (var seed in Model.Seeds)
                 {
-                    <tr onclick="togglePopup('seedInfoPopup')">
+                    <tr onclick="togglePopup('popupBackground', 'seedInfoPopup')">
                         <td>@seed.PlantType</td>
                         <td>@seed.Breed</td>
                         <td>@seed.SowingDates</td>
@@ -42,10 +44,11 @@
         </div>
     </div>
 </div>
-<div id="seedInfoPopup" class="popupBox">
-    helllooo
-    <br />
-    aaaa
-    <br />
-    aaaaaa
+
+<div id="popupBackground" class="popupBackground">
+    <div id="seedInfoPopup" class="popupBox">
+        @{
+            await Html.RenderPartialAsync("SeedInformationPopup", Model.SelectedSeed);
+        }
+    </div>
 </div>

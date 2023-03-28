@@ -4,6 +4,6 @@ namespace PlantingCalendar.Interfaces
 {
     public interface ICalendarDataAccess
     {
-        Task<List<CalendarItemModel>> GetAllCalendars();
+        Task<List<CalendarItemBasicModel>> GetBasicCalendars();
     }
 }

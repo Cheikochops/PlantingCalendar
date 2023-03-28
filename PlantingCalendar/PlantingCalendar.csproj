@@ -9,6 +9,15 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Remove="Pages\Shared\SeedInformationPopup.cshtml.cs" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Content Include="Pages\Shared\SeedInformationPopup.cshtml.cs" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.AspNet.WebApi.Core" Version="5.2.9" />
     <PackageReference Include="Microsoft.VisualStudio.Azure.Containers.Tools.Targets" Version="1.17.2" />
     <PackageReference Include="System.Data.SqlClient" Version="4.8.5" />
   </ItemGroup>
