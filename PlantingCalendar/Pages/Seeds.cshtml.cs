@@ -33,6 +33,7 @@ namespace PlantingCalendar.Pages
             {
                 new SeedItemModel
                 {
+                    Id = 1,
                     PlantType = "Tomato",
                     Breed = "Gardener's Delight",
                     SunRequirement = "1",
@@ -42,6 +43,7 @@ namespace PlantingCalendar.Pages
                 },
                 new SeedItemModel
                 {
+                    Id = 2,
                     PlantType = "Cucumber",
                     Breed = "Masterpiece",
                     SunRequirement = "1",
@@ -51,6 +53,7 @@ namespace PlantingCalendar.Pages
                 },
                 new SeedItemModel
                 {
+                    Id = 3,
                     PlantType = "Corriander",
                     Breed = null,
                     SunRequirement = "1",
@@ -60,6 +63,7 @@ namespace PlantingCalendar.Pages
                 },
                 new SeedItemModel
                 {
+                    Id = 4,
                     PlantType = "Asparagus",
                     Breed = null,
                     SunRequirement = "1",

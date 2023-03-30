@@ -29,5 +29,25 @@ namespace PlantingCalendar.DataAccess
                 throw;
             }
         }
+
+        public async Task<SeedDetailModel> GetSeedDetails(long seedId)
+        {
+            try
+            {
+                //Create this proc
+                var seeds = await ExecuteSql<SeedDetailModel>($"Exec plantbase.Seed_Details_Read {seedId}");
+
+                if (seeds == null)
+                {
+                    return new SeedDetailModel();
+                }
+
+                return seeds.First();
+            }
+            catch (Exception ex)
+            {
+                throw;
+            }
+        }
     }
 }

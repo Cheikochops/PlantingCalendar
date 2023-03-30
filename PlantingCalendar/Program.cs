@@ -20,8 +20,6 @@ builder.Services.AddScoped<ICalendarDataAccess, CalendarDataAccess>();
 builder.Services.AddScoped<ISeedDataAccess, SeedDataAccess>();
 builder.Services.Configure<DataAccessSettings>(builder.Configuration.GetSection(DataAccessSettings.SectionName));
 
-builder.Services.AddServerSideBlazor(o => o.DetailedErrors = true);
-
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
@@ -46,7 +44,6 @@ app.UseEndpoints(endpoints =>
         name: "default",
         pattern: "{controller=Home}/{action=Index}/{id?}");
     endpoints.MapControllers();
-    endpoints.MapBlazorHub();
 });
 
 app.Run();

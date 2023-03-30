@@ -1,7 +1,29 @@
-﻿@using PlantingCalendar.Pages;
-@model SeedInformationPopupModel
+﻿@using PlantingCalendar.Models;
+@model SeedDetailModel
 
 <div class="text-center">
     <h1 class="display-4">This is the seed informaton popup</h1>
-    @Model.Seed.PlantType
+
+    @using (Html.BeginForm("SaveSeed", "Seed", FormMethod.Post))
+    {
+        <div>
+            @Html.TextBoxFor(m => m.PlantType)
+        </div>
+        <div>
+            @Html.TextBoxFor(m => m.Breed)
+        </div>
+        <div>
+            @Html.TextAreaFor(m => m.Description)
+        </div>
+        <div>
+            @Html.TextBoxFor(m => m.SunRequirement)
+        </div>
+        <div>
+            @Html.TextBoxFor(m => m.WaterRequirement)
+        </div>
+
+        <input type="submit" value="Submit Data" id="btnSubmit" />
+    }
+
+    <button>Delete</button>
 </div>

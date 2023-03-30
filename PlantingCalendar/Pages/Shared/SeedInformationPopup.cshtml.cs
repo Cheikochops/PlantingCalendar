@@ -7,7 +7,7 @@ namespace PlantingCalendar.Pages
 {
     public class SeedInformationPopupModel : PageModel
     {
-        public SeedItemModel Seed { get; set; } 
+        public SeedDetailModel Seed { get; set; } 
 
         public SeedInformationPopupModel() 
         {

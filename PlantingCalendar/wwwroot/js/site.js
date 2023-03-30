@@ -1,12 +1,4 @@
-﻿function togglePopup(popupBackgroundId, popupId) {
-    var background = document.getElementById(popupBackgroundId);
-    background.classList.toggle("block");
-
-    var popup = document.getElementById(popupId);
-    popup.classList.toggle("visible");
-}
-
-function calendarDropdown(calendarId) {
+﻿function calendarDropdown(calendarId) {
 
     if (calendarId == "new") {
 
