@@ -102,37 +102,17 @@ BEGIN
 	(
 		Id bigint IDENTITY(1,1),  
 		Name varchar(50) not null,
-		FK_RepeatableTypeId bigint not null,
+		Description varchar(1000) null,
+		FK_RepeatableTypeId bigint null,
 		StartDate datetime null,
 		EndDate datetime null,
+		DisplayChar char null,
+		DisplayColour varchar(6) null, --colour code
 		PRIMARY KEY (Id),
 		FOREIGN KEY (FK_RepeatableTypeId) REFERENCES plantbase.RepeatableType(Id)
 	)
 
 END
-
-
-IF (NOT EXISTS (SELECT * 
-                 FROM INFORMATION_SCHEMA.TABLES 
-                 WHERE TABLE_SCHEMA = 'plantbase' 
-                 AND  TABLE_NAME = 'Task'))
-BEGIN
-
-	/*
-		Table for storing the tasks against a given calendar
-	*/
-
-    Create Table plantbase.Task 
-	(
-		Id bigint IDENTITY(1,1),  
-		FK_TaskTypeId bigint,
-		IsComplete bit default(0),
-		PRIMARY KEY (Id),
-		FOREIGN KEY (FK_TaskTypeId) REFERENCES plantbase.TaskType(Id)
-	)
-
-END
-
 
 IF (NOT EXISTS (SELECT * 
                  FROM INFORMATION_SCHEMA.TABLES 
@@ -153,3 +133,29 @@ BEGIN
 	)
 
 END
+
+
+IF (NOT EXISTS (SELECT * 
+                 FROM INFORMATION_SCHEMA.TABLES 
+                 WHERE TABLE_SCHEMA = 'plantbase' 
+                 AND  TABLE_NAME = 'Task'))
+BEGIN
+
+	/*
+		Table for storing the tasks against a given calendar
+	*/
+
+    Create Table plantbase.Task 
+	(
+		Id bigint IDENTITY(1,1),  
+		FK_TaskTypeId bigint not null,
+		FK_CalendarId bigint not null,
+		IsComplete bit default(0),
+		TaskDate datetime not null,
+		PRIMARY KEY (Id),
+		FOREIGN KEY (FK_TaskTypeId) REFERENCES plantbase.TaskType(Id),
+		FOREIGN KEY (FK_CalendarId) REFERENCES plantbase.Calendar(Id)
+	)
+
+END
+

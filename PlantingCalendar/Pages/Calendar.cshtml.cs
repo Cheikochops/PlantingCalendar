@@ -8,7 +8,7 @@ namespace PlantingCalendar.Pages
 {
     public class CalendarModel : BaseLayoutPageModel
     {
-        public CalendarItemBasicModel CurrentCalendar { get; set; }
+        public CalendarDetailsModel CurrentCalendar { get; set; }
 
         public CalendarModel(ICalendarDataAccess calendarDataAccess) : base(calendarDataAccess)
         {
@@ -23,12 +23,11 @@ namespace PlantingCalendar.Pages
 
             if (calendarId != null)
             {
-                //Update to get MonthLevel calendar details from the database
-                CurrentCalendar = Calendars.FirstOrDefault(x => x.CalendarId.ToString() == calendarId);
+                var CurrentCalendar = await CalendarDataAccess.GetCalendar(long.Parse(calendarId));
             }
             else
             {
-
+                
             }
         }
     }
