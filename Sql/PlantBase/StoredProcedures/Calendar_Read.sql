@@ -9,5 +9,7 @@ Begin
 			*
 		From
 			plantbase.CalendarView c
+		Where
+			c.CalendarId = @Id
 
 End

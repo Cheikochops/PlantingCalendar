@@ -22,16 +22,16 @@ namespace PlantingCalendar.DataAccess
                 throw new Exception("Unexpected list length");
             }
 
-            var months = MakeMonths(first.Year, calendarDetails);
+            var months = MakeMonths(first.Year);
+            var seeds = MakeSeeds(calendarDetails, months);
 
-            months.ForEach(x =>
-                    x.Seeds.ForEach(z => z.Tasks = calendarDetails
-                            .Where(y => y.SeedId == z.Id)
-                            .Where(y => (y.SetTaskDate != null && y.SetTaskDate.Value.Month == x.Order)
+            seeds.ForEach(x => x.Months.ForEach(z => z.Tasks = calendarDetails
+                            .Where(y => y.SeedId == x.Id)
+                            .Where(y => (y.SetTaskDate != null && y.SetTaskDate.Value.Month == z.Order)
                             || (
                                 y.RangeTaskStartDate != null && y.RangeTaskEndDate != null &&
-                                x.Order <= y.RangeTaskEndDate.Value.Month &&
-                                x.Order >= y.RangeTaskStartDate.Value.Month))
+                                z.Order <= y.RangeTaskEndDate.Value.Month &&
+                                z.Order >= y.RangeTaskStartDate.Value.Month))
                             .Select(y => new CalendarTask
                             {
                                 Id = y.TaskId.Value,
@@ -51,26 +51,31 @@ namespace PlantingCalendar.DataAccess
                 CalendarId = first.CalendarId,
                 CalendarName = first.CalendarName,
                 Year = first.Year,
-                Months = months
+                Seeds = seeds
             };
 
         }
 
-        private List<Month> MakeMonths(int year, List<SqlCalendarDetailsModel> calendarDetails)
+        private IEnumerable<Month> MakeMonths(int year)
         {
             return Enumerable.Range(1, 12).Select(i => new Month
             {
                 MonthName = System.Globalization.DateTimeFormatInfo.CurrentInfo.GetMonthName(i),
                 MonthCode = System.Globalization.DateTimeFormatInfo.CurrentInfo.GetMonthName(i).Substring(0, 3).ToUpperInvariant(),
                 DayCount = DateTime.DaysInMonth(year, i),
-                Order = i,
-                Seeds = calendarDetails.Where(x => x.SeedId != null).Select(x => new Seed
-                {
-                    Id = x.SeedId.Value,
-                    PlantBreed = x.PlantBreed,
-                    PlantTypeName = x.PlantTypeName
-                }).DistinctBy(x => x.Id).ToList()
-            }).ToList();
+                Order = i
+            });
+        }
+
+        private List<Seed> MakeSeeds(List<SqlCalendarDetailsModel> calendarDetails, IEnumerable<Month> months)
+        {
+            return calendarDetails.Where(x => x.SeedId != null).Select(x => new Seed
+            {
+                Id = x.SeedId.Value,
+                PlantBreed = x.PlantBreed,
+                PlantTypeName = x.PlantTypeName,
+                Months = months.ToList()
+            }).DistinctBy(x => x.Id).ToList();
         }
 
     }

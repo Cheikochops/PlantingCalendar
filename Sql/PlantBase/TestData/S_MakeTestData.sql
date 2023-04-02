@@ -157,4 +157,9 @@ Insert Into
 			@harvestTaskTypeId,
 			@calendarSeedId,
 			'2023-09-10'
+		),
+		(
+			@sowTaskTypeId,
+			@calendarSeedId,
+			null
 		)

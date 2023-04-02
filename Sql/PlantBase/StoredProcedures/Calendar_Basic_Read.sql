@@ -2,7 +2,7 @@ Create or Alter Procedure plantbase.Calendar_Basic_Read
 As
 Begin
 
-	Select
+	Select Distinct
 			CalendarId,
 			CalendarName
 		From

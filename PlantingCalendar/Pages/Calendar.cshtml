@@ -7,3 +7,40 @@
 <div class="text-center">
     <h1 class="display-4">This is the calendar page for @Model.CurrentCalendar.CalendarName, Year: @Model.CurrentCalendar.Year</h1>
 </div>
+
+<div>
+    <div>
+        <table>
+            <tr>
+                <th>Seeds</th>
+                @{
+                    foreach (var month in Model.CurrentCalendar.Seeds.First().Months.OrderBy(x => x.Order))
+                    {
+                        <th>@month.MonthName</th>
+                    }
+                }
+            </tr>
+            @{
+                foreach (var seed in Model.CurrentCalendar.Seeds.OrderBy(x => x.PlantTypeName).ThenBy(x => x.PlantBreed))
+                {
+                    <tr>
+                        <td>@seed.PlantTypeName - @seed.PlantBreed</td>
+                        @{
+                            foreach (var month in @seed.Months.OrderBy(x => x.Order))
+                            {
+                                <td>
+                                    @{
+                                        foreach (var task in month.Tasks)
+                                        {
+                                            @task.DisplayChar <br />
+                                        }
+                                    }
+                                </td>
+                            }
+                        }
+                    </tr>
+                }
+            }
+        </table>
+    </div>
+</div>

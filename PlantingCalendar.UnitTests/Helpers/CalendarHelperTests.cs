@@ -33,12 +33,7 @@ namespace PlantingCalendar.UnitTests
             Assert.Equal(1, calendar.CalendarId);
             Assert.Equal("Test", calendar.CalendarName);
             Assert.Equal(2023, calendar.Year);
-            Assert.Equal(12, calendar.Months.Count());
-
-            foreach (var month in calendar.Months)
-            {
-                Assert.Empty(month.Seeds);
-            }
+            Assert.Empty(calendar.Seeds);
         }
 
         [Fact]
@@ -110,33 +105,33 @@ namespace PlantingCalendar.UnitTests
             Assert.Equal(1, calendar.CalendarId);
             Assert.Equal("Test", calendar.CalendarName);
             Assert.Equal(2023, calendar.Year);
-            Assert.Equal(12, calendar.Months.Count());
+            Assert.Equal(2, calendar.Seeds.Count());
 
-            foreach (var month in calendar.Months)
+            foreach (var seed in calendar.Seeds)
             {
-                Assert.Equal(2, month.Seeds.Count());
+                Assert.Equal(12, seed.Months.Count());
 
-                foreach (var seed in month.Seeds) {
+                foreach (var month in seed.Months) {
 
                     if (month.Order == 3 && seed.Id == 1)
                     {
-                        Assert.Single(seed.Tasks);
-                        var task = seed.Tasks.First();
+                        Assert.Single(month.Tasks);
+                        var task = month.Tasks.First();
 
                         Assert.Equal("Sow", task.TaskName);
                         Assert.Equal(1, task.Id);
                     }
                     else if (month.Order >= 5 && month.Order <= 7 && seed.Id == 1)
                     {
-                        Assert.Single(seed.Tasks);
-                        var task = seed.Tasks.First();
+                        Assert.Single(month.Tasks);
+                        var task = month.Tasks.First();
 
                         Assert.Equal("Sow RANGE", task.TaskName);
                         Assert.Equal(2, task.Id);
                     }
                     else
                     {
-                        Assert.Empty(seed.Tasks);
+                        Assert.Empty(month.Tasks);
                     }
                 }
             }
