@@ -4,18 +4,22 @@ AS
 			CalendarId = c.Id,
 			CalendarName = c.Name,
 			[Year] = c.[Year],
-			TaskTypeName = tt.Name,
-			TaskTypeDescription = tt.Description,
+			PlantTypeName = s.PlantType,
+			PlantBreed = s.Breed,
+			SeedId = s.Id,
+			TaskName = tt.Name,
+			TaskDescription = tt.Description,
 			TaskTypeId = tt.Id,
 			TaskId = t.Id,
 			t.IsComplete,
-			t.TaskDate,
-			TaskStartDate = tt.StartDate,
-			TaskEndDate = tt.EndDate,
-			tt.DisplayColour,
-			tt.DisplayChar
+			SetTaskDate = t.TaskDate,
+			RangeTaskStartDate = tt.StartDate,
+			RangeTaskEndDate = tt.EndDate,
+			TaskDisplayColour = tt.DisplayColour,
+			TaskDisplayChar = tt.DisplayChar
 		From
 			plantbase.Calendar c
-			left join plantbase.Task t on c.Id = t.FK_TaskTypeId
+			left join plantbase.CalendarSeed cs on c.Id = cs.FK_CalendarId
+			left join plantbase.Seed s on cs.FK_SeedId = s.Id
+			left join plantbase.Task t on cs.Id = t.FK_CalendarSeedId
 			left join plantbase.TaskType tt on t.FK_TaskTypeId = tt.Id
-			

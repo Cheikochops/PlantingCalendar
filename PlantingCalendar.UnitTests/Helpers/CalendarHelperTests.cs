@@ -16,7 +16,7 @@ namespace PlantingCalendar.UnitTests
         }
 
         [Fact]
-        public void FormatCalendar_NoTasks()
+        public void FormatCalendar_NoSeeds()
         {
             var calendarHelper = new CalendarHelper();
             var calendarDetails = new List<SqlCalendarDetailsModel>() {
@@ -37,12 +37,12 @@ namespace PlantingCalendar.UnitTests
 
             foreach (var month in calendar.Months)
             {
-                Assert.Empty(month.Tasks);
+                Assert.Empty(month.Seeds);
             }
         }
 
         [Fact]
-        public void FormatCalendar_WithTasks()
+        public void FormatCalendar_WithSeeds()
         {
             var calendarHelper = new CalendarHelper();
             var calendarDetails = new List<SqlCalendarDetailsModel>() {
@@ -52,15 +52,18 @@ namespace PlantingCalendar.UnitTests
                     CalendarName = "Test",
                     Year = 2023,
                     IsComplete = false,
-                    TaskDate = new DateOnly(2023, 03, 31),
-                    TaskEndDate = null,
-                    TaskStartDate = null,
+                    SetTaskDate = new DateOnly(2023, 03, 31),
+                    RangeTaskEndDate = null,
+                    RangeTaskStartDate = null,
+                    SeedId = 1,
+                    PlantBreed = "Masterpiece",
+                    PlantTypeName = "Cucumber",
                     TaskId = 1,
-                    TaskTypeName = "Sow",
-                    DisplayChar = 'S',
-                    DisplayColour = null,
+                    TaskName = "Sow",
+                    TaskDisplayChar = 'S',
+                    TaskDisplayColour = null,
                     TaskTypeId = 1,
-                    TaskTypeDescription = "This is a single task to sow"
+                    TaskDescription = "This is a single task to sow"
                 },
                 new SqlCalendarDetailsModel()
                 {
@@ -68,15 +71,37 @@ namespace PlantingCalendar.UnitTests
                     CalendarName = "Test",
                     Year = 2023,
                     IsComplete = false,
-                    TaskDate = null,
-                    TaskEndDate = new DateOnly(2023, 07, 01),
-                    TaskStartDate = new DateOnly(2023, 05, 15),
+                    SeedId = 1,
+                    PlantBreed = "Masterpiece",
+                    PlantTypeName = "Cucumber",
+                    SetTaskDate = null,
+                    RangeTaskEndDate = new DateOnly(2023, 07, 01),
+                    RangeTaskStartDate = new DateOnly(2023, 05, 15),
                     TaskId = 2,
-                    TaskTypeName = "Sow RANGE",
-                    DisplayChar = 'R',
-                    DisplayColour = null,
+                    TaskName = "Sow RANGE",
+                    TaskDisplayChar = 'R',
+                    TaskDisplayColour = null,
                     TaskTypeId = 2,
-                    TaskTypeDescription = "This is a ranged task to sow"
+                    TaskDescription = "This is a ranged task to sow"
+                },
+                new SqlCalendarDetailsModel()
+                {
+                    CalendarId = 1,
+                    CalendarName = "Test",
+                    Year = 2023,
+                    IsComplete = false,
+                    SeedId = 3,
+                    PlantBreed = "Black Russian",
+                    PlantTypeName = "Tomato",
+                    SetTaskDate = null,
+                    RangeTaskEndDate = null,
+                    RangeTaskStartDate = null,
+                    TaskId = null,
+                    TaskName = null,
+                    TaskDisplayChar = null,
+                    TaskDisplayColour = null,
+                    TaskTypeId = null,
+                    TaskDescription = null
                 }
             };
 
@@ -89,25 +114,30 @@ namespace PlantingCalendar.UnitTests
 
             foreach (var month in calendar.Months)
             {
-                if (month.Order == 3)
-                {
-                    Assert.Single(month.Tasks);
-                    var task = month.Tasks.First();
+                Assert.Equal(2, month.Seeds.Count());
 
-                    Assert.Equal("Sow", task.TaskName);
-                    Assert.Equal(1, task.Id);
-                }
-                else if (month.Order >= 5 && month.Order <= 7)
-                {
-                    Assert.Single(month.Tasks);
-                    var task = month.Tasks.First();
+                foreach (var seed in month.Seeds) {
 
-                    Assert.Equal("Sow RANGE", task.TaskName);
-                    Assert.Equal(2, task.Id);
-                }
-                else
-                {
-                    Assert.Empty(month.Tasks);
+                    if (month.Order == 3 && seed.Id == 1)
+                    {
+                        Assert.Single(seed.Tasks);
+                        var task = seed.Tasks.First();
+
+                        Assert.Equal("Sow", task.TaskName);
+                        Assert.Equal(1, task.Id);
+                    }
+                    else if (month.Order >= 5 && month.Order <= 7 && seed.Id == 1)
+                    {
+                        Assert.Single(seed.Tasks);
+                        var task = seed.Tasks.First();
+
+                        Assert.Equal("Sow RANGE", task.TaskName);
+                        Assert.Equal(2, task.Id);
+                    }
+                    else
+                    {
+                        Assert.Empty(seed.Tasks);
+                    }
                 }
             }
         }

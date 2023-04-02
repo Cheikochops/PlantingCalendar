@@ -18,6 +18,7 @@ builder.Services.AddControllers();
 //Dependency Injection
 builder.Services.AddScoped<ICalendarDataAccess, CalendarDataAccess>();
 builder.Services.AddScoped<ISeedDataAccess, SeedDataAccess>();
+builder.Services.AddSingleton<ICalendarHelper, CalendarHelper>();
 builder.Services.Configure<DataAccessSettings>(builder.Configuration.GetSection(DataAccessSettings.SectionName));
 
 var app = builder.Build();

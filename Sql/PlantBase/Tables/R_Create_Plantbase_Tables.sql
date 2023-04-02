@@ -1,3 +1,13 @@
+drop table plantbase.Task;
+drop table plantbase.TaskType;
+drop table plantbase.RepeatableType;
+drop table plantbase.CalendarSeed;
+drop table plantbase.Calendar;
+drop table plantbase.SeedAction;
+drop table plantbase.ActionType;
+drop table plantbase.Seed;
+
+
 IF (NOT EXISTS (SELECT * 
                  FROM INFORMATION_SCHEMA.TABLES 
                  WHERE TABLE_SCHEMA = 'plantbase' 
@@ -20,7 +30,6 @@ BEGIN
 	)
 
 END
-
 
 IF (NOT EXISTS (SELECT * 
                  FROM INFORMATION_SCHEMA.TABLES 
@@ -138,24 +147,46 @@ END
 IF (NOT EXISTS (SELECT * 
                  FROM INFORMATION_SCHEMA.TABLES 
                  WHERE TABLE_SCHEMA = 'plantbase' 
+                 AND  TABLE_NAME = 'CalendarSeed'))
+BEGIN
+
+	/*
+		Table for storing CalendarSeed
+	*/
+
+    Create Table plantbase.CalendarSeed 
+	(
+		Id bigint IDENTITY(1,1),  
+		FK_CalendarId bigint not null,
+		FK_SeedId bigint not null,
+		PRIMARY KEY (Id),
+		FOREIGN KEY (FK_SeedId) REFERENCES plantbase.Seed(Id),
+		FOREIGN KEY (FK_CalendarId) REFERENCES plantbase.Calendar(Id)
+	)
+
+END
+
+
+IF (NOT EXISTS (SELECT * 
+                 FROM INFORMATION_SCHEMA.TABLES 
+                 WHERE TABLE_SCHEMA = 'plantbase' 
                  AND  TABLE_NAME = 'Task'))
 BEGIN
 
 	/*
-		Table for storing the tasks against a given calendar
+		Table for storing the tasks against a given CalendarSeed
 	*/
 
     Create Table plantbase.Task 
 	(
 		Id bigint IDENTITY(1,1),  
 		FK_TaskTypeId bigint not null,
-		FK_CalendarId bigint not null,
+		FK_CalendarSeedId bigint not null,
+		TaskDate datetime null,
 		IsComplete bit default(0),
-		TaskDate datetime not null,
 		PRIMARY KEY (Id),
 		FOREIGN KEY (FK_TaskTypeId) REFERENCES plantbase.TaskType(Id),
-		FOREIGN KEY (FK_CalendarId) REFERENCES plantbase.Calendar(Id)
+		FOREIGN KEY (FK_CalendarSeedId) REFERENCES plantbase.CalendarSeed(Id)
 	)
 
 END
-
