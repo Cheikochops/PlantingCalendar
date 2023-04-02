@@ -36,7 +36,7 @@ namespace PlantingCalendar.DataAccess
                             {
                                 Id = y.TaskId.Value,
                                 TaskTypeId = y.TaskTypeId.Value,
-                                DisplayChar = y.TaskDisplayChar.Value,
+                                DisplayChar = y.TaskDisplayChar.First(),
                                 DisplayColour = y.TaskDisplayColour,
                                 IsComplete = y.IsComplete.Value,
                                 TaskDate = y.SetTaskDate,

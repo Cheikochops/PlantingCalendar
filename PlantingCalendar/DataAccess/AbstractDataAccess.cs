@@ -67,7 +67,9 @@ namespace PlantingCalendar.DataAccess
                     {
                         try
                         {
-                            property.SetValue(newObject, row[property.Name]);
+                            var item = row[property.Name];
+
+                            property.SetValue(newObject, (item == DBNull.Value) ? null : item);
                         }
                         catch (Exception ex) 
                         {
@@ -79,6 +81,18 @@ namespace PlantingCalendar.DataAccess
                 return newObject;
 
             }).ToList();
+        }
+
+        public static T ConvertFromDBVal<T>(object obj)
+        {
+            if (obj == null || obj == DBNull.Value)
+            {
+                return default(T); // returns the default value for the type
+            }
+            else
+            {
+                return (T)obj;
+            }
         }
     }
 }

@@ -23,7 +23,7 @@ namespace PlantingCalendar.Pages
 
             if (calendarId != null)
             {
-                var CurrentCalendar = await CalendarDataAccess.GetCalendar(long.Parse(calendarId));
+                CurrentCalendar = await CalendarDataAccess.GetCalendar(long.Parse(calendarId));
             }
             else
             {

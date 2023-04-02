@@ -4,9 +4,9 @@ namespace PlantingCalendar.Models.Sql
     {
         public int Year { get; set; }
 
-        public string PlantTypeName { get; set; }
+        public string? PlantTypeName { get; set; }
 
-        public string PlantBreed { get; set; }
+        public string? PlantBreed { get; set; }
 
         public long? SeedId { get; set; }
 
@@ -14,11 +14,11 @@ namespace PlantingCalendar.Models.Sql
 
         public string? TaskDescription { get; set; }
 
-        public DateOnly? SetTaskDate { get; set; }
+        public DateTime? SetTaskDate { get; set; }
 
-        public DateOnly? RangeTaskStartDate { get; set; }
+        public DateTime? RangeTaskStartDate { get; set; }
 
-        public DateOnly? RangeTaskEndDate { get; set; }
+        public DateTime? RangeTaskEndDate { get; set; }
 
         public long? TaskTypeId { get; set; }
 
@@ -28,6 +28,6 @@ namespace PlantingCalendar.Models.Sql
 
         public string? TaskDisplayColour { get; set; }
 
-        public char? TaskDisplayChar { get; set; }
+        public string? TaskDisplayChar { get; set; }
     }
 }

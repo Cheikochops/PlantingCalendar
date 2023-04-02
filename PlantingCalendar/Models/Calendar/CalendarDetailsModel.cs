@@ -45,11 +45,11 @@ namespace PlantingCalendar.Models
 
         public string TaskDescription { get; set; }
 
-        public DateOnly? TaskDate { get; set; }
+        public DateTime? TaskDate { get; set; }
 
-        public DateOnly? TaskStartDate { get; set; }
+        public DateTime? TaskStartDate { get; set; }
 
-        public DateOnly? TaskEndDate { get; set; }
+        public DateTime? TaskEndDate { get; set; }
 
         public bool IsComplete { get; set; }
 
