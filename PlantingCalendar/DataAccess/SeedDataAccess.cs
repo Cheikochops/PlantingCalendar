@@ -15,7 +15,7 @@ namespace PlantingCalendar.DataAccess
         {
             try
             {
-                var seeds = await ExecuteSql<SeedItemModel>("Exec plantbase.Seeds_Read");
+                var seeds = await ExecuteSql<SeedItemModel>("Exec plantbase.Seed_Display_Read");
 
                 if (seeds == null)
                 {
@@ -43,6 +43,20 @@ namespace PlantingCalendar.DataAccess
                 }
 
                 return seeds.First();
+            }
+            catch (Exception ex)
+            {
+                throw;
+            }
+        }
+
+        public async Task DeleteSeed(long seedId)
+        {
+            try
+            {
+                //Create this proc
+                await ExecuteSql<SeedDetailModel>($"Exec plantbase.Seed_Delete {seedId}");
+
             }
             catch (Exception ex)
             {

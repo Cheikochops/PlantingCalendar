@@ -1,0 +1,11 @@
+﻿@model SeedsListModel
+
+@foreach (var seed in Model.Seeds)
+{
+    <tr onclick="loadPopup('popupBackground', 'seedInfoPopup', @seed.Id)">
+        <td>@seed.PlantType</td>
+        <td>@seed.Breed</td>
+        <td>@seed.SunRequirement</td>
+        <td>@seed.WaterRequirement</td>
+    </tr>
+}

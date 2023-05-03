@@ -1,4 +1,5 @@
 using Microsoft.AspNetCore.Mvc.ApplicationModels;
+using Microsoft.AspNetCore.Mvc.Razor;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using PlantingCalendar.Controllers;
 using PlantingCalendar.DataAccess;
@@ -19,7 +20,13 @@ builder.Services.AddControllers();
 builder.Services.AddScoped<ICalendarDataAccess, CalendarDataAccess>();
 builder.Services.AddScoped<ISeedDataAccess, SeedDataAccess>();
 builder.Services.AddSingleton<ICalendarHelper, CalendarHelper>();
+builder.Services.AddSingleton<ISeedHelper, SeedHelper>();
 builder.Services.Configure<DataAccessSettings>(builder.Configuration.GetSection(DataAccessSettings.SectionName));
+
+builder.Services.Configure<RazorViewEngineOptions>(options =>
+{
+    options.ViewLocationExpanders.Add(new ViewLocationExpander());
+});
 
 var app = builder.Build();
 
@@ -48,3 +55,4 @@ app.UseEndpoints(endpoints =>
 });
 
 app.Run();
+

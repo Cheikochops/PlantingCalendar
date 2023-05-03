@@ -9,10 +9,16 @@ namespace PlantingCalendar.Models
 
     public class SeedAction
     {
-        public DateOnly MinDate { get; set; }
+        public string ActionType { get; set; }
 
-        public DateOnly MaxDate { get; set; }
+        public long ActionId {  get; set; }
 
-        public string ActionName { get; set; }
+        public char DisplayChar { get; set; }
+
+        public string DisplayColour { get; set; }
+
+        public DateTime StartDate { get; set; }
+
+        public DateTime EndDate { get; set; }
     }
 }

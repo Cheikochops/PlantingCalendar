@@ -26,52 +26,7 @@ namespace PlantingCalendar.Pages
 
         public async Task GetSeeds()
         {
-            //Seeds = await SeedDataAccess.GetAllSeeds();
-
-            //Temporary test models
-            Seeds = new List<SeedItemModel>()
-            {
-                new SeedItemModel
-                {
-                    Id = 1,
-                    PlantType = "Tomato",
-                    Breed = "Gardener's Delight",
-                    SunRequirement = "1",
-                    WaterRequirement = "2",
-                    HarvestingDates = "1",
-                    SowingDates = "2"
-                },
-                new SeedItemModel
-                {
-                    Id = 2,
-                    PlantType = "Cucumber",
-                    Breed = "Masterpiece",
-                    SunRequirement = "1",
-                    WaterRequirement = "2",
-                    HarvestingDates = "1",
-                    SowingDates = "2"
-                },
-                new SeedItemModel
-                {
-                    Id = 3,
-                    PlantType = "Corriander",
-                    Breed = null,
-                    SunRequirement = "1",
-                    WaterRequirement = "2",
-                    HarvestingDates = "1",
-                    SowingDates = "2"
-                },
-                new SeedItemModel
-                {
-                    Id = 4,
-                    PlantType = "Asparagus",
-                    Breed = null,
-                    SunRequirement = "1",
-                    WaterRequirement = "2",
-                    HarvestingDates = "1",
-                    SowingDates = "2"
-                }
-            };
+            Seeds = await SeedDataAccess.GetAllSeeds();           
         }
     }
 }

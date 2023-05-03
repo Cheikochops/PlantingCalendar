@@ -1,29 +1,55 @@
-﻿@using PlantingCalendar.Models;
+﻿@using PlantingCalendar.Models
 @model SeedDetailModel
 
 <div class="text-center">
-    <h1 class="display-4">This is the seed informaton popup</h1>
+    <form asp-controller="Seed" asp-action="SeedInfo" data-ajax="true" data-ajax-method="POST" data-ajax-mode="replace">
+        @Html.HiddenFor(m => m.Id);
+        <div>
+            <div>
+                PlantType
+            </div>
+            <div>
+                @Html.TextBoxFor(m => m.PlantType)
+            </div>
+        </div>
+        <div>
+            <div>
+                Variety / Breed
+            </div>
+            <div>
+                @Html.TextBoxFor(m => m.Breed)
+            </div>
+        </div>
+        <div>
+            <div>
+                Description
+            </div>
+            <div>
+                @Html.TextAreaFor(m => m.Description)
+            </div>
+        </div>
+        <div>
+            <div>
+                Sun Requirements
+            </div>
+            <div>
+                @Html.TextBoxFor(m => m.SunRequirement)
+            </div>
+        </div>
+        <div>
+            <div>
+                Watering Requirements
+            </div>
+            <div>
+                @Html.TextBoxFor(m => m.WaterRequirement)
+            </div>
+        </div>
 
-    @using (Html.BeginForm("SaveSeed", "Seed", FormMethod.Post))
-    {
         <div>
-            @Html.TextBoxFor(m => m.PlantType)
-        </div>
-        <div>
-            @Html.TextBoxFor(m => m.Breed)
-        </div>
-        <div>
-            @Html.TextAreaFor(m => m.Description)
-        </div>
-        <div>
-            @Html.TextBoxFor(m => m.SunRequirement)
-        </div>
-        <div>
-            @Html.TextBoxFor(m => m.WaterRequirement)
+            <input type="submit" value="Save" id="btnSubmit" />
         </div>
 
-        <input type="submit" value="Submit Data" id="btnSubmit" />
-    }
+    </form>
 
-    <button>Delete</button>
+    <button onclick="deleteSeed(@Model.Id)">Delete</button>
 </div>
