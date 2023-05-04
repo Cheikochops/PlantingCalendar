@@ -14,8 +14,16 @@
             <input placeholder="Search..." id="searchBar" oninput="debounceLoadSeedList(this.value)" />
             <button onclick="loadPopup('popupBackground', 'seedInfoPopup' , null)">New Seed</button>
         </div>
-        <div id="plantList">
-        </div>
+        <table>
+            <tr>
+                <th onclick="orderBy(1)">Plant Type</th>
+                <th onclick="orderBy(2)">Breed</th>
+                <th onclick="orderBy(3)">Sun Requirement</th>
+                <th onclick="orderBy(4)">Water Requirement</th>
+            </tr>
+            <tbody id="plantList">
+            </tbody>
+        </table>
     </div>
 </div>
 

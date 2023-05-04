@@ -4,7 +4,9 @@ namespace PlantingCalendar.Models
     {
         public string Description { get; set; }
 
-        public List<SeedAction> Actions { get; set; }
+        public DateTime? ExpiryDate { get; set; }
+
+        public List<SeedAction> Actions { get; set; } = new List<SeedAction>();
     }
 
     public class SeedAction

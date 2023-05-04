@@ -11,5 +11,7 @@ namespace PlantingCalendar.Models
         public string SunRequirement { get; set; }
 
         public string WaterRequirement {  get; set; }
+
+        public bool IsExpired { get; set; }
     }
 }

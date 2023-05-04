@@ -2,54 +2,114 @@
 @model SeedDetailModel
 
 <div class="text-center">
-    <form asp-controller="Seed" asp-action="SeedInfo" data-ajax="true" data-ajax-method="POST" data-ajax-mode="replace">
-        @Html.HiddenFor(m => m.Id);
+    <div class="flex">
         <div>
-            <div>
-                PlantType
+            <div class="flex">
+                <div clas>
+                    PlantType
+                </div>
+                <div>
+                    <input id="plantType" value="@Model.PlantType" />
+                </div>
             </div>
-            <div>
-                @Html.TextBoxFor(m => m.PlantType)
+            <div class="flex">
+                <div>
+                    Variety / Breed
+                </div>
+                <div>
+                    <input id="breed" value="@Model.Breed" />
+                </div>
+            </div>
+            <div class="flex">
+                <div>
+                    Description
+                </div>
+                <div>
+                    <textarea id="description" value="@Model.Description"></textarea>
+                </div>
+            </div>
+            <div class="flex">
+                <div>
+                    Sun Requirements
+                </div>
+                <div>
+                    <input id="sunRequirement" value="@Model.SunRequirement" />
+                </div>
+            </div>
+            <div class="flex">
+                <div>
+                    Watering Requirements
+                </div>
+                <div>
+                    <input id="wateringRequirement" value="@Model.WaterRequirement" />
+                </div>
+            </div>
+            <div class="flex">
+                <div>
+                    Expiry Date
+                </div>
+                <div>
+                    <input id="expiryDate" value="@Model.ExpiryDate" type="date"/>
+                </div>
             </div>
         </div>
         <div>
-            <div>
-                Variety / Breed
-            </div>
-            <div>
-                @Html.TextBoxFor(m => m.Breed)
-            </div>
+            <button onclick="saveSeed(@Model.Id)">Save</button>
+            <button onclick="deleteSeed(@Model.Id)" type="button">Delete</button>
         </div>
-        <div>
-            <div>
-                Description
-            </div>
-            <div>
-                @Html.TextAreaFor(m => m.Description)
-            </div>
-        </div>
-        <div>
-            <div>
-                Sun Requirements
-            </div>
-            <div>
-                @Html.TextBoxFor(m => m.SunRequirement)
-            </div>
-        </div>
-        <div>
-            <div>
-                Watering Requirements
-            </div>
-            <div>
-                @Html.TextBoxFor(m => m.WaterRequirement)
-            </div>
-        </div>
+    </div>
 
+    <div>
+        Actions
+        <button id="newActionButton" onclick="addRow()" type="button">New Action</button>
         <div>
-            <input type="submit" value="Save" id="btnSubmit" />
+            <table id="actionTable">
+                <tr>
+                    <th>ActionType</th>
+                    <th>DisplayChar</th>
+                    <th>DisplayColour</th>
+                    <th>StartDate</th>
+                    <th>EndDate</th>
+                    <th></th>
+                </tr>
+
+                @if (@Model.Actions.Count() == 0)
+                {
+                    <tr id="noAction">
+                        <td></td>
+                        <td></td>
+                        <td>No Actions Found... </td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                    </tr>
+                }
+
+                @foreach (var action in Model.Actions)
+                {
+                    <tr class="actionItem">
+                        <td>
+                            <input id="actionId" value="@action.ActionId" class="hidden">
+                            <input id="actionType" value="@action.ActionType">
+                        </td>
+                        <td>
+                            <input id="displayChar" value="@action.DisplayChar">
+                        </td>
+                        <td>
+                            <input id="displayColour" value="@action.DisplayColour">
+                        </td>
+                        <td>
+                            <input id="startDate" value="@action.StartDate">
+                        </td>
+                        <td>
+                            <input id="endDate" value="@action.EndDate">
+                        </td>
+                        <td>
+                            <button onclick="removeRow(this)" type="button">X</button>
+                        </td>
+                    </tr>
+                }
+            </table>
         </div>
-
-    </form>
-
-    <button onclick="deleteSeed(@Model.Id)">Delete</button>
+    </div>
 </div>

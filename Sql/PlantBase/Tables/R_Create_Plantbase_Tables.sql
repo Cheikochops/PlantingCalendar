@@ -25,7 +25,8 @@ BEGIN
 		Breed varchar(50) null,
 		Description varchar(1000) null,
 		WaterRequirement varchar(100) null,
-		SunRequirement varchar(100) null
+		SunRequirement varchar(100) null,
+		ExpiryDate Datetime null,
 		PRIMARY KEY (Id)
 	)
 

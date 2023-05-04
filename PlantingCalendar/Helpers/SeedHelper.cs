@@ -19,15 +19,20 @@ namespace PlantingCalendar.DataAccess
                 throw new Exception("Unexpected list length");
             }
 
-            return new SeedDetailModel
+            var model = new SeedDetailModel
             {
                 Id = first.Id,
                 Breed = first.Breed,
                 PlantType = first.PlantType,
                 Description = first.Description,
+                ExpiryDate = first.ExpiryDate,
                 SunRequirement = first.SunRequirement,
-                WaterRequirement = first.WaterRequirement,
-                Actions = seedDetails.Select(x => new SeedAction
+                WaterRequirement = first.WaterRequirement
+            };
+
+            if (seedDetails.Any(x => x.ActionId != null))
+            {
+                model.Actions = seedDetails.Select(x => new SeedAction
                 {
                     ActionId = x.Id,
                     ActionType = x.ActionType,
@@ -35,13 +40,18 @@ namespace PlantingCalendar.DataAccess
                     DisplayColour = x.DisplayColour,
                     EndDate = x.EndDate.Value,
                     StartDate = x.StartDate.Value
-                }).ToList()
-            };
+                }).ToList();
+            }
+
+            return model;
 
         }
 
-        public IOrderedEnumerable<SeedItemModel> FilterSeedItems(List<SeedItemModel> seeds, string filter)
+        public IOrderedEnumerable<SeedItemModel> FilterSeedItems(List<SeedItemModel> seeds, string? filter, int? orderBy)
         {
+            //orderBy
+            // 1 = PlantType, 2 = Breed, 3 = SunRequirement, 4 = WaterRequirement
+
             var filteredSeeds = seeds;
 
             if (filter != null)
@@ -49,7 +59,17 @@ namespace PlantingCalendar.DataAccess
                 filteredSeeds = seeds.Where(x => x.Breed.Contains(filter, StringComparison.InvariantCultureIgnoreCase) || x.PlantType.Contains(filter, StringComparison.CurrentCultureIgnoreCase)).ToList();
             }
 
-            return filteredSeeds.OrderBy(x => x.PlantType).ThenBy(x => x.Breed);
+            switch (orderBy)
+            {
+                case 2:
+                    return filteredSeeds.OrderBy(x => x.Breed);
+                case 3:
+                    return filteredSeeds.OrderBy(x => x.SunRequirement);
+                case 4:
+                    return filteredSeeds.OrderBy(x => x.WaterRequirement);
+                default:
+                    return filteredSeeds.OrderBy(x => x.PlantType).ThenBy(x => x.Breed);
+            }
         }
     }
 }

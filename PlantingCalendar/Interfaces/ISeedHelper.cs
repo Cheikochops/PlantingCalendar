@@ -7,6 +7,6 @@ namespace PlantingCalendar.Interfaces
     {
         SeedDetailModel FormatSeedItem(List<SqlSeedDetailsModel> seedDetails);
 
-        IOrderedEnumerable<SeedItemModel> FilterSeedItems(List<SeedItemModel> seeds, string filter);
+        IOrderedEnumerable<SeedItemModel> FilterSeedItems(List<SeedItemModel> seeds, string? filter, int? orderBy);
     }
 }

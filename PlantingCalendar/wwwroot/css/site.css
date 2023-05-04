@@ -50,3 +50,13 @@ body {
 .visible {
     visibility: visible;
 }
+
+.hidden {
+    visibility: hidden;
+    display:none;
+}
+
+.flex {
+    display: flex
+}
+

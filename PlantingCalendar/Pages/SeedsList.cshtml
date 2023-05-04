@@ -1,5 +1,15 @@
 ﻿@model SeedsListModel
 
+@if (Model.Seeds.Count() == 0)
+{
+    <tr>
+        <td></td>
+        <td>No Seeds Found...</td>
+        <td></td>
+        <td></td>
+    </tr>
+}
+
 @foreach (var seed in Model.Seeds)
 {
     <tr onclick="loadPopup('popupBackground', 'seedInfoPopup', @seed.Id)">

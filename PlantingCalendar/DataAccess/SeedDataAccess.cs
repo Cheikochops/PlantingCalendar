@@ -1,6 +1,7 @@
 using Microsoft.Extensions.Options;
 using PlantingCalendar.Interfaces;
 using PlantingCalendar.Models;
+using PlantingCalendar.Models.Sql;
 using System.Threading.Tasks;
 
 namespace PlantingCalendar.DataAccess
@@ -30,19 +31,19 @@ namespace PlantingCalendar.DataAccess
             }
         }
 
-        public async Task<SeedDetailModel> GetSeedDetails(long seedId)
+        public async Task<List<SqlSeedDetailsModel>> GetSeedDetails(long seedId)
         {
             try
             {
                 //Create this proc
-                var seeds = await ExecuteSql<SeedDetailModel>($"Exec plantbase.Seed_Details_Read {seedId}");
+                var seeds = await ExecuteSql<SqlSeedDetailsModel>($"Exec plantbase.Seed_Details_Read {seedId}");
 
                 if (seeds == null)
                 {
-                    return new SeedDetailModel();
+                    return new List<SqlSeedDetailsModel>();
                 }
 
-                return seeds.First();
+                return seeds;
             }
             catch (Exception ex)
             {

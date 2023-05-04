@@ -12,6 +12,7 @@ Begin
 			Description,
 			SunRequirement,
 			WaterRequirement,
+			ExpiryDate,
 			ActionId,
 			ActionType,
 			DisplayChar,

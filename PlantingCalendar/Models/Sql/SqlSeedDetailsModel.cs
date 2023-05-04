@@ -25,5 +25,7 @@ namespace PlantingCalendar.Models.Sql
         public DateTime? StartDate { get; set; }
 
         public DateTime? EndDate { get; set; }
+
+        public DateTime? ExpiryDate { get; set; }
     }
 }

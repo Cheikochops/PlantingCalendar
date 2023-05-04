@@ -1,4 +1,5 @@
 using PlantingCalendar.Models;
+using PlantingCalendar.Models.Sql;
 
 namespace PlantingCalendar.Interfaces
 {
@@ -6,7 +7,7 @@ namespace PlantingCalendar.Interfaces
     {
         Task<List<SeedItemModel>> GetAllSeeds();
 
-        Task<SeedDetailModel> GetSeedDetails(long seedId);
+        Task<List<SqlSeedDetailsModel>> GetSeedDetails(long seedId);
 
         Task DeleteSeed(long seedId);
     }

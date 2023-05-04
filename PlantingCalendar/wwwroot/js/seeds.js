@@ -46,12 +46,24 @@ function togglePopup(popupBackgroundId, popupId) {
     popup.classList.toggle("visible");
 }
 
-function loadSeedList(filter) {
+function orderBy(orderBy) {
+    var filter = $("#searchBar").val()
+    loadSeedList(filter, orderBy);
+}
+
+function loadSeedList(filter, orderBy) {
 
     var url = "/Seed/SeedsList";
 
     if (filter != null) {
         url += "?filter=" + filter;
+
+        if (orderBy != null) {
+            url += "&orderBy=" + orderBy;
+        }
+    }
+    else if (orderBy != null) {
+        url += "?orderBy=" + orderBy;
     }
 
     console.log(url)

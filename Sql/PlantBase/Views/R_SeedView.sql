@@ -7,6 +7,7 @@ AS
 			s.PlantType,
 			s.SunRequirement,
 			s.WaterRequirement,
+			s.ExpiryDate,
 			ActionId = sa.Id,
 			ActionType = a.Name,
 			a.DisplayChar,
