@@ -5,7 +5,8 @@ Insert Into
 		Breed,
 		Description,
 		WaterRequirement,
-		SunRequirement
+		SunRequirement,
+		ExpiryDate
 	)
 	VALUES
 	(
@@ -13,21 +14,24 @@ Insert Into
 		'Masterpiece',
 		'A large cucumber variety',
 		'Consistent - 1 inch + per week',
-		'Full Sun, 6 - 8 Hours'
+		'Full Sun, 6 - 8 Hours',
+		GetDate()
 	),
 	(
 		'Tomato',
 		'Gardener''s Delight',
 		'A high production small fruit, vine variety',
 		'1 - 2 inches per week',
-		'8 - 16 hours'
+		'8 - 16 hours',
+		'2023-05-10'
 	),
 	(
 		'Courgette',
 		'Ambassador F1 ',
 		'An early variety with the production of dark green fruits',
-		'1+ inch per week',
-		'Full Sun, 6 - 8 hours'
+		'1 + inch per week',
+		'Full Sun, 6 - 8 hours',
+		'2023-07-10'
 	)
 
 Insert Into

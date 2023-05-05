@@ -5,8 +5,12 @@ namespace PlantingCalendar.Interfaces
 {
     public interface ISeedHelper
     {
-        SeedDetailModel FormatSeedItem(List<SqlSeedDetailsModel> seedDetails);
+        Task<SeedDetailModel> GetFormatedSeedItem(long seedId);
 
-        IOrderedEnumerable<SeedItemModel> FilterSeedItems(List<SeedItemModel> seeds, string? filter, int? orderBy);
+        Task<IOrderedEnumerable<SeedItemModel>> GetFilteredSeedItems(string? filter, int? orderBy);
+
+        Task SaveSeedInfo(SeedItemModel seed);
+
+        Task DeleteSeed(long seedId);
     }
 }

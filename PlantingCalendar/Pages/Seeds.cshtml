@@ -6,20 +6,20 @@
 }
 
 <script src="~/js/seeds.js" asp-append-version="true"></script>
-<script src="~/js/seedInformationPopup.js" asp-append-version="true"></script>
 
-<div class="text-center">
+<div class="flex-column">
     <div>
-        <div>
-            <input placeholder="Search..." id="searchBar" oninput="debounceLoadSeedList(this.value)" />
-            <button onclick="loadPopup('popupBackground', 'seedInfoPopup' , null)">New Seed</button>
-        </div>
-        <table>
+        <input placeholder="Search..." id="searchBar" oninput="debounceLoadSeedList(this.value)" />
+        <button onclick="loadPopup('popupBackground', 'seedInfoPopup' , null)">New Seed</button>
+    </div>
+    <div class="flex">
+        <table class="width12">
             <tr>
-                <th onclick="orderBy(1)">Plant Type</th>
-                <th onclick="orderBy(2)">Breed</th>
-                <th onclick="orderBy(3)">Sun Requirement</th>
-                <th onclick="orderBy(4)">Water Requirement</th>
+                <th onclick="orderBy(1)" class="width3">Plant Type</th>
+                <th onclick="orderBy(2)" class="width3">Breed</th>
+                <th onclick="orderBy(3)" class="width2">Sun Requirement</th>
+                <th onclick="orderBy(4)" class="width3">Water Requirement</th>
+                <th class="width1">Expired?</th>
             </tr>
             <tbody id="plantList">
             </tbody>

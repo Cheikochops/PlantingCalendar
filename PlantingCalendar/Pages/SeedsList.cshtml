@@ -4,6 +4,7 @@
 {
     <tr>
         <td></td>
+        <td></td>
         <td>No Seeds Found...</td>
         <td></td>
         <td></td>
@@ -13,9 +14,10 @@
 @foreach (var seed in Model.Seeds)
 {
     <tr onclick="loadPopup('popupBackground', 'seedInfoPopup', @seed.Id)">
-        <td>@seed.PlantType</td>
-        <td>@seed.Breed</td>
-        <td>@seed.SunRequirement</td>
-        <td>@seed.WaterRequirement</td>
+        <td class="width3">@seed.PlantType</td>
+        <td class="width3">@seed.Breed</td>
+        <td class="width2">@seed.SunRequirement</td>
+        <td class="width3">@seed.WaterRequirement</td>
+        <td class="width1">@seed.IsExpired</td>
     </tr>
 }

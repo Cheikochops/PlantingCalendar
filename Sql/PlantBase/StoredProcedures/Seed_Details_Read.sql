@@ -23,6 +23,7 @@ Begin
 			plantbase.SeedView c
 		Where
 			c.Id = @Id
+			and IsDeleted = 0
 
 End
 GO

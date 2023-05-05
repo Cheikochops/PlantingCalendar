@@ -57,6 +57,67 @@ body {
 }
 
 .flex {
-    display: flex
+    display: flex;
+    width: 100%;
+    row-gap: 10px;
+    column-gap: 10px;
+    padding-bottom: 10px;
 }
 
+.width1 {
+    width: 8.333%;
+}
+
+.width2 {
+    width: 16.666%;
+}
+
+.width3 {
+    width: 25%;
+}
+
+.width4 {
+    width: 33.333%;
+}
+
+.width5 {
+    width: 41.666%;
+}
+
+.width6 {
+    width: 50%;
+}
+
+.width7 {
+    width: 58.333%;
+}
+
+.width8 {
+    width: 66.666%;
+}
+
+.width9 {
+    width: 75%;
+}
+
+.width10 {
+    width: 83.333%;
+}
+
+.width11 {
+    width: 91.666%;
+}
+
+.width12 {
+    width: 100%;
+}
+
+.flex-column {
+    display: flex;
+    flex-direction: column;
+    row-gap: 10px;
+}
+
+.space-evenly {
+    justify-content: space-evenly;
+}

@@ -17,8 +17,8 @@ builder.Services.AddRazorPages(options =>
 builder.Services.AddControllers();
 
 //Dependency Injection
-builder.Services.AddScoped<ICalendarDataAccess, CalendarDataAccess>();
-builder.Services.AddScoped<ISeedDataAccess, SeedDataAccess>();
+builder.Services.AddSingleton<ICalendarDataAccess, CalendarDataAccess>();
+builder.Services.AddSingleton<ISeedDataAccess, SeedDataAccess>();
 builder.Services.AddSingleton<ICalendarHelper, CalendarHelper>();
 builder.Services.AddSingleton<ISeedHelper, SeedHelper>();
 builder.Services.Configure<DataAccessSettings>(builder.Configuration.GetSection(DataAccessSettings.SectionName));

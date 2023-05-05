@@ -1,5 +1,4 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using PlantingCalendar.DataAccess;
 using PlantingCalendar.Interfaces;
 using PlantingCalendar.Models;
 using PlantingCalendar.Pages;
@@ -8,17 +7,11 @@ namespace PlantingCalendar.Controllers;
 
 public class SeedController : Controller
 {
-    private ICalendarDataAccess _calendarDataAccess { get; set; }
+    private ISeedHelper SeedHelper { get; set; }
 
-    private ISeedDataAccess _dataAccess { get; set; }
-
-    private ISeedHelper _seedHelper { get; set; }
-
-    public SeedController(ICalendarDataAccess calendarDataAccess, ISeedDataAccess dataAccess, ISeedHelper seedHelper)
+    public SeedController(ISeedHelper seedHelper)
     {
-        _dataAccess = dataAccess;
-        _calendarDataAccess = calendarDataAccess;
-        _seedHelper = seedHelper;
+        SeedHelper = seedHelper;
     }
 
     public async Task<ActionResult> SeedInfo(long? seedId)
@@ -26,8 +19,7 @@ public class SeedController : Controller
         var seedModel = new SeedDetailModel();
         if (seedId != null)
         {
-            var sqlSeedDetails = await _dataAccess.GetSeedDetails(seedId.Value);
-            seedModel = _seedHelper.FormatSeedItem(sqlSeedDetails);
+            seedModel = await SeedHelper.GetFormatedSeedItem(seedId.Value);
         }
 
         return PartialView("SeedInformationPopup", seedModel);
@@ -35,27 +27,42 @@ public class SeedController : Controller
 
     public async Task<ActionResult> SeedsList(string? filter, int? orderBy)
     {
-        var seeds = await _dataAccess.GetAllSeeds();
-        var orderedSeeds = _seedHelper.FilterSeedItems(seeds, filter, orderBy);
+        var orderedSeeds = await SeedHelper.GetFilteredSeedItems(filter, orderBy);
 
-        var seedDetails = new SeedsListModel();
-        seedDetails.Seeds = orderedSeeds;
+        var seedDetails = new SeedsListModel()
+        {
+            Seeds = orderedSeeds
+        };
 
         return PartialView("SeedsList", seedDetails);
     }
 
     [HttpPost]
-    public ActionResult SeedInfo(SeedDetailModel seed)
+    public async Task<ActionResult> SeedInfo(SeedDetailModel seed)
     {
-        //Update to save updates and return an OK then display a notification on the page
-        return Ok();
+        try
+        {
+            await SeedHelper.SaveSeedInfo(seed);
+            return Ok();
+        }
+        catch (Exception ex)
+        {
+            return BadRequest();
+        }
     }
 
     [HttpDelete]
-    public ActionResult SeedInfo(long seedId)
+    public async Task<ActionResult> SeedInfo(long seedId)
     {
-        _dataAccess.DeleteSeed(seedId);
+        try
+        {
+            await SeedHelper.DeleteSeed(seedId);
 
-        return Ok();
+            return Ok();
+        }
+        catch (Exception ex)
+        {
+            return BadRequest();
+        }
     }
 }

@@ -6,12 +6,17 @@ namespace PlantingCalendar.DataAccess
 {
     public class SeedHelper : ISeedHelper
     {
-        public SeedHelper()
+        private ISeedDataAccess SeedDataAccess { get; set; }
+
+        public SeedHelper(ISeedDataAccess seedDataAccess)
         {
+            SeedDataAccess = seedDataAccess;
         }
 
-        public SeedDetailModel FormatSeedItem(List<SqlSeedDetailsModel> seedDetails)
+        public async Task<SeedDetailModel> GetFormatedSeedItem(long seedId)
         {
+            var seedDetails = await SeedDataAccess.GetSeedDetails(seedId).ConfigureAwait(false);
+
             var first = seedDetails.FirstOrDefault();
 
             if (first == null)
@@ -47,10 +52,12 @@ namespace PlantingCalendar.DataAccess
 
         }
 
-        public IOrderedEnumerable<SeedItemModel> FilterSeedItems(List<SeedItemModel> seeds, string? filter, int? orderBy)
+        public async Task<IOrderedEnumerable<SeedItemModel>> GetFilteredSeedItems(string? filter, int? orderBy)
         {
             //orderBy
             // 1 = PlantType, 2 = Breed, 3 = SunRequirement, 4 = WaterRequirement
+
+            var seeds = await SeedDataAccess.GetAllSeeds();
 
             var filteredSeeds = seeds;
 
@@ -70,6 +77,16 @@ namespace PlantingCalendar.DataAccess
                 default:
                     return filteredSeeds.OrderBy(x => x.PlantType).ThenBy(x => x.Breed);
             }
+        }
+
+        public async Task SaveSeedInfo(SeedItemModel seed)
+        {
+
+        }
+
+        public async Task DeleteSeed(long seedId)
+        {
+            await SeedDataAccess.DeleteSeed(seedId);
         }
     }
 }

@@ -8,12 +8,10 @@ Begin
 			s.Breed,
 			s.SunRequirement,
 			s.WaterRequirement,
-			IsExpired = case 
-							when s.ExpiryDate is null then 0 
-							when s.ExpiryDate < GetUtcDate() then 1
-							else 0
-						end
+			s.IsExpired
 		From
 			plantbase.SeedView s
+		Where
+			s.IsDeleted = 0
 
 End

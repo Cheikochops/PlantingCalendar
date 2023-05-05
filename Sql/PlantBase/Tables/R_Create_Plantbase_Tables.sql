@@ -1,11 +1,11 @@
-drop table plantbase.Task;
-drop table plantbase.TaskType;
-drop table plantbase.RepeatableType;
-drop table plantbase.CalendarSeed;
-drop table plantbase.Calendar;
-drop table plantbase.SeedAction;
-drop table plantbase.ActionType;
-drop table plantbase.Seed;
+drop table if exists plantbase.Task;
+drop table if exists plantbase.TaskType;
+drop table if exists plantbase.RepeatableType;
+drop table if exists plantbase.CalendarSeed;
+drop table if exists plantbase.Calendar;
+drop table if exists plantbase.SeedAction;
+drop table if exists plantbase.ActionType;
+drop table if exists plantbase.Seed;
 
 
 IF (NOT EXISTS (SELECT * 
@@ -27,6 +27,7 @@ BEGIN
 		WaterRequirement varchar(100) null,
 		SunRequirement varchar(100) null,
 		ExpiryDate Datetime null,
+		IsDeleted bit default(0)
 		PRIMARY KEY (Id)
 	)
 

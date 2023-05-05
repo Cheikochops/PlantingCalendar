@@ -1,4 +1,14 @@
-﻿function deleteSeed(id) {
+﻿var rows = document.getElementById("actionTable").rows.length;
+console.log(rows);
+
+if (rows <= 2) {
+    $("#noAction").show()
+}
+else {
+    $("#noAction").hide()
+}
+
+function deleteSeed(id) {
     $.ajax({
         url: "/Seed/SeedInfo?seedId=" + id,
         type: 'DELETE',
@@ -7,13 +17,13 @@
             togglePopup("popupBackground", "seedInfoPopup")
         }
     });
-} 
+}
 
 function addRow() {
     $("#noAction").hide()
 
     $("#actionTable tr:first").after(
-        '<tr class="actionItem"><td><input id="actionType"></td><td><input id="displayChar"></td><td><input id="displayColour"></td><td><input id="startDate"></td><td><input id="endDate"></td><td><button onclick="removeRow(this)" type="button">X</button></td></tr>')
+        '<tr class="actionItem"><td class="width4"><input id="actionType" class="width12"></td><td class="width1"><input id="displayChar" class="width12"></td><td class="width2"><input id="displayColour" class="width12"></td><td class="width2"><input id="startDate" class="width12"></td><td class="width2"><input id="endDate" class="width12"></td><td><button onclick="removeRow(this)" type="button" class="width12">X</button></td></tr>')
 }
 
 function removeRow(btn) {
@@ -22,7 +32,7 @@ function removeRow(btn) {
 
     var rows = document.getElementById("actionTable").rows.length;
     console.log(rows);
-    if (rows == 2) {
+    if (rows <= 2) {
         $("#noAction").show()
     }
 }
