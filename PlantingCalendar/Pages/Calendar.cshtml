@@ -4,43 +4,76 @@
     ViewData["Title"] = "Calendar";
 }
 
+<script src="~/js/calendar.js" asp-append-version="true"></script>
+
 <div class="text-center">
-    <h1 class="display-4">This is the calendar page for @Model.CurrentCalendar.CalendarName, Year: @Model.CurrentCalendar.Year</h1>
+    <h1 class="display-4">@Model.CurrentCalendar.CalendarName: @Model.CurrentCalendar.Year</h1>
 </div>
 
-<div>
-    <div>
-        <table>
-            <tr>
-                <th>Seeds</th>
-                @{
-                    foreach (var month in Model.CurrentCalendar.Seeds.First().Months.OrderBy(x => x.Order))
-                    {
-                        <th>@month.MonthName</th>
-                    }
-                }
-            </tr>
-            @{
-                foreach (var seed in Model.CurrentCalendar.Seeds.OrderBy(x => x.PlantTypeName).ThenBy(x => x.PlantBreed))
-                {
+<div ng-app="calendarApp" class="mainbox">
+    <div ng-controller="calendar">
+        <div ng-show="!showSingleMonth">
+            <table class="non-scroll-table">
+                <tr>
+                    <th class="col-2">Seeds</th>
+                    <th ng-repeat="month in months" ng-click="showMonth(month.order)" class="header"> {{month.monthName}} </th>
+                </tr>
+                <tr ng-repeat="seed in calendar.seeds">
+                    <td ng-click="loadSeedInfoPopup('popupBackground', 'seedInfoPopup', seed.id)">{{seed.plantTypeName}} - {{seed.plantBreed}}</td>
+                    <td ng-repeat="(month, taskmonth) in seed.tasks" ng-click="showMonth(month)" class="td">
+                        <ul ng-repeat="task in taskmonth">
+                            <li>{{task.displayChar}}</li>
+                        </ul>
+                    </td>
+                </tr>
+            </table>
+        </div>
+        <div ng-show="showSingleMonth">
+            <div class="text-center">{{chosenMonth.monthName}}</div>
+            <div ng-click="showCalendar()" class="text-center">Back</div>
+
+            <div class="scroll-table-div">
+                <table class="scroll-table">
                     <tr>
-                        <td>@seed.PlantTypeName - @seed.PlantBreed</td>
-                        @{
-                            foreach (var month in @seed.Months.OrderBy(x => x.Order))
-                            {
-                                <td>
-                                    @{
-                                        foreach (var task in month.Tasks)
-                                        {
-                                            @task.DisplayChar <br />
-                                        }
-                                    }
-                                </td>
-                            }
-                        }
+                        <th class="col-2">Seeds</th>
+                        <th ng-repeat="day in chosenMonth.days" class="header">
+                            <div class="text-center">
+                                {{day.day}}
+                            </div>
+                            <div class="text-center">
+                                {{day.dayName}}
+                            </div>
+                        </th>
                     </tr>
-                }
-            }
-        </table>
+                    <tr ng-repeat="seed in seedsByMonth">
+                        <td ng-click="loadSeedInfoPopup('popupBackground', 'seedInfoPopup', seed.plantId)">{{seed.plantTypeName}} - {{seed.plantBreed}}</td>
+
+                        <td ng-repeat="day in seed.dayTasks" class="td" ng-click="loadDayPopup('dayPopupBackground', 'dayPopup', seed.plantId, day.day)">
+                            <div ng-repeat="task in day.tasks" class="task">
+                                <input type="checkbox" ng-bind="task.isComplete" />
+                                {{task.taskName}}
+                                {{task.taskDescription}}
+                            </div>
+                        </td>
+                    </tr>
+                </table>
+            </div>
+        </div>
+
+        <div id="popupBackground" class="popupBackground">
+            <div id="seedInfoPopup" class="popupBox">
+                <div id="seedInfo">
+                </div>
+            </div>
+        </div>
+
+        <div id="dayPopupBackground" class="popupBackground">
+            <div id="dayPopup" class="popupBox">
+                <div id="dayInfo">
+                    {{popupCurrentDay}}
+                </div>
+            </div>
+        </div>
+
     </div>
 </div>

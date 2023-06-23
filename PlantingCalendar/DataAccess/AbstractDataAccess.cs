@@ -51,6 +51,30 @@ namespace PlantingCalendar.DataAccess
             return null;
         }
 
+        internal async Task ExecuteSql(string sql)
+        {
+            var sqlConnection = new SqlConnection(_dataAccessSettings.Plantbase);
+
+            var command = new SqlCommand(sql, sqlConnection);
+            SqlDataAdapter dataAdapter = new SqlDataAdapter(sql, sqlConnection);
+
+            DataTable dataTable = new DataTable();
+
+            try
+            {
+                await sqlConnection.OpenAsync();
+                dataAdapter.Fill(dataTable);
+            }
+            catch (Exception ex)
+            {
+                throw;
+            }
+            finally
+            {
+                await sqlConnection.CloseAsync();
+            }
+        }
+
         private List<T> ConvertDataTable<T>(DataTable dataTable)
         {
             var columnNames = dataTable.Columns.Cast<DataColumn>().Select(c => c.ColumnName.ToLower()).ToList();

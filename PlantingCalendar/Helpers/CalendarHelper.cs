@@ -22,16 +22,22 @@ namespace PlantingCalendar.DataAccess
                 throw new Exception("Unexpected list length");
             }
 
-            var months = MakeMonths(first.Year);
+            var months = GetMonths(first.Year);
             var seeds = MakeSeeds(calendarDetails, months);
 
-            seeds.ForEach(x => x.Months.ForEach(z => z.Tasks = calendarDetails
-                            .Where(y => y.SeedId == x.Id)
-                            .Where(y => (y.SetTaskDate != null && y.SetTaskDate.Value.Month == z.Order)
+            foreach ( var seed in seeds)
+            {
+                var dict = new Dictionary<int, List<CalendarTask>>();
+
+                foreach (var month in months)
+                {
+                    dict.Add(month.Order, calendarDetails
+                            .Where(y => y.SeedId == seed.Id)
+                            .Where(y => (y.SetTaskDate != null && y.SetTaskDate.Value.Month == month.Order)
                             || (
                                 y.RangeTaskStartDate != null && y.RangeTaskEndDate != null &&
-                                z.Order <= y.RangeTaskEndDate.Value.Month &&
-                                z.Order >= y.RangeTaskStartDate.Value.Month))
+                                month.Order <= y.RangeTaskEndDate.Value.Month &&
+                                month.Order >= y.RangeTaskStartDate.Value.Month))
                             .Select(y => new CalendarTask
                             {
                                 Id = y.TaskId.Value,
@@ -44,26 +50,32 @@ namespace PlantingCalendar.DataAccess
                                 TaskStartDate = y.RangeTaskStartDate,
                                 TaskDescription = y.TaskDescription,
                                 TaskName = y.TaskName
-                            }).ToList()));
+                            }).ToList());
+                }
+
+                seed.Tasks = dict;
+            }
 
             return new CalendarDetailsModel
             {
                 CalendarId = first.CalendarId,
                 CalendarName = first.CalendarName,
                 Year = first.Year,
-                Seeds = seeds
+                Seeds = seeds,
+                Months = months.ToList()
             };
 
         }
 
-        private IEnumerable<Month> MakeMonths(int year)
+        private IEnumerable<Month> GetMonths(int year)
         {
             return Enumerable.Range(1, 12).Select(i => new Month
             {
                 MonthName = System.Globalization.DateTimeFormatInfo.CurrentInfo.GetMonthName(i),
                 MonthCode = System.Globalization.DateTimeFormatInfo.CurrentInfo.GetMonthName(i).Substring(0, 3).ToUpperInvariant(),
                 DayCount = DateTime.DaysInMonth(year, i),
-                Order = i
+                Order = i,
+                Days = GetDaysInMonth(i, year)
             });
         }
 
@@ -73,9 +85,21 @@ namespace PlantingCalendar.DataAccess
             {
                 Id = x.SeedId.Value,
                 PlantBreed = x.PlantBreed,
-                PlantTypeName = x.PlantTypeName,
-                Months = months.ToList()
+                PlantTypeName = x.PlantTypeName
             }).DistinctBy(x => x.Id).ToList();
+        }
+
+        private List<DayInMonth> GetDaysInMonth(int month, int year)
+        {
+            DateTime baseDate = new DateTime(year, month, 1);
+
+            return Enumerable.Range(1, DateTime.DaysInMonth(baseDate.Year, baseDate.Month))
+                .Select(dayNumber => new DateTime(baseDate.Year, baseDate.Month, dayNumber))
+                .Select(dayName => new DayInMonth
+                {
+                    DayName = dayName.DayOfWeek.ToString(),
+                    Day = dayName.Day 
+                }).ToList();
         }
 
     }

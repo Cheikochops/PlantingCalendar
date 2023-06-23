@@ -7,7 +7,9 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PlantingCalendar", "Plantin
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Tests", "Tests", "{58981483-45F7-48E1-922B-1EF54D7FCB6C}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PlantingCalendar.UnitTests", "PlantingCalendar.UnitTests\PlantingCalendar.UnitTests.csproj", "{111E15D8-AECF-452F-9FDB-0DC508E4CEAD}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PlantingCalendar.UnitTests", "PlantingCalendar.UnitTests\PlantingCalendar.UnitTests.csproj", "{111E15D8-AECF-452F-9FDB-0DC508E4CEAD}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PlantingCalendar.IntegrationTests", "PlantingCalendar.IntegrationTests\PlantingCalendar.IntegrationTests.csproj", "{241860E9-3BBF-4523-8DF6-54232A6BFD22}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -23,12 +25,17 @@ Global
 		{111E15D8-AECF-452F-9FDB-0DC508E4CEAD}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{111E15D8-AECF-452F-9FDB-0DC508E4CEAD}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{111E15D8-AECF-452F-9FDB-0DC508E4CEAD}.Release|Any CPU.Build.0 = Release|Any CPU
+		{241860E9-3BBF-4523-8DF6-54232A6BFD22}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{241860E9-3BBF-4523-8DF6-54232A6BFD22}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{241860E9-3BBF-4523-8DF6-54232A6BFD22}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{241860E9-3BBF-4523-8DF6-54232A6BFD22}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
 		{111E15D8-AECF-452F-9FDB-0DC508E4CEAD} = {58981483-45F7-48E1-922B-1EF54D7FCB6C}
+		{241860E9-3BBF-4523-8DF6-54232A6BFD22} = {58981483-45F7-48E1-922B-1EF54D7FCB6C}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {11459163-5564-4DD4-979A-C3AB30955D08}

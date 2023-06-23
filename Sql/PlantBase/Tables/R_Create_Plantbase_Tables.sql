@@ -4,7 +4,6 @@ drop table if exists plantbase.RepeatableType;
 drop table if exists plantbase.CalendarSeed;
 drop table if exists plantbase.Calendar;
 drop table if exists plantbase.SeedAction;
-drop table if exists plantbase.ActionType;
 drop table if exists plantbase.Seed;
 
 
@@ -36,28 +35,6 @@ END
 IF (NOT EXISTS (SELECT * 
                  FROM INFORMATION_SCHEMA.TABLES 
                  WHERE TABLE_SCHEMA = 'plantbase' 
-                 AND  TABLE_NAME = 'ActionType'))
-BEGIN
-
-	/*
-		Table for storing the action type and how it should be displayed on the calendar
-	*/
-
-    Create Table plantbase.ActionType 
-	(
-		Id bigint IDENTITY(1,1),  
-		Name varchar(50) not null,
-		DisplayChar char null,
-		DisplayColour varchar(6) null --colour code
-		PRIMARY KEY (Id)
-	)
-
-END
-
-
-IF (NOT EXISTS (SELECT * 
-                 FROM INFORMATION_SCHEMA.TABLES 
-                 WHERE TABLE_SCHEMA = 'plantbase' 
                  AND  TABLE_NAME = 'SeedAction'))
 BEGIN
 
@@ -70,12 +47,13 @@ BEGIN
 	(
 		Id bigint IDENTITY(1,1),  
 		FK_SeedId bigint not null,
-		FK_ActionTypeId bigint not null,
+		Name varchar(50) not null,
+		DisplayChar char null,
+		DisplayColour varchar(6) null, --colour code
 		StartDate date not null,
 		EndDate date not null,
 		PRIMARY KEY (Id),
-		FOREIGN KEY (FK_SeedId) REFERENCES plantbase.Seed(Id),
-		FOREIGN KEY (FK_ActionTypeId) REFERENCES plantbase.ActionType(Id)
+		FOREIGN KEY (FK_SeedId) REFERENCES plantbase.Seed(Id)
 	)
 
 END

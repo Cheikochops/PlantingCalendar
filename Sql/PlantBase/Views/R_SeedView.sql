@@ -9,9 +9,9 @@ AS
 			s.WaterRequirement,
 			s.ExpiryDate,
 			ActionId = sa.Id,
-			ActionType = a.Name,
-			a.DisplayChar,
-			a.DisplayColour,
+			ActionType = sa.Name,
+			sa.DisplayChar,
+			sa.DisplayColour,
 			sa.StartDate,
 			sa.EndDate,
 			IsExpired = cast(case when s.ExpiryDate is null or s.ExpiryDate > GETUTCDATE() then 0 else 1 end as bit),
@@ -19,4 +19,3 @@ AS
 		From
 			plantbase.Seed s
 			left join plantbase.SeedAction sa on sa.FK_SeedId = s.Id
-			left join plantbase.ActionType a on sa.FK_ActionTypeId = a.Id

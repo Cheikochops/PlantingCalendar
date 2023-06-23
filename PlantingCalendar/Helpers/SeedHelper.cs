@@ -1,3 +1,4 @@
+using Newtonsoft.Json;
 using PlantingCalendar.Interfaces;
 using PlantingCalendar.Models;
 using PlantingCalendar.Models.Sql;
@@ -37,15 +38,22 @@ namespace PlantingCalendar.DataAccess
 
             if (seedDetails.Any(x => x.ActionId != null))
             {
-                model.Actions = seedDetails.Select(x => new SeedAction
+                try
                 {
-                    ActionId = x.Id,
-                    ActionType = x.ActionType,
-                    DisplayChar = x.DisplayChar.First(),
-                    DisplayColour = x.DisplayColour,
-                    EndDate = x.EndDate.Value,
-                    StartDate = x.StartDate.Value
-                }).ToList();
+                    model.Actions = seedDetails.Select(x => new SeedAction
+                    {
+                        ActionId = x.Id,
+                        ActionType = x.ActionType,
+                        DisplayChar = x.DisplayChar != null ? x.DisplayChar.First() : null,
+                        DisplayColour = x.DisplayColour,
+                        EndDate = x.EndDate.Value,
+                        StartDate = x.StartDate.Value
+                    }).ToList();
+                }
+                catch (Exception ex)
+                {
+                    var a = 1;
+                }
             }
 
             return model;
@@ -79,9 +87,11 @@ namespace PlantingCalendar.DataAccess
             }
         }
 
-        public async Task SaveSeedInfo(SeedItemModel seed)
+        public async Task SaveSeedInfo(SeedDetailModel seed)
         {
-
+            //need to convert to json correctly for sql to process it
+            //need to update start and end date to not be year based
+            await SeedDataAccess.SaveSeed(JsonConvert.SerializeObject(seed));
         }
 
         public async Task DeleteSeed(long seedId)

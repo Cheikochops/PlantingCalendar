@@ -50,41 +50,19 @@ Insert Into
 		2021
 	)
 
-
-Insert Into
-		plantbase.ActionType
-	(
-		Name,
-		DisplayChar,
-		DisplayColour
-	)
-	VALUES
-	(
-		'Sow',
-		'S',
-		'00FF00'
-	),
-	(
-		'Harvest',
-		'H',
-		'0000FF'
-	)
-
-
 declare @tomatoSeedId bigint = (Select Top 1 Id from plantbase.Seed Where PlantType = 'Tomato')
-declare @sowId bigint = (Select Top 1 Id from plantbase.ActionType Where Name = 'Sow')
 
 Insert Into
 		plantbase.SeedAction
 	(
+		Name,
 		FK_SeedId,
-		FK_ActionTypeId,
 		StartDate,
 		EndDate
 	)
 	VALUES (
+		'Sow',
 		@tomatoSeedId,
-		@sowId,
 		'2023-02-01',
 		'2023-04-30'
 	)

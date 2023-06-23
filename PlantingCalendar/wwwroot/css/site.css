@@ -19,8 +19,6 @@ body {
   height: 100%;
 }
 
-
-
 /* Popup container */
 .popupBackground {
     display: none; 
@@ -62,6 +60,10 @@ body {
     row-gap: 10px;
     column-gap: 10px;
     padding-bottom: 10px;
+}
+
+.width8p {
+    width: 8%;
 }
 
 .width1 {
@@ -120,4 +122,46 @@ body {
 
 .space-evenly {
     justify-content: space-evenly;
+}
+
+.mainbox {
+    width: auto;
+    padding-left: 100px;
+    padding-right: 100px;
+    padding-top: 50px;
+    padding-bottom: 50px;
+}
+
+.non-scroll-table {
+    width: 100%;
+}
+
+.task {
+    width: 150px;
+    border: 2px solid black;
+}
+
+.task:hover {
+    background-color: coral;
+}
+
+.scroll-table {
+    width: 100%;
+}
+
+.scroll-table-div {
+    overflow-x: scroll;
+    width: 100%;
+}
+
+.td {
+    width: 150px;
+    border: 2px solid black
+}
+
+.header {
+    padding: 5px;
+    min-width: 125px;
+    background-color: #04AA6D;
+    color: white;
 }

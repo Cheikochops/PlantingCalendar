@@ -8,7 +8,9 @@ namespace PlantingCalendar.Models
 
         public int Year { get; set; }
 
-        public List<Seed> Seeds { get; set; }        
+        public List<Seed> Seeds { get; set; }      
+        
+        public List<Month> Months { get; set; }
     }
 
     public class Seed
@@ -19,20 +21,7 @@ namespace PlantingCalendar.Models
 
         public string PlantBreed { get; set; }
 
-        public List<Month> Months { get; set; }
-    }
-
-    public class Month
-    {
-        public string MonthName { get; set; }
-
-        public string MonthCode { get; set; }
-
-        public int DayCount { get; set; }
-
-        public int Order { get; set; }
-
-        public List<CalendarTask> Tasks { get; set; }
+        public Dictionary<int, List<CalendarTask>> Tasks { get; set; }
     }
 
     public class CalendarTask

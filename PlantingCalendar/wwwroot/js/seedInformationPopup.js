@@ -23,7 +23,7 @@ function addRow() {
     $("#noAction").hide()
 
     $("#actionTable tr:first").after(
-        '<tr class="actionItem"><td class="width4"><input id="actionType" class="width12"></td><td class="width1"><input id="displayChar" class="width12"></td><td class="width2"><input id="displayColour" class="width12"></td><td class="width2"><input id="startDate" class="width12"></td><td class="width2"><input id="endDate" class="width12"></td><td><button onclick="removeRow(this)" type="button" class="width12">X</button></td></tr>')
+        '<tr class="actionItem"><td class="width4"><input id="actionType" class="width12"></td><td class="width1"><input id="displayChar" type="text" maxlength="1" class="width12"></td><td class="width2"><input id="displayColour" type="color"  class="width12"></td><td class="width2"><input id="startDate" type="date" class="width12"></td><td class="width2"><input id="endDate" type="date" class="width12"></td><td><button onclick="removeRow(this)" type="button" class="width12">X</button></td></tr>')
 }
 
 function removeRow(btn) {

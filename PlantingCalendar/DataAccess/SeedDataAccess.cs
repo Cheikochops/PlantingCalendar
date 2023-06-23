@@ -1,4 +1,5 @@
 using Microsoft.Extensions.Options;
+using Newtonsoft.Json;
 using PlantingCalendar.Interfaces;
 using PlantingCalendar.Models;
 using PlantingCalendar.Models.Sql;
@@ -35,7 +36,6 @@ namespace PlantingCalendar.DataAccess
         {
             try
             {
-                //Create this proc
                 var seeds = await ExecuteSql<SqlSeedDetailsModel>($"Exec plantbase.Seed_Details_Read {seedId}");
 
                 if (seeds == null)
@@ -51,12 +51,23 @@ namespace PlantingCalendar.DataAccess
             }
         }
 
+        public async Task SaveSeed(string seedDetails)
+        {
+            try
+            {
+                await ExecuteSql($"Exec plantbase.Seed_Save '{seedDetails}'");
+            }
+            catch (Exception ex)
+            {
+                throw;
+            }
+        }
+
         public async Task DeleteSeed(long seedId)
         {
             try
             {
-                //Create this proc
-                await ExecuteSql<SeedDetailModel>($"Exec plantbase.Seed_Delete {seedId}");
+                await ExecuteSql($"Exec plantbase.Seed_Delete {seedId}");
 
             }
             catch (Exception ex)

@@ -2,6 +2,9 @@
   "version": 3,
   "targets": {
     "net6.0": {
+      "AngularJS.Core/1.8.2": {
+        "type": "package"
+      },
       "Microsoft.AspNet.WebApi.Client/5.2.9": {
         "type": "package",
         "dependencies": {
@@ -1728,6 +1731,21 @@
     }
   },
   "libraries": {
+    "AngularJS.Core/1.8.2": {
+      "sha512": "XqWsLLPPF8KDFYbVPbtpbae1claPLcjyxZgYThdXQri3I2O8SDdMzNafnhIi9nGgg3X6zsu1W0Qj0u5p1wr5mA==",
+      "type": "package",
+      "path": "angularjs.core/1.8.2",
+      "files": [
+        ".nupkg.metadata",
+        ".signature.p7s",
+        "angularjs.core.1.8.2.nupkg.sha512",
+        "angularjs.core.nuspec",
+        "content/Scripts/angular-mocks.js",
+        "content/Scripts/angular.js",
+        "content/Scripts/angular.min.js",
+        "content/Scripts/angular.min.js.map"
+      ]
+    },
     "Microsoft.AspNet.WebApi.Client/5.2.9": {
       "sha512": "cuVhPjjNMSEFpKXweMNBbsG4RUFuuZpFBm8tSyw309U9JEjcnbB6n3EPb4xwgcy9bJ38ctIbv5G8zXUBhlrPWw==",
       "type": "package",
@@ -5956,6 +5974,7 @@
   },
   "projectFileDependencyGroups": {
     "net6.0": [
+      "AngularJS.Core >= 1.8.2",
       "Microsoft.AspNet.WebApi.Core >= 5.2.9",
       "Microsoft.VisualStudio.Azure.Containers.Tools.Targets >= 1.17.2",
       "System.Data.SqlClient >= 4.8.5"
@@ -6000,6 +6019,10 @@
       "net6.0": {
         "targetAlias": "net6.0",
         "dependencies": {
+          "AngularJS.Core": {
+            "target": "Package",
+            "version": "[1.8.2, )"
+          },
           "Microsoft.AspNet.WebApi.Core": {
             "target": "Package",
             "version": "[5.2.9, )"

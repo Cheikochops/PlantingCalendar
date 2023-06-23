@@ -1,9 +1,10 @@
 {
   "version": 2,
-  "dgSpecHash": "LGUn3o8T43vQDtTQjNpHvHa7gKsw3FVVWbKkw2M5eAE1IxC/hQHfxR0eGLU9Y4zmlXzGww89YGOeSZ4Y6CnNZw==",
+  "dgSpecHash": "mthAnnk7SL7+43h1jxSZaC84JWnD2Vp9CnsVEZ5SUMZHgoz+1ZxsbuN99muGtbDWH7Im8ttBBHOMyoChZYg/jA==",
   "success": true,
   "projectFilePath": "C:\\Users\\caitl\\OneDrive\\Desktop\\UniProject\\Project\\PlantingCalendar\\PlantingCalendar\\PlantingCalendar.csproj",
   "expectedPackageFiles": [
+    "C:\\Users\\caitl\\.nuget\\packages\\angularjs.core\\1.8.2\\angularjs.core.1.8.2.nupkg.sha512",
     "C:\\Users\\caitl\\.nuget\\packages\\microsoft.aspnet.webapi.client\\5.2.9\\microsoft.aspnet.webapi.client.5.2.9.nupkg.sha512",
     "C:\\Users\\caitl\\.nuget\\packages\\microsoft.aspnet.webapi.core\\5.2.9\\microsoft.aspnet.webapi.core.5.2.9.nupkg.sha512",
     "C:\\Users\\caitl\\.nuget\\packages\\microsoft.csharp\\4.3.0\\microsoft.csharp.4.3.0.nupkg.sha512",

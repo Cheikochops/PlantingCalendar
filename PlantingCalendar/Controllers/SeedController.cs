@@ -43,6 +43,7 @@ public class SeedController : Controller
         try
         {
             await SeedHelper.SaveSeedInfo(seed);
+
             return Ok();
         }
         catch (Exception ex)

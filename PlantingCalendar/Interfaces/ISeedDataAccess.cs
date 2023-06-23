@@ -10,5 +10,7 @@ namespace PlantingCalendar.Interfaces
         Task<List<SqlSeedDetailsModel>> GetSeedDetails(long seedId);
 
         Task DeleteSeed(long seedId);
+
+        Task SaveSeed(string seedDetails);
     }
 }

@@ -9,7 +9,7 @@ namespace PlantingCalendar.Interfaces
 
         Task<IOrderedEnumerable<SeedItemModel>> GetFilteredSeedItems(string? filter, int? orderBy);
 
-        Task SaveSeedInfo(SeedItemModel seed);
+        Task SaveSeedInfo(SeedDetailModel seed);
 
         Task DeleteSeed(long seedId);
     }
