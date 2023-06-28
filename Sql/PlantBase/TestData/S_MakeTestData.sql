@@ -58,13 +58,32 @@ Insert Into
 		Name,
 		FK_SeedId,
 		StartDate,
-		EndDate
+		EndDate,
+		Enum_ActionTypeId
 	)
 	VALUES (
 		'Sow',
 		@tomatoSeedId,
-		'2023-02-01',
-		'2023-04-30'
+		'0102',
+		'3004',
+		1
+	)
+
+Insert Into
+		plantbase.SeedAction
+	(
+		Name,
+		FK_SeedId,
+		StartDate,
+		EndDate,
+		Enum_ActionTypeId
+	)
+	VALUES (
+		'Harvest',
+		@tomatoSeedId,
+		'1007',
+		'2010',
+		2
 	)
 
 declare @calendarId bigint = (Select Top 1 Id from plantbase.Calendar Where Year = 2023)
@@ -104,7 +123,7 @@ Insert Into
 			StartDate,
 			EndDate,
 			DisplayChar,
-			DisplayColour			
+			DisplayColour		
 		)
 		VALUES (
 			'Sow',

@@ -1,75 +1,32 @@
-﻿//Searching features
-var wto;
+﻿angular.module('seedApp').controller('seeds', function ($scope, $http) {
+    $scope.seedList = [];
+    $scope.order = "plantType";
+    $scope.displaySeedId = null;
 
-function debounceLoadSeedList(filter) {
-    clearTimeout(wto);
-    wto = setTimeout(function () {
-        loadSeedList(filter)
-    }, 750);
-};
+    $scope.loadSeedList = function () {
 
-//
+        var url = "api/seeds/list";
 
-window.onclick = function (event) {
-    var background = document.getElementById("popupBackground");
+        $http.get(url).then(
+            function (response) {
+                $scope.seedList = response.data;
 
-    if (event.target == background) {
-        togglePopup("popupBackground", "seedInfoPopup");
-    }
-}
+                console.log($scope.seedList)
+            });
+    };
 
-window.onload = function () {
-    loadSeedList()
-}
+    $scope.orderBy = function (o) {
+        $scope.order = o
+    };
 
-function loadPopup(popupBackgroundId, popupId, id) {
-
-    var url = "/Seed/SeedInfo";
-
-    if (id != null) {
-        url += "?seedId=" + id;
-    }
-
-    $.get(url,
-        function (data) {
-            $('#seedInfo').html(data);
-        });
-
-    togglePopup(popupBackgroundId, popupId)
-}
-
-function togglePopup(popupBackgroundId, popupId) {
-    var background = document.getElementById(popupBackgroundId);
-    background.classList.toggle("block");
-
-    var popup = document.getElementById(popupId);
-    popup.classList.toggle("visible");
-}
-
-function orderBy(orderBy) {
-    var filter = $("#searchBar").val()
-    loadSeedList(filter, orderBy);
-}
-
-function loadSeedList(filter, orderBy) {
-
-    var url = "/Seed/SeedsList";
-
-    if (filter != null) {
-        url += "?filter=" + filter;
-
-        if (orderBy != null) {
-            url += "&orderBy=" + orderBy;
+    $scope.setInformationDisplay = function (seedId) {
+        if ($scope.displaySeedId == seedId) {
+            $scope.displaySeedId = null
+        }
+        else {
+            $scope.displaySeedId = seedId
         }
     }
-    else if (orderBy != null) {
-        url += "?orderBy=" + orderBy;
-    }
 
-    console.log(url)
-
-    $.get(url,
-        function (data) {
-            $('#plantList').html(data);
-        });
-}
+    $scope.loadSeedList();
+});

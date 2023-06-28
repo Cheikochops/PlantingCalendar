@@ -4,14 +4,24 @@ namespace PlantingCalendar.Models
     {
         public string Description { get; set; }
 
-        public DateTime? ExpiryDate { get; set; }
+        public string ExpiryDate { get; set; }
 
         public List<SeedAction> Actions { get; set; } = new List<SeedAction>();
+
+        public SeedAction SowAction { get; set; }
+
+        public SeedAction HarvestAction { get; set; }
+
+        public string FrontImageUrl { get; set; }
+
+        public string BackImageUrl { get; set; }
     }
 
     public class SeedAction
     {
-        public string ActionType { get; set; }
+        public string ActionName { get; set; }
+
+        public ActionType ActionType { get; set; }
 
         public long ActionId {  get; set; }
 
@@ -19,8 +29,12 @@ namespace PlantingCalendar.Models
 
         public string DisplayColour { get; set; }
 
-        public DateTime StartDate { get; set; }
+        public string StartDateMonth { get; set; }
 
-        public DateTime EndDate { get; set; }
+        public string StartDateDay { get; set; }
+
+        public string EndDateMonth { get; set; }
+
+        public string EndDateDay { get; set; }
     }
 }

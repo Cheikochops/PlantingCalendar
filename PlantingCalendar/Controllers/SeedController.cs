@@ -5,7 +5,9 @@ using PlantingCalendar.Pages;
 
 namespace PlantingCalendar.Controllers;
 
-public class SeedController : Controller
+[ApiController]
+[Route("api/seeds")]
+public class SeedController : ControllerBase
 {
     private ISeedHelper SeedHelper { get; set; }
 
@@ -14,6 +16,7 @@ public class SeedController : Controller
         SeedHelper = seedHelper;
     }
 
+    [HttpGet("")]
     public async Task<ActionResult> SeedInfo(long? seedId)
     {
         var seedModel = new SeedDetailModel();
@@ -22,19 +25,15 @@ public class SeedController : Controller
             seedModel = await SeedHelper.GetFormatedSeedItem(seedId.Value);
         }
 
-        return PartialView("SeedInformationPopup", seedModel);
+        return Ok(seedModel);
     }
 
-    public async Task<ActionResult> SeedsList(string? filter, int? orderBy)
+    [HttpGet("list")]
+    public async Task<ActionResult> SeedsList()
     {
-        var orderedSeeds = await SeedHelper.GetFilteredSeedItems(filter, orderBy);
+        var seeds = await SeedHelper.GetSeedList();
 
-        var seedDetails = new SeedsListModel()
-        {
-            Seeds = orderedSeeds
-        };
-
-        return PartialView("SeedsList", seedDetails);
+        return Ok(seeds);
     }
 
     [HttpPost]

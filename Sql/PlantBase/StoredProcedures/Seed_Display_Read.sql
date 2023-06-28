@@ -2,7 +2,7 @@ Create or Alter Procedure plantbase.Seed_Display_Read
 As
 Begin
 
-	Select
+	Select Distinct
 			s.Id,
 			s.PlantType,
 			s.Breed,

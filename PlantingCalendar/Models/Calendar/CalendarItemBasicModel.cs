@@ -4,6 +4,8 @@ namespace PlantingCalendar.Models
     {
         public string CalendarName { get; set; }   
 
+        public int Year { get; set; }
+
         public long CalendarId {  get; set; }
     }
 }

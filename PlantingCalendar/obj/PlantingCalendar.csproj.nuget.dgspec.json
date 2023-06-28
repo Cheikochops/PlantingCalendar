@@ -40,9 +40,17 @@
         "net6.0": {
           "targetAlias": "net6.0",
           "dependencies": {
+            "AngularJS.Bundled": {
+              "target": "Package",
+              "version": "[1.2.26, )"
+            },
             "AngularJS.Core": {
               "target": "Package",
               "version": "[1.8.2, )"
+            },
+            "AngularJS.Intellisense": {
+              "target": "Package",
+              "version": "[1.0.3, )"
             },
             "Microsoft.AspNet.WebApi.Core": {
               "target": "Package",

@@ -16,16 +16,22 @@ namespace PlantingCalendar.Models.Sql
 
         public long? ActionId { get; set; }
 
-        public string ActionType { get; set; }
+        public ActionType ActionType { get; set; }
+
+        public string ActionName { get; set; }
 
         public string DisplayChar { get; set; }
 
         public string DisplayColour { get; set; }
 
-        public DateTime? StartDate { get; set; }
+        public string StartDate { get; set; }
 
-        public DateTime? EndDate { get; set; }
+        public string EndDate { get; set; }
 
         public DateTime? ExpiryDate { get; set; }
+
+        public string FrontImageUrl { get; set; }
+
+        public string BackImageUrl { get; set; }
     }
 }

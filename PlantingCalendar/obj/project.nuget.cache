@@ -1,10 +1,12 @@
 {
   "version": 2,
-  "dgSpecHash": "mthAnnk7SL7+43h1jxSZaC84JWnD2Vp9CnsVEZ5SUMZHgoz+1ZxsbuN99muGtbDWH7Im8ttBBHOMyoChZYg/jA==",
+  "dgSpecHash": "Qg19i4X8ZI6lfXYAVo9XBH5kA7hFoI+kIXclnV8j4vqJ1z0PLwa7u5UZTZcQ/qE9SkxIbiMOwlmc4AUTajF0Ng==",
   "success": true,
   "projectFilePath": "C:\\Users\\caitl\\OneDrive\\Desktop\\UniProject\\Project\\PlantingCalendar\\PlantingCalendar\\PlantingCalendar.csproj",
   "expectedPackageFiles": [
+    "C:\\Users\\caitl\\.nuget\\packages\\angularjs.bundled\\1.2.26\\angularjs.bundled.1.2.26.nupkg.sha512",
     "C:\\Users\\caitl\\.nuget\\packages\\angularjs.core\\1.8.2\\angularjs.core.1.8.2.nupkg.sha512",
+    "C:\\Users\\caitl\\.nuget\\packages\\angularjs.intellisense\\1.0.3\\angularjs.intellisense.1.0.3.nupkg.sha512",
     "C:\\Users\\caitl\\.nuget\\packages\\microsoft.aspnet.webapi.client\\5.2.9\\microsoft.aspnet.webapi.client.5.2.9.nupkg.sha512",
     "C:\\Users\\caitl\\.nuget\\packages\\microsoft.aspnet.webapi.core\\5.2.9\\microsoft.aspnet.webapi.core.5.2.9.nupkg.sha512",
     "C:\\Users\\caitl\\.nuget\\packages\\microsoft.csharp\\4.3.0\\microsoft.csharp.4.3.0.nupkg.sha512",
@@ -103,6 +105,16 @@
     "C:\\Users\\caitl\\.nuget\\packages\\system.xml.xmldocument\\4.3.0\\system.xml.xmldocument.4.3.0.nupkg.sha512"
   ],
   "logs": [
+    {
+      "code": "NU1608",
+      "level": "Warning",
+      "warningLevel": 1,
+      "message": "Detected package version outside of dependency constraint: AngularJS.Intellisense 1.0.3 requires AngularJS.Core (>= 1.3.0 && < 1.4.0) but version AngularJS.Core 1.8.2 was resolved.",
+      "libraryId": "AngularJS.Core",
+      "targetGraphs": [
+        "net6.0"
+      ]
+    },
     {
       "code": "NU1701",
       "level": "Warning",

@@ -4,6 +4,32 @@
     ViewData["Title"] = "New Calendar";
 }
 
-<div class="text-center">
-    <h1 class="display-4">This is the new calendar creation page</h1>
+<div>
+    <div class="flex mainbox">
+        <div id="seedDisplay" class="col-6">
+            Seed Display Section
+        </div>
+        <div id="calendarSetup" class="col-6">
+            Calendar Creation Section
+
+            <div class="flex">
+                <div class="col-2">
+                    Calendar Name
+                </div>
+                <div>
+                    <input type="text" />
+                </div>
+            </div>
+            <div class="flex">
+                <div class="col-2">
+                    Year
+                </div>
+                <div>
+                    <input type="number" min="2000" max="2500"/>
+                </div>
+            </div>
+            <div id="calendarSeedList">
+            </div>
+        </div>
+    </div>
 </div>

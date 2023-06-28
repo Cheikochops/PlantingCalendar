@@ -52,5 +52,17 @@ namespace PlantingCalendar.DataAccess
                 throw;
             }
         }
+
+        public async Task GenerateNewCalendar(string calendarName, int calendarYear, string seedListJson)
+        {
+            try
+            {
+                await ExecuteSql($"Exec plantbase.NewCalendar_Create '{calendarName}', {calendarYear}, '{seedListJson}'");
+            }
+            catch (Exception ex)
+            {
+                throw;
+            }
+        }
     }
 }

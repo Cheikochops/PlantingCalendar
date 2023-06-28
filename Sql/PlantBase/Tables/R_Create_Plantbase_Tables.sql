@@ -26,6 +26,8 @@ BEGIN
 		WaterRequirement varchar(100) null,
 		SunRequirement varchar(100) null,
 		ExpiryDate Datetime null,
+		FrontImageUrl nvarchar(max) null,
+		BackImageUrl nvarchar(max) null,
 		IsDeleted bit default(0)
 		PRIMARY KEY (Id)
 	)
@@ -47,11 +49,12 @@ BEGIN
 	(
 		Id bigint IDENTITY(1,1),  
 		FK_SeedId bigint not null,
+		Enum_ActionTypeId int not null default(0),
 		Name varchar(50) not null,
 		DisplayChar char null,
 		DisplayColour varchar(6) null, --colour code
-		StartDate date not null,
-		EndDate date not null,
+		StartDate varchar(4) not null, --format DDMM
+		EndDate varchar(4) not null, --format DDMM
 		PRIMARY KEY (Id),
 		FOREIGN KEY (FK_SeedId) REFERENCES plantbase.Seed(Id)
 	)

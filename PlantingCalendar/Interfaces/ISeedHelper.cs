@@ -7,7 +7,7 @@ namespace PlantingCalendar.Interfaces
     {
         Task<SeedDetailModel> GetFormatedSeedItem(long seedId);
 
-        Task<IOrderedEnumerable<SeedItemModel>> GetFilteredSeedItems(string? filter, int? orderBy);
+        Task<IEnumerable<SeedItemModel>> GetSeedList();
 
         Task SaveSeedInfo(SeedDetailModel seed);
 

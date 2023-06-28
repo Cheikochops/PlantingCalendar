@@ -1,5 +1,5 @@
-﻿@using PlantingCalendar.Models
-@model CalendarDayPopupModel
+﻿@*@using PlantingCalendar.Models
+@model CalendarGeneration
 
 <script src="~/js/calendarDayTaskPopup.js" asp-append-version="true"></script>
 
@@ -16,104 +16,6 @@
         </div>
     </div>
 
-    <div class="flex space-evenly">
-        <div class="width3 flex-column">
-            <div class="flex">
-                <div class="width4">
-                    PlantType
-                </div>
-                <div class="width8">
-                    <input class="width12" id="plantType" value="@Model.PlantType" />
-                </div>
-            </div>
-            <div class="flex">
-                <div class="width4">
-                    Variety / Breed
-                </div>
-                <div class="width8">
-                    <input class="width12" id="breed" value="@Model.Breed" />
-                </div>
-            </div>
-            <div class="flex">
-                <div class="width4">
-                    Description
-                </div>
-                <div class="width8">
-                    <textarea class="width12" id="description">@Model.Description</textarea>
-                </div>
-            </div>
-            <div class="flex">
-                <div class="width4">
-                    Sun Requirements
-                </div>
-                <div class="width8">
-                    <input class="width12" id="sunRequirement" value="@Model.SunRequirement" />
-                </div>
-            </div>
-            <div class="flex">
-                <div class="width4">
-                    Water Requirements
-                </div>
-                <div class="width8">
-                    <input class="width12" id="wateringRequirement" value="@Model.WaterRequirement" />
-                </div>
-            </div>
-            <div class="flex">
-                <div class="width4">
-                    Expiry Date
-                </div>
-                <div class="width8">
-                    <input class="width12" id="expiryDate" value="@Model.ExpiryDate?.ToString("yyyy-MM-dd")" type="date" />
-                </div>
-            </div>
-        </div>
-        <div class="width8">
-            <div>
-                <table id="actionTable">
-                    <tr>
-                        <th class="width4">ActionType</th>
-                        <th class="width1">DisplayChar</th>
-                        <th class="width2">DisplayColour</th>
-                        <th class="width2">StartDate</th>
-                        <th class="width2">EndDate</th>
-                        <th class="width1"></th>
-                    </tr>
-
-                    <tr id="noAction">
-                        <td class="width4"></td>
-                        <td class="width1"></td>
-                        <td class="width2">No Actions Found... </td>
-                        <td class="width2"></td>
-                        <td class="width2"></td>
-                        <td class="width1"></td>
-                    </tr>
-
-                    @foreach (var action in Model.Actions)
-                    {
-                        <tr class="actionItem">
-                            <td class="width4">
-                                <input id="actionId" value="@action.ActionId" class="hidden">
-                                <input id="actionType" class="width12" value="@action.ActionType">
-                            </td>
-                            <td class="width1">
-                                <input id="displayChar" type="text" maxlength="1" class="width12" value="@action.DisplayChar">
-                            </td>
-                            <td class="width2">
-                                <input id="displayColour" type="color" class="width12" value="#@action.DisplayColour">
-                            </td>
-                            <td class="width2">
-                                <input id="startDate" class="width12" type="date" value="@action.StartDate.ToString("yyyy-MM-dd")">
-                            </td>
-                            <td class="width2">
-                                <input id="endDate" class="width12" type="date" value="@action.EndDate.ToString("yyyy-MM-dd")">
-                            </td>
-                            <td class="width1">
-                                <button onclick="removeRow(this)" type="button" class="width12">X</button>
-                            </td>
-                        </tr>
-                    }
-                </table>
-            </div>
-        </div>
     </div>
 </div>
+*@

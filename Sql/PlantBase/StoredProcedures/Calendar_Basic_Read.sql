@@ -4,7 +4,8 @@ Begin
 
 	Select Distinct
 			CalendarId,
-			CalendarName
+			CalendarName,
+			Year
 		From
 			plantbase.CalendarView c
 

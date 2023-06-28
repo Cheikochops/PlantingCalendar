@@ -2,6 +2,7 @@ using Newtonsoft.Json;
 using PlantingCalendar.Interfaces;
 using PlantingCalendar.Models;
 using PlantingCalendar.Models.Sql;
+using System.Linq;
 
 namespace PlantingCalendar.DataAccess
 {
@@ -31,60 +32,99 @@ namespace PlantingCalendar.DataAccess
                 Breed = first.Breed,
                 PlantType = first.PlantType,
                 Description = first.Description,
-                ExpiryDate = first.ExpiryDate,
+                ExpiryDate = first.ExpiryDate?.ToString("yyyy-MM-dd"),
                 SunRequirement = first.SunRequirement,
-                WaterRequirement = first.WaterRequirement
+                WaterRequirement = first.WaterRequirement,
+                FrontImageUrl = first.FrontImageUrl,
+                BackImageUrl = first.BackImageUrl
             };
+
+            model = AddManadatoryActions(seedDetails, model);
 
             if (seedDetails.Any(x => x.ActionId != null))
             {
-                try
+                model.Actions = seedDetails.Where(x => x.ActionType == ActionType.Custom).Select(x => new SeedAction
                 {
-                    model.Actions = seedDetails.Select(x => new SeedAction
-                    {
-                        ActionId = x.Id,
-                        ActionType = x.ActionType,
-                        DisplayChar = x.DisplayChar != null ? x.DisplayChar.First() : null,
-                        DisplayColour = x.DisplayColour,
-                        EndDate = x.EndDate.Value,
-                        StartDate = x.StartDate.Value
-                    }).ToList();
-                }
-                catch (Exception ex)
-                {
-                    var a = 1;
-                }
+                    ActionId = x.Id,
+                    ActionName = x.ActionName,
+                    ActionType = x.ActionType,
+                    DisplayChar = x.DisplayChar != null ? x.DisplayChar.First() : null,
+                    DisplayColour = "#" + (x.DisplayColour ?? "000000"),
+                    EndDateMonth = new string(x.EndDate.TakeLast(2).ToArray()),
+                    EndDateDay = new string(x.EndDate.Take(2).ToArray()),
+                    StartDateMonth = new string(x.StartDate.TakeLast(2).ToArray()),
+                    StartDateDay = new string(x.StartDate.Take(2).ToArray()),
+                }).ToList();
             }
 
             return model;
 
         }
 
-        public async Task<IOrderedEnumerable<SeedItemModel>> GetFilteredSeedItems(string? filter, int? orderBy)
+        private SeedDetailModel AddManadatoryActions(List<SqlSeedDetailsModel> seedDetails, SeedDetailModel model)
         {
-            //orderBy
-            // 1 = PlantType, 2 = Breed, 3 = SunRequirement, 4 = WaterRequirement
+            var sowAction = seedDetails.FirstOrDefault(x => x.ActionType == ActionType.Sow);
 
+            if (sowAction != null)
+            {
+                model.SowAction = new SeedAction
+                {
+                    ActionId = sowAction.Id,
+                    ActionName = sowAction.ActionName,
+                    ActionType = sowAction.ActionType,
+                    DisplayChar = sowAction.DisplayChar != null ? sowAction.DisplayChar.First() : 'S',
+                    DisplayColour = "#" + (sowAction.DisplayColour ?? "000000"),
+                    EndDateMonth = new string(sowAction.EndDate.TakeLast(2).ToArray()),
+                    EndDateDay = new string(sowAction.EndDate.Take(2).ToArray()),
+                    StartDateMonth = new string(sowAction.StartDate.TakeLast(2).ToArray()),
+                    StartDateDay = new string(sowAction.StartDate.Take(2).ToArray()),
+                };
+            }
+            else
+            {
+                model.SowAction = new SeedAction
+                {
+                    ActionName = "Sow",
+                    ActionType = ActionType.Sow,
+                    DisplayChar = 'S',
+                };
+            }
+
+            var harvestAction = seedDetails.FirstOrDefault(x => x.ActionType == ActionType.Harvest);
+
+            if (harvestAction != null)
+            {
+                model.HarvestAction = new SeedAction
+                {
+                    ActionId = harvestAction.Id,
+                    ActionName = harvestAction.ActionName,
+                    ActionType = harvestAction.ActionType,
+                    DisplayChar = harvestAction.DisplayChar != null ? sowAction.DisplayChar.First() : 'H',
+                    DisplayColour = "#" + (harvestAction.DisplayColour ?? "000000"),
+                    EndDateMonth = new string(harvestAction.EndDate.TakeLast(2).ToArray()),
+                    EndDateDay = new string(harvestAction.EndDate.Take(2).ToArray()),
+                    StartDateMonth = new string(harvestAction.StartDate.TakeLast(2).ToArray()),
+                    StartDateDay = new string(harvestAction.StartDate.Take(2).ToArray())
+                };
+            }
+            else
+            {
+                model.HarvestAction = new SeedAction
+                {
+                    ActionName = "Harvest",
+                    ActionType = ActionType.Harvest,
+                    DisplayChar = 'H'
+                };
+            }
+
+            return model;
+        }
+
+        public async Task<IEnumerable<SeedItemModel>> GetSeedList()
+        {
             var seeds = await SeedDataAccess.GetAllSeeds();
 
-            var filteredSeeds = seeds;
-
-            if (filter != null)
-            {
-                filteredSeeds = seeds.Where(x => x.Breed.Contains(filter, StringComparison.InvariantCultureIgnoreCase) || x.PlantType.Contains(filter, StringComparison.CurrentCultureIgnoreCase)).ToList();
-            }
-
-            switch (orderBy)
-            {
-                case 2:
-                    return filteredSeeds.OrderBy(x => x.Breed);
-                case 3:
-                    return filteredSeeds.OrderBy(x => x.SunRequirement);
-                case 4:
-                    return filteredSeeds.OrderBy(x => x.WaterRequirement);
-                default:
-                    return filteredSeeds.OrderBy(x => x.PlantType).ThenBy(x => x.Breed);
-            }
+            return seeds;
         }
 
         public async Task SaveSeedInfo(SeedDetailModel seed)

@@ -2,11 +2,14 @@
 @model BaseLayoutPageModel
 
 
-<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.9/angular.min.js"></script>
+<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.5.7/angular.min.js"></script>
 <script src="~/lib/jquery/dist/jquery.min.js"></script>
 <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
 <script src="~/js/site.js" asp-append-version="true"></script>
 
+<script src="~/js/calendar.module.js" asp-append-version="true"></script>
+<script src="~/js/seeds.module.js" asp-append-version="true"></script>
+<script src="~/js/seed-information.module.js" asp-append-version="true"></script>
 
 <!DOCTYPE html>
 <html lang="en">
@@ -22,7 +25,7 @@
     <header>
         <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow mb-3">
             <div class="container">
-                <a class="navbar-brand" asp-area="" asp-page="/Home">PlantingCalendar</a>
+                <a class="navbar-brand" asp-area="" asp-page="/Home">PlantBase</a>
                 <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target=".navbar-collapse" aria-controls="navbarSupportedContent"
                         aria-expanded="false" aria-label="Toggle navigation">
                     <span class="navbar-toggler-icon"></span>
@@ -30,18 +33,22 @@
                 <div class="navbar-collapse collapse d-sm-inline-flex justify-content-between">
                     <ul class="navbar-nav flex-grow-1">
                         <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-page="/Seeds">Seeds</a>
+                            <a class="nav-link text-dark navLink" asp-area="" asp-page="/Seeds">Seeds</a>
+                        </li>
+                        <li>
+                            <a class="nav-link text-dark navLink" asp-area="" asp-page="/NewCalendar">New Calendar</a>
                         </li>
                         <li class="nav-item">
   
-                            <select onchange="calendarDropdown(this.value)">
-                                <option disabled selected>Select a calendar to view</option>
-                            @foreach(var calendar in Model.Calendars)
-                            {
-                                <option value="@calendar.CalendarId">@calendar.CalendarName</option>
-                            }
-                                <option value="new">Create a new calendar</option>
-                            </select>
+                            <div class="dropdown">
+                                <button class="dropbtn">View Calendar</button>
+                                <div class="dropdown-content">
+                                    @foreach (var calendar in Model.Calendars.OrderByDescending(x => x.Year).ThenBy(x => x.CalendarName))
+                                    {
+                                        <a href="/Calendar?calendarId=@calendar.CalendarId">@calendar.CalendarName - @calendar.Year</a>
+                                    }
+                                </div>
+                            </div>
 
                         </li>
                     </ul>

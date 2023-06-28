@@ -9,7 +9,17 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <None Remove="Pages\Components\seed-item-component.html" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Content Include="Pages\Components\seed-item-component.html" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="AngularJS.Bundled" Version="1.2.26" />
     <PackageReference Include="AngularJS.Core" Version="1.8.2" />
+    <PackageReference Include="AngularJS.Intellisense" Version="1.0.3" />
     <PackageReference Include="Microsoft.AspNet.WebApi.Core" Version="5.2.9" />
     <PackageReference Include="Microsoft.VisualStudio.Azure.Containers.Tools.Targets" Version="1.17.2" />
     <PackageReference Include="System.Data.SqlClient" Version="4.8.5" />

@@ -5,6 +5,8 @@ using PlantingCalendar.Models;
 using PlantingCalendar.Pages;
 //using System.Web.Http;
 
+[ApiController]
+[Route("api/calendar")]
 public class CalendarController : ControllerBase
 {
     private readonly ICalendarDataAccess _dataAccess;

@@ -21,12 +21,6 @@ namespace PlantingCalendar.Pages
         public async void OnGet()
         {
             await GetDropDownCalendars();
-            await GetSeeds();
-        }
-
-        public async Task GetSeeds()
-        {
-            Seeds = await SeedDataAccess.GetAllSeeds();           
         }
     }
 }

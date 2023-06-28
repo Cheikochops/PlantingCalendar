@@ -29,5 +29,6 @@ namespace PlantingCalendar.Models.Sql
         public string? TaskDisplayColour { get; set; }
 
         public string? TaskDisplayChar { get; set; }
+    
     }
 }

@@ -6,30 +6,46 @@
 }
 
 <script src="~/js/seeds.js" asp-append-version="true"></script>
+<script src="~/js/seed-information.component.js" asp-append-version="true"></script>
 
-<div class="flex-column">
-    <div>
-        <input placeholder="Search..." id="searchBar" oninput="debounceLoadSeedList(this.value)" />
-        <button onclick="loadPopup('popupBackground', 'seedInfoPopup' , null)">New Seed</button>
-    </div>
-    <div class="flex">
-        <table class="width12">
-            <tr>
-                <th onclick="orderBy(1)" class="width3">Plant Type</th>
-                <th onclick="orderBy(2)" class="width3">Breed</th>
-                <th onclick="orderBy(3)" class="width2">Sun Requirement</th>
-                <th onclick="orderBy(4)" class="width3">Water Requirement</th>
-                <th class="width1">Expired?</th>
-            </tr>
-            <tbody id="plantList">
-            </tbody>
-        </table>
-    </div>
-</div>
+<div ng-app="seedApp" ng-controller="seeds">
+    <div class="flex space-evenly mainbox">
+        <div id="seedList" class="flex-column col-8">
+            <div>
+                <input placeholder="Search..." id="searchBar" ng-model="filter" />
+                <button onclick="loadPopup('popupBackground', 'seedInfoPopup' , null)">New Seed</button>
+            </div>
+            <div class="flex">
+                <table class="col-12">
+                    <tr>
+                        <th ng-click="orderBy('plantType')" class="col-3">Plant Type</th>
+                        <th ng-click="orderBy('breed')" class="col-3">Breed</th>
+                        <th ng-click="orderBy('sunRequirement')" class="col-2">Sun Requirement</th>
+                        <th ng-click="orderBy('waterRequirement')" class="col-2">Water Requirement</th>
+                        <th class="width1">Expired?</th>
+                    </tr>
+                    <tbody id="plantList">
+                        <tr ng-hide="seedList.length > 0">
+                            <td></td>
+                            <td></td>
+                            <td>No Seeds Found...</td>
+                            <td></td>
+                            <td></td>
+                        </tr>
+                        <tr ng-hide="seedList.length == 0" ng-repeat="seed in seedList | orderBy:order | filter:filter" ng-click="setInformationDisplay(seed.id)">
+                            <td class="width3">{{seed.plantType}}</td>
+                            <td class="width3">{{seed.breed}}</td>
+                            <td class="width2">{{seed.sunRequirement}}</td>
+                            <td class="width3">{{seed.waterRequirement}}</td>
+                            <td class="width1">{{seed.isExpired}} </td>
 
-<div id="popupBackground" class="popupBackground">
-    <div id="seedInfoPopup" class="popupBox">
-        <div id="seedInfo">
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+        <div id="seedInformationDisplay" class="col-4 informationPopup">
+            <seed-info seed-id="displaySeedId"></seed-info>
         </div>
     </div>
 </div>

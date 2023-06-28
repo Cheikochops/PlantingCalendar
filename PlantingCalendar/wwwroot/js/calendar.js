@@ -2,9 +2,7 @@
 const urlParams = new URLSearchParams(queryString);
 const calendarId = urlParams.get('calendarId')
 
-
-var app = angular.module('calendarApp', []);
-app.controller('calendar', function ($scope, $http) {
+angular.module('calendarApp').controller('calendar', function ($scope, $http) {
     calendarUrl = "calendar/calendar"
 
     if (calendarId != null) {

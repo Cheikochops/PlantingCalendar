@@ -1,9 +1,6 @@
-﻿function calendarDropdown(calendarId) {
+﻿angular.module('calendarApp', []);
 
-    if (calendarId == "new") {
-        window.locaation.href = "/NewCalendar"
-    }
-    else {
-        window.location.href = "/Calendar?calendarId=" + calendarId;
-    }
+function calendarDropdown(calendarId) {
+
+    window.location.href = "/Calendar?calendarId=" + calendarId;
 }
