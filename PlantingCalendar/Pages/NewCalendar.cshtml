@@ -4,31 +4,91 @@
     ViewData["Title"] = "New Calendar";
 }
 
-<div>
+<script src="~/js/new-calendar.js" asp-append-version="true"></script>
+
+<div ng-app="newCalendarApp" ng-controller="calendar">
     <div class="flex mainbox">
         <div id="seedDisplay" class="col-6">
-            Seed Display Section
+            <div class="text-center">
+                All Seeds
+            </div>
+            <div>
+                <input placeholder="Search..." id="searchBar" ng-model="fullListfilter" />
+            </div>
+            <div class="flex">
+                <table class="col-12">
+                    <tr>
+                        <th class="col-6">Plant Type</th>
+                        <th Class="col-6">Breed</th>
+                        <th class="col-1"></th>
+                    </tr>
+                    <tbody id="plantList">
+                        <tr ng-hide="allSeedList.length > 0">
+                            <td></td>
+                            <td>No Seeds!.</td>
+                            <td></td>
+                        </tr>
+                        <tr ng-hide="allSeedList.length == 0" ng-repeat="seed in allSeedList | orderBy:'plantType' | filter:fullListfilter">
+                            <td>{{seed.plantType}}</td>
+                            <td>{{seed.breed}}</td>
+                            <td ng-click="addSeed(seed)"> ADD </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
         </div>
         <div id="calendarSetup" class="col-6">
-            Calendar Creation Section
+            <div class="text-center">
+                Your Calendar
+            </div>
 
             <div class="flex">
-                <div class="col-2">
-                    Calendar Name
-                </div>
-                <div>
-                    <input type="text" />
+                <div class="col-6">
+                    <div class="col-2">
+                        Calendar Name
+                    </div>
+                    <div>
+                        <input type="text" ng-model="calendarName" />
+                    </div>
                 </div>
             </div>
             <div class="flex">
-                <div class="col-2">
-                    Year
-                </div>
-                <div>
-                    <input type="number" min="2000" max="2500"/>
+                <div class="col-6">
+                    <div class="col-2">
+                        Year
+                    </div>
+                    <div>
+                        <input type="number" min="2000" max="2500" ng-model="calendarYear" />
+                    </div>
+                    <div>
+                        <button ng-click="createCalendar()">Create Calendar!</button>
+                    </div>
                 </div>
             </div>
             <div id="calendarSeedList">
+                <div id="calendarSeedDisplay" class="col-6">
+                    <div class="flex">
+                        <table class="col-12">
+                            <tr>
+                                <th class="col-6">Plant Type</th>
+                                <th Class="col-6">Breed</th>
+                                <th class="col-1"></th>
+                            </tr>
+                            <tbody id="plantList">
+                                <tr ng-hide="selectedSeedList.length > 0">
+                                    <td></td>
+                                    <td>No Seeds!</td>
+                                    <td></td>
+                                </tr>
+                                <tr ng-hide="selectedSeedList.length == 0" ng-repeat="seed in selectedSeedList | orderBy:'plantType'">
+                                    <td>{{seed.plantType}}</td>
+                                    <td>{{seed.breed}}</td>
+                                    <td ng-click="removeSeed(seed)"> REMOVE </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
             </div>
         </div>
     </div>

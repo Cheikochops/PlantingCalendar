@@ -34,11 +34,9 @@ BEGIN
 		)
 		Select
 				@CalendarId,
-				o.Id
+				o.[Value]
 			From
-				OPENJSON(@SeedDetailsJson) With (
-					SeedId bigint
-				) as o
+				OPENJSON(@SeedDetailsJson) o
 
 	Declare @CalendarSeedTaskType table
 	(
@@ -56,13 +54,16 @@ BEGIN
 					ActionName = sa.Name,
 					ActionDescription = null, --SORT THIS OUT
 					FK_RepeatableTypeId = null, --SORT THIS OUT
-					sa.StartDate,
-					sa.EndDate,
+					Parse(concat(@calendarYear, '-', right(sa.StartDate, 2), '-', left(sa.StartDate, 2)) as date),
+					Parse(concat(@calendarYear, '-', right(sa.EndDate, 2), '-', left(sa.EndDate, 2)) as date),
 					sa.DisplayChar,
 					sa.DisplayColour
 				From
 					plantbase.CalendarSeed cs
 					join plantbase.SeedAction sa on cs.FK_SeedId = sa.FK_SeedId	
+				Where
+					coalesce(sa.StartDate, '') != ''
+					and coalesce(sa.EndDate, '') != ''
 		) as source (SeedId, ActionId, ActionName, ActionDescription, FK_RepeatableTypeId, StartDate, EndDate, DisplayChar, DisplayColour) on 1 = 2
 		When Not Matched Then
 			Insert
@@ -108,5 +109,8 @@ BEGIN
 					@CalendarSeedTaskType c
 					join plantbase.SeedAction sa on sa.Id = c.ActionId
 					join plantbase.CalendarSeed cs on cs.FK_SeedId = c.SeedId and cs.FK_CalendarId = @CalendarId
+
+
+		select @CalendarId
 
 END

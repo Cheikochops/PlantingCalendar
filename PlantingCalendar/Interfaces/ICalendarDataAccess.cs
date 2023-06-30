@@ -1,4 +1,5 @@
 using PlantingCalendar.Models;
+using PlantingCalendar.Models.Sql;
 
 namespace PlantingCalendar.Interfaces
 {
@@ -6,8 +7,8 @@ namespace PlantingCalendar.Interfaces
     {
         Task<List<CalendarItemBasicModel>> GetBasicCalendars();
 
-        Task<CalendarDetailsModel> GetCalendar(long id);
+        Task<SqlCalendarDetailsModel> GetCalendar(long id);
 
-        Task GenerateNewCalendar(string calendarName, int calendarYear, string seedListJson);
+        Task<long> GenerateNewCalendar(string calendarName, int calendarYear, string seedListJson);
     }
 }

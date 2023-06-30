@@ -24,8 +24,7 @@ declare @SeedTable table (
 						SunRequirement varchar(100),
 						WaterRequirement varchar(100),
 						Description varchar(1000),
-						ExpiryDate DateTime,
-						Actions nvarchar(max)
+						ExpiryDate DateTime
 					)
 				) as source
 			on target.Id = source.Id
@@ -56,7 +55,7 @@ declare @SeedTable table (
 					From
 						OPENJSON(@SeedDetailsJson)
 					With (
-						Actions nvarchar(max)
+						Actions nvarchar(max) as JSON 
 						) as s
 					outer apply (
 						Select
@@ -64,26 +63,27 @@ declare @SeedTable table (
 							From
 								OPENJSON(s.Actions)
 							with (
-							    ActionType varchar(100),
+								ActionName varchar(100),
 							    ActionId bigint,
+								ActionType int,
 								DisplayChar char,
 								DisplayColour varchar(10),
-								StartDate DateTime,
-								EndDate DateTime
+								StartDate varchar(4),
+								EndDate varchar(4)
 							)
 					) as a
 				) as source
 			on target.Id = source.ActionId
 		When Not matched by target then
-			Insert (FK_SeedId, Name, DisplayChar, DisplayColour, StartDate, EndDate)
-			Values (@seedId, source.ActionType, source.DisplayChar, source.DisplayColour, source.StartDate, source.EndDate)
+			Insert (Name, FK_SeedId, Enum_ActionTypeId, DisplayChar, DisplayColour, StartDate, EndDate)
+			Values (source.ActionName, @seedId, source.ActionType, source.DisplayChar, source.DisplayColour, source.StartDate, source.EndDate)
 		When matched then 
 			Update Set
-				target.Name = source.ActionType,
+				target.Name = source.ActionName,
 				target.DisplayChar = source.DisplayChar,
 				target.DisplayColour = source.DisplayColour,
 				target.StartDate = source.StartDate,
 				target.EndDate = source.EndDate;
-
+		
 End
 GO

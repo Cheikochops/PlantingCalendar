@@ -4,7 +4,8 @@ angular.module('seedApp')
         templateUrl: 'templates/seed-information.component.html',
         controller: SeedInfoController,
         bindings: {
-            seedId: '<'
+            seedId: '<',
+            refresh: '&'
         }
     });
 
@@ -12,22 +13,31 @@ function SeedInfoController($http) {
 
     var ctrl = this;
 
+    console.log(ctrl);
+
+    ctrl.hasData = false;
+
     ctrl.$onChanges = function (changes) {
         if (ctrl.seedId != null) {
             ctrl.getSeedDetails(ctrl.seedId);
+            ctrl.hasData = true;
         }
         else {
             ctrl.seedData = {
                 sowAction: {
                     actionName: "Sow",
-                    displayChar: "S"
+                    displayChar: "S",
+                    actionId: null,
+                    
                 },
                 harvestAction: {
                     actionName: "Harvest",
-                    displayChar: "H"
+                    displayChar: "H",
+                    actionId: null
                 },
                 actions: []
             }
+            ctrl.hasData = false;
         }
     }
 
@@ -40,16 +50,48 @@ function SeedInfoController($http) {
     }
 
     ctrl.removeRow = function (index) {
-        console.log(index)
         ctrl.seedData.actions.splice(index, 1);
     }
 
-    ctrl.saveSeed = function() {
+    ctrl.saveSeed = function () {
+        var url = "api/seeds"
 
+        var data = {
+            description: ctrl.seedData.description ?? "",
+            expiryDate: ctrl.seedData.expiryDate ?? null,
+            actions: ctrl.seedData.actions,
+            sowAction: ctrl.seedData.sowAction,
+            harvestAction: ctrl.seedData.harvestAction,
+            id: ctrl.seedId,
+            plantType: ctrl.seedData.plantType ?? "",
+            breed: ctrl.seedData.breed ?? "",
+            sunRequirement: ctrl.seedData.sunRequirement ?? "",
+            waterRequirement: ctrl.seedData.waterRequirement ?? ""
+        }
+
+        $http({
+            url: url,
+            data: data,
+            method: "POST",
+            headers: { 'Content-Type': 'application/json' },
+        }).then(function mySuccess(response) {
+            ctrl.refresh();
+        }, function myError(response) {
+            
+        });
     }
 
     ctrl.deleteSeed = function () {
+        var url = "api/seeds?seedId=" + ctrl.seedId;
 
+        $http({
+            url: url,
+            method: "DELETE"
+        }).then(function mySuccess(response) {
+            ctrl.refresh();
+        }, function myError(response) {
+
+        });
     }
 
     ctrl.photoUploaded = function () {

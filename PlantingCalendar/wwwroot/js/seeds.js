@@ -28,5 +28,11 @@
         }
     }
 
+    $scope.refresh = function () {
+        console.log("refresh");
+        $scope.loadSeedList();
+        $scope.displaySeedId = null;
+    }
+
     $scope.loadSeedList();
 });

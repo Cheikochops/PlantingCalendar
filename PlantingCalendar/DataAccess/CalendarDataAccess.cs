@@ -2,17 +2,16 @@ using Microsoft.Extensions.Options;
 using PlantingCalendar.Interfaces;
 using PlantingCalendar.Models;
 using PlantingCalendar.Models.Sql;
+using System.Globalization;
 using System.Threading.Tasks;
 
 namespace PlantingCalendar.DataAccess
 {
     public class CalendarDataAccess : AbstractDataAccess, ICalendarDataAccess
     {
-        private ICalendarHelper _calendarHelper;
 
-        public CalendarDataAccess(IOptions<DataAccessSettings> dataAccessSettings, ICalendarHelper calendarHelper) : base(dataAccessSettings)
+        public CalendarDataAccess(IOptions<DataAccessSettings> dataAccessSettings) : base(dataAccessSettings)
         {
-            _calendarHelper = calendarHelper;
         }
 
         public async Task<List<CalendarItemBasicModel>> GetBasicCalendars()
@@ -34,18 +33,18 @@ namespace PlantingCalendar.DataAccess
             }
         }
 
-        public async Task<CalendarDetailsModel> GetCalendar(long id)
+        public async Task<SqlCalendarDetailsModel> GetCalendar(long id)
         {
             try
             {
                 var calendars = await ExecuteSql<SqlCalendarDetailsModel>($"Exec plantbase.Calendar_Read {id}");
 
-                if (calendars == null)
+                if (calendars == null || !calendars.Any())
                 {
-                    return new CalendarDetailsModel();
+                    return new SqlCalendarDetailsModel();
                 }
 
-                return _calendarHelper.FormatCalendar(calendars);
+                return calendars.First();
             }
             catch (Exception ex)
             {
@@ -53,11 +52,18 @@ namespace PlantingCalendar.DataAccess
             }
         }
 
-        public async Task GenerateNewCalendar(string calendarName, int calendarYear, string seedListJson)
+        public async Task<long> GenerateNewCalendar(string calendarName, int calendarYear, string seedListJson)
         {
             try
             {
-                await ExecuteSql($"Exec plantbase.NewCalendar_Create '{calendarName}', {calendarYear}, '{seedListJson}'");
+                var calendarId = await ExecuteSql<long>($"Exec plantbase.NewCalendar_Create '{calendarName}', {calendarYear}, '{seedListJson}'");
+
+                if (calendarId == null || !calendarId.Any())
+                {
+                    throw new Exception("Unable to get CalendarId");
+                }
+
+                return calendarId.First();
             }
             catch (Exception ex)
             {

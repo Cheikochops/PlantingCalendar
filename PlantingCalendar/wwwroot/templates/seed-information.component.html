@@ -1,10 +1,10 @@
 ﻿<div class="flex-column space-evenly">
 
     <div class="text-center flex col-12">
-        <div ng-hide="$ctrl.seedData != null" class="col-5">
+        <div ng-hide="$ctrl.hasData" class="col-5">
             Upload New Seed
         </div>
-        <div ng-hide="$ctrl.seedData == null" class="col-5">
+        <div ng-hide="!$ctrl.hasData" class="col-5">
             Edit Existing Seed
         </div>
         <div class="flex">
@@ -12,7 +12,7 @@
                 <button ng-click="$ctrl.saveSeed()">Save</button>
             </div>
             <div>
-                <button ng-click="$ctrl.DeleteSeed()" ng-disabled="$ctrl.seedData == null">Delete</button>
+                <button ng-click="$ctrl.deleteSeed()" ng-disabled="!$ctrl.hasData">Delete</button>
             </div>
         </div>
     </div>
@@ -79,7 +79,7 @@
                 Expiry Date
             </div>
             <div class="width8">
-                <input class="width12" name="expiryDate" ng-model="$ctrl.seedData.expiryDate" type="text" />
+                <input class="width12" placeholder="YYYY/MM/DD" name="expiryDate" ng-model="$ctrl.seedData.expiryDate" type="text" />
             </div>
         </div>
     </div>

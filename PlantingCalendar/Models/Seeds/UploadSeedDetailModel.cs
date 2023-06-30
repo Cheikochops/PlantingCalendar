@@ -1,27 +1,31 @@
 namespace PlantingCalendar.Models
 {
-    public class SeedDetailModel : SeedItemModel
+    public class UploadSeedDetailModel 
     {
+        public long? Id { get; set; }
+
+        public string PlantType { get; set; }
+
+        public string Breed { get; set; }
+
+        public string SunRequirement { get; set; }
+
+        public string WaterRequirement { get; set; }
+
         public string Description { get; set; }
 
         public string ExpiryDate { get; set; }
 
-        public List<SeedAction> Actions { get; set; } = new List<SeedAction>();
+        public List<UploadSeedAction> Actions { get; set; } = new List<UploadSeedAction>();
 
         public SeedAction SowAction { get; set; }
 
         public SeedAction HarvestAction { get; set; }
-
-        public string FrontImageUrl { get; set; }
-
-        public string BackImageUrl { get; set; }
     }
 
-    public class SeedAction
+    public class UploadSeedAction
     {
         public string ActionName { get; set; }
-
-        public ActionType ActionType { get; set; }
 
         public long? ActionId {  get; set; }
 

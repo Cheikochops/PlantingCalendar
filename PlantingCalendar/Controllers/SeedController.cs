@@ -1,7 +1,9 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using Newtonsoft.Json;
 using PlantingCalendar.Interfaces;
 using PlantingCalendar.Models;
 using PlantingCalendar.Pages;
+using System.Text.Json;
 
 namespace PlantingCalendar.Controllers;
 
@@ -17,13 +19,9 @@ public class SeedController : ControllerBase
     }
 
     [HttpGet("")]
-    public async Task<ActionResult> SeedInfo(long? seedId)
+    public async Task<ActionResult> SeedInfo(long seedId)
     {
-        var seedModel = new SeedDetailModel();
-        if (seedId != null)
-        {
-            seedModel = await SeedHelper.GetFormatedSeedItem(seedId.Value);
-        }
+        var seedModel = await SeedHelper.GetFormatedSeedItem(seedId);
 
         return Ok(seedModel);
     }
@@ -36,11 +34,13 @@ public class SeedController : ControllerBase
         return Ok(seeds);
     }
 
-    [HttpPost]
-    public async Task<ActionResult> SeedInfo(SeedDetailModel seed)
+    [HttpPost("")]
+    public async Task<ActionResult> SeedInfo([FromBody] object seedItem)
     {
         try
         {
+            var seed = JsonConvert.DeserializeObject<UploadSeedDetailModel>(seedItem.ToString());
+
             await SeedHelper.SaveSeedInfo(seed);
 
             return Ok();
@@ -51,8 +51,8 @@ public class SeedController : ControllerBase
         }
     }
 
-    [HttpDelete]
-    public async Task<ActionResult> SeedInfo(long seedId)
+    [HttpDelete("")]
+    public async Task<ActionResult> DeleteSeedInfo(long seedId)
     {
         try
         {

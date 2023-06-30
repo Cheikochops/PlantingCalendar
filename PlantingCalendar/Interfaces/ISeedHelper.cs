@@ -9,7 +9,7 @@ namespace PlantingCalendar.Interfaces
 
         Task<IEnumerable<SeedItemModel>> GetSeedList();
 
-        Task SaveSeedInfo(SeedDetailModel seed);
+        Task SaveSeedInfo(UploadSeedDetailModel seed);
 
         Task DeleteSeed(long seedId);
     }

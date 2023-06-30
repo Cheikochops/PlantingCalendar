@@ -17,18 +17,7 @@ namespace PlantingCalendar.Pages
 
         public async void OnGet()
         {
-            var calendarId = HttpUtility.UrlDecode(Request.Query["calendarId"].FirstOrDefault()) ?? null;
-
             await GetDropDownCalendars();
-
-            if (calendarId != null)
-            {
-                CurrentCalendar = await CalendarDataAccess.GetCalendar(long.Parse(calendarId));
-            }
-            else
-            {
-                
-            }
         }
     }
 }

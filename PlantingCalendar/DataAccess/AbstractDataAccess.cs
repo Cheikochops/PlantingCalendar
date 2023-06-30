@@ -18,7 +18,7 @@ namespace PlantingCalendar.DataAccess
             _dataAccessSettings = dataAccessSettings.Value;
         }
 
-        internal async Task<List<T>> ExecuteSql<T>(string sql) where T : class
+        internal async Task<List<T>> ExecuteSql<T>(string sql)
         {
             var sqlConnection = new SqlConnection(_dataAccessSettings.Plantbase);
 

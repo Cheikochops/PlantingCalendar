@@ -25,4 +25,12 @@ public class CalendarController : ControllerBase
         return Ok(calendar);
     }
 
+    [HttpPost]
+    public async Task<ActionResult> Calendar([FromBody]GenerateCalendarModel calendar)
+    {
+        var calendarId = await _calendarHelper.GenerateCalendar(calendar);
+
+        return Ok(calendar);
+    }
+
 }

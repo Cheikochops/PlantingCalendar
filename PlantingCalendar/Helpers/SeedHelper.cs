@@ -32,7 +32,7 @@ namespace PlantingCalendar.DataAccess
                 Breed = first.Breed,
                 PlantType = first.PlantType,
                 Description = first.Description,
-                ExpiryDate = first.ExpiryDate?.ToString("yyyy-MM-dd"),
+                ExpiryDate = first.ExpiryDate?.ToString("yyyy/MM/dd"),
                 SunRequirement = first.SunRequirement,
                 WaterRequirement = first.WaterRequirement,
                 FrontImageUrl = first.FrontImageUrl,
@@ -127,11 +127,59 @@ namespace PlantingCalendar.DataAccess
             return seeds;
         }
 
-        public async Task SaveSeedInfo(SeedDetailModel seed)
+        public async Task SaveSeedInfo(UploadSeedDetailModel seed)
         {
             //need to convert to json correctly for sql to process it
-            //need to update start and end date to not be year based
-            await SeedDataAccess.SaveSeed(JsonConvert.SerializeObject(seed));
+
+            if (!DateTime.TryParseExact(seed.ExpiryDate, "yyyy/MM/dd", null, System.Globalization.DateTimeStyles.AssumeUniversal, out DateTime date)) {
+                throw new Exception("Invalid ExpiryDate format");
+            }
+
+            var saveModel = new SqlSaveSeedModel
+            {
+                Id = seed.Id,
+                PlantType = seed.PlantType,
+                Breed = seed.Breed,
+                SunRequirement = seed.SunRequirement,
+                WaterRequirement = seed.WaterRequirement,
+                Description = seed.Description,
+                ExpiryDate = seed.ExpiryDate,
+                Actions = seed.Actions.Select(x => new SqlSaveSeedAction
+                {
+                    ActionId = x.ActionId,
+                    ActionName = x.ActionName,
+                    ActionType = ActionType.Custom,
+                    DisplayChar = x.DisplayChar,
+                    DisplayColour = x.DisplayColour.TrimStart('#'),
+                    StartDate = x.StartDateDay + x.StartDateMonth,
+                    EndDate = x.EndDateDay + x.EndDateMonth
+                }).ToList()
+            };
+
+            saveModel.Actions.Add(new SqlSaveSeedAction
+            {
+                ActionId = seed.SowAction.ActionId,
+                ActionName = seed.SowAction.ActionName,
+                ActionType = ActionType.Sow,
+                DisplayChar = seed.SowAction.DisplayChar,
+                DisplayColour = seed.SowAction.DisplayColour.TrimStart('#'),
+                StartDate = seed.SowAction.StartDateDay + seed.SowAction.StartDateMonth,
+                EndDate = seed.SowAction.EndDateDay + seed.SowAction.EndDateMonth
+            });
+
+            saveModel.Actions.Add(new SqlSaveSeedAction
+            {
+                ActionId = seed.HarvestAction.ActionId,
+                ActionName = seed.HarvestAction.ActionName,
+                ActionType = ActionType.Harvest,
+                DisplayChar = seed.HarvestAction.DisplayChar,
+                DisplayColour = seed.HarvestAction.DisplayColour.TrimStart('#'),
+                StartDate = seed.HarvestAction.StartDateDay + seed.HarvestAction.StartDateMonth,
+                EndDate = seed.HarvestAction.EndDateDay + seed.HarvestAction.EndDateMonth
+            });
+
+
+            await SeedDataAccess.SaveSeed(JsonConvert.SerializeObject(saveModel));
         }
 
         public async Task DeleteSeed(long seedId)

@@ -1,4 +1,5 @@
 using Microsoft.Extensions.Options;
+using Newtonsoft.Json;
 using PlantingCalendar.Interfaces;
 using PlantingCalendar.Models;
 using PlantingCalendar.Models.Sql;
@@ -9,8 +10,10 @@ namespace PlantingCalendar.DataAccess
 {
     public class CalendarHelper : ICalendarHelper
     {
-        public CalendarHelper()
+        private ICalendarDataAccess _calendarDataAccess;
+        public CalendarHelper(ICalendarDataAccess calendarDataAccess)
         {
+            _calendarDataAccess = calendarDataAccess;
         }
 
         public CalendarDetailsModel FormatCalendar(List<SqlCalendarDetailsModel> calendarDetails)
@@ -100,6 +103,13 @@ namespace PlantingCalendar.DataAccess
                     DayName = dayName.DayOfWeek.ToString(),
                     Day = dayName.Day 
                 }).ToList();
+        }
+
+        public async Task<long> GenerateCalendar(GenerateCalendarModel model)
+        {
+            var calendarId = await _calendarDataAccess.GenerateNewCalendar(model.CalendarName, model.CalendarYear, JsonConvert.SerializeObject(model.Seeds));
+
+            return calendarId;
         }
 
     }
