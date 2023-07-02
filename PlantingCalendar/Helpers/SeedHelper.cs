@@ -15,9 +15,9 @@ namespace PlantingCalendar.DataAccess
             SeedDataAccess = seedDataAccess;
         }
 
-        public async Task<SeedDetailModel> GetFormatedSeedItem(long seedId)
+        public async Task<SeedDetailModel> GetFormatedSeedItem(long seedId, bool includeDeleted)
         {
-            var seedDetails = await SeedDataAccess.GetSeedDetails(seedId).ConfigureAwait(false);
+            var seedDetails = await SeedDataAccess.GetSeedDetails(seedId, includeDeleted).ConfigureAwait(false);
 
             var first = seedDetails.FirstOrDefault();
 

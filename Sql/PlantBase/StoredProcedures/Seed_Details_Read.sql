@@ -1,6 +1,7 @@
 Create or Alter Procedure [plantbase].Seed_Details_Read
 (
-	@Id bigint
+	@Id bigint,
+	@IncludeDeleted bit
 )
 As
 Begin
@@ -24,7 +25,7 @@ Begin
 			plantbase.SeedView c
 		Where
 			c.Id = @Id
-			and IsDeleted = 0
+			and ((@IncludeDeleted = 0 and IsDeleted = 0) or @IncludeDeleted = 1)
 
 End
 GO

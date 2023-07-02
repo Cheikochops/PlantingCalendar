@@ -5,13 +5,16 @@
 }
 
 <script src="~/js/calendar.js" asp-append-version="true"></script>
+<script src="~/js/seed-information.component.js" asp-append-version="true"></script>
+<script src="~/js/day-details.component.js" asp-append-version="true"></script>
 
-<div class="text-center">
-    <h1 class="display-4">@Model.CurrentCalendar.CalendarName: @Model.CurrentCalendar.Year</h1>
-</div>
-
-<div ng-app="calendarApp" class="mainbox">
+<div ng-app="seedApp" class="mainbox">
     <div ng-controller="calendar">
+
+        <div class="text-center">
+            <h1 class="display-4">{{calendar.calendarName}} - {{calendar.year}}</h1>
+        </div>
+
         <div ng-show="!showSingleMonth">
             <table class="non-scroll-table">
                 <tr>
@@ -31,7 +34,7 @@
         <div ng-show="showSingleMonth">
             <div class="text-center">{{chosenMonth.monthName}}</div>
             <div ng-click="showCalendar()" class="text-center">Back</div>
-
+             
             <div class="scroll-table-div">
                 <table class="scroll-table">
                     <tr>
@@ -46,7 +49,7 @@
                         </th>
                     </tr>
                     <tr ng-repeat="seed in seedsByMonth">
-                        <td ng-click="loadSeedInfoPopup('popupBackground', 'seedInfoPopup', seed.plantId)">{{seed.plantTypeName}} - {{seed.plantBreed}}</td>
+                        <td ng-click="loadSeedInfoPopup('popupBackground', 'seedInfoPopup', seed.id)">{{seed.plantTypeName}} - {{seed.plantBreed}}</td>
 
                         <td ng-repeat="day in seed.dayTasks" class="td" ng-click="loadDayPopup('dayPopupBackground', 'dayPopup', seed.plantId, day.day)">
                             <div ng-repeat="task in day.tasks" class="task">
@@ -63,6 +66,7 @@
         <div id="popupBackground" class="popupBackground">
             <div id="seedInfoPopup" class="popupBox">
                 <div id="seedInfo">
+                    <seed-info seed-id="displaySeedId" refresh="refresh()" read-only="true"></seed-info>
                 </div>
             </div>
         </div>
@@ -70,10 +74,17 @@
         <div id="dayPopupBackground" class="popupBackground">
             <div id="dayPopup" class="popupBox">
                 <div id="dayInfo">
-                    {{popupCurrentDay}}
+                    <day-details seed-info="popupCurrentDay"></day-details>
                 </div>
             </div>
         </div>
 
+        <div id="taskPopupBackground" class="popupBackground">
+            <div id="taskPopup" class="popupBox">
+                <div id="taskInfo">
+
+                </div>
+            </div>
+        </div>
     </div>
 </div>

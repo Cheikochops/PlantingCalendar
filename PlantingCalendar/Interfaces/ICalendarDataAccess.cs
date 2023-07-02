@@ -7,7 +7,7 @@ namespace PlantingCalendar.Interfaces
     {
         Task<List<CalendarItemBasicModel>> GetBasicCalendars();
 
-        Task<SqlCalendarDetailsModel> GetCalendar(long id);
+        Task<List<SqlCalendarDetailsModel>> GetCalendar(long id);
 
         Task<long> GenerateNewCalendar(string calendarName, int calendarYear, string seedListJson);
     }

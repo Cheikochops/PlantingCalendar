@@ -38,7 +38,7 @@ namespace PlantingCalendar.DataAccess
                             .Where(y => y.SeedId == seed.Id)
                             .Where(y => (y.SetTaskDate != null && y.SetTaskDate.Value.Month == month.Order)
                             || (
-                                y.RangeTaskStartDate != null && y.RangeTaskEndDate != null &&
+                                y.SetTaskDate == null && y.RangeTaskStartDate != null && y.RangeTaskEndDate != null &&
                                 month.Order <= y.RangeTaskEndDate.Value.Month &&
                                 month.Order >= y.RangeTaskStartDate.Value.Month))
                             .Select(y => new CalendarTask

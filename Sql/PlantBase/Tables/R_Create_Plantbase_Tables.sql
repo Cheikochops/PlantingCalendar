@@ -94,7 +94,6 @@ BEGIN
 	(
 		Id bigint IDENTITY(1,1),  
 		Name varchar(50) not null,
-		Description varchar(1000) null,
 		FK_RepeatableTypeId bigint null,
 		StartDate datetime null,
 		EndDate datetime null,

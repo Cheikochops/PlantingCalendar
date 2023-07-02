@@ -38,6 +38,8 @@
             method: "POST",
             headers: { 'Content-Type': 'application/json' },
         }).then(function mySuccess(response) {
+            window.location.href = "calendar?calendarId=" + response.data
+
 
         }, function myError(response) {
 

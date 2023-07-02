@@ -1,6 +1,6 @@
 ﻿<div class="flex-column space-evenly">
 
-    <div class="text-center flex col-12">
+    <div class="text-center flex col-12" ng-hide="$ctrl.readOnly">
         <div ng-hide="$ctrl.hasData" class="col-5">
             Upload New Seed
         </div>
@@ -18,20 +18,20 @@
     </div>
 
     <div class="width12 flex-column mb-4">
-        <div class="flex mb-4">
-            <div class="flex-column col-6 text-center ">
+        <div class="flex mb-4" ng-hide="!$ctrl.hasData">
+            <div class="flex-column col-6 text-center" ng-hide="$ctrl.readOnly && $ctrl.seedData.frontPhotoUrl == null" >
                 <div>
                     Front of Packet
                 </div>
                 <img ng-hide="$ctrl.seedData.frontPhotoUrl == null" class="m-auto" />
-                <input type="file" id="img" name="img" accept="image/*" class="m-auto" ng-change="$ctrl.photoUploaded()" ng-model="$ctrl.frontPhoto">
+                <input type="file" id="img" name="img" accept="image/*" class="m-auto" ng-hide="$ctrl.readOnly" ng-change="$ctrl.photoUploaded()" ng-model="$ctrl.frontPhoto">
             </div>
-            <div class="flex-column col-6 text-center">
+            <div class="flex-column col-6 text-center" ng-hide="$ctrl.readOnly && $ctrl.seedData.backPhotoUrl == null" >
                 <div>
                     Back of Packet
                 </div>
                 <img ng-hide="$ctrl.seedData.backPhotoUrl == null" class="m-auto" />
-                <input type="file" id="img" name="img" accept="image/*" class="m-auto" ng-change="$ctrl.photoUploaded()" ng-model="$ctrl.backPhoto">
+                <input type="file" id="img" name="img" accept="image/*" class="m-auto" ng-hide="$ctrl.readOnly" ng-change="$ctrl.photoUploaded()" ng-model="$ctrl.backPhoto">
             </div>
         </div>
         <div class="flex">
@@ -39,7 +39,7 @@
                 PlantType
             </div>
             <div class="width8">
-                <input class="width12" name="plantType" ng-model="$ctrl.seedData.plantType" type="text" />
+                <input class="width12" name="plantType" ng-model="$ctrl.seedData.plantType" ng-readonly="$ctrl.readOnly" type="text" />
             </div>
         </div>
         <div class="flex">
@@ -47,7 +47,7 @@
                 Variety / Breed
             </div>
             <div class="width8">
-                <input class="width12" name="breed" ng-model="$ctrl.seedData.breed" />
+                <input class="width12" name="breed" ng-model="$ctrl.seedData.breed" ng-readonly="$ctrl.readOnly" />
             </div>
         </div>
         <div class="flex">
@@ -55,7 +55,7 @@
                 Description
             </div>
             <div class="width8">
-                <textarea class="width12" name="description" ng-model="$ctrl.seedData.description"></textarea>
+                <textarea class="width12" name="description" ng-model="$ctrl.seedData.description" ng-readonly="$ctrl.readOnly"></textarea>
             </div>
         </div>
         <div class="flex">
@@ -63,7 +63,7 @@
                 Sun Requirements
             </div>
             <div class="width8">
-                <input class="width12" name="sunRequirement" ng-model="$ctrl.seedData.sunRequirement" />
+                <input class="width12" name="sunRequirement" ng-model="$ctrl.seedData.sunRequirement" ng-readonly="$ctrl.readOnly" />
             </div>
         </div>
         <div class="flex">
@@ -71,7 +71,7 @@
                 Water Requirements
             </div>
             <div class="width8">
-                <input class="width12" name="wateringRequirement" ng-model="$ctrl.seedData.waterRequirement" />
+                <input class="width12" name="wateringRequirement" ng-model="$ctrl.seedData.waterRequirement" ng-readonly="$ctrl.readOnly" />
             </div>
         </div>
         <div class="flex">
@@ -79,13 +79,13 @@
                 Expiry Date
             </div>
             <div class="width8">
-                <input class="width12" placeholder="YYYY/MM/DD" name="expiryDate" ng-model="$ctrl.seedData.expiryDate" type="text" />
+                <input class="width12" placeholder="YYYY/MM/DD" name="expiryDate" ng-model="$ctrl.seedData.expiryDate" type="text" ng-readonly="$ctrl.readOnly" />
             </div>
         </div>
     </div>
     <div class="width12">
         <div>
-            <button ng-click="$ctrl.addAction()">Add Action</button>
+            <button ng-click="$ctrl.addAction()" ng-hide="$ctrl.readOnly">Add Action</button>
 
             <table id="actionTable" class="mb-4">
                 <tr>
@@ -99,21 +99,21 @@
 
                 <tr class="actionItem">
                     <td class="width4">
-                        <input name="sowActionName" class="width12" ng-disabled="true" ng-model="$ctrl.seedData.sowAction.actionName">
+                        <input name="sowActionName" class="width12" ng-disabled="true" ng-model="$ctrl.seedData.sowAction.actionName" ng-readonly="$ctrl.readOnly">
                     </td>
                     <td class="width1">
-                        <input name="sowDisplayChar" type="text" maxlength="1" class="width12" ng-model="$ctrl.seedData.sowAction.displayChar">
+                        <input name="sowDisplayChar" type="text" maxlength="1" class="width12" ng-model="$ctrl.seedData.sowAction.displayChar" ng-readonly="$ctrl.readOnly">
                     </td>
                     <td class="width2">
-                        <input name="sowDisplayColour" type="color" class="width12" ng-model="$ctrl.seedData.sowAction.displayColour">
+                        <input name="sowDisplayColour" type="color" class="width12" ng-model="$ctrl.seedData.sowAction.displayColour" ng-disabled="$ctrl.readOnly">
                     </td>
                     <td class="width2">
-                        <input name="sowStartDateDay" type="text" maxlength="2" ng-minlength="2" ng-model="$ctrl.seedData.sowAction.startDateDay" placeholder="DD" class="col-5">
-                        <input name="sowStartDateMonth" type="text" maxlength="2" ng-minlength="2" ng-model="$ctrl.seedData.sowAction.startDateMonth" placeholder="MM" class="col-6">
+                        <input name="sowStartDateDay" type="text" maxlength="2" ng-minlength="2" ng-model="$ctrl.seedData.sowAction.startDateDay" placeholder="DD" class="col-5" ng-readonly="$ctrl.readOnly">
+                        <input name="sowStartDateMonth" type="text" maxlength="2" ng-minlength="2" ng-model="$ctrl.seedData.sowAction.startDateMonth" placeholder="MM" class="col-6" ng-readonly="$ctrl.readOnly">
                     </td>
                     <td class="width2">
-                        <input name="sowEndDateDay" type="text" maxlength="2" ng-minlength="2" ng-model="$ctrl.seedData.sowAction.endDateDay" placeholder="DD" class="col-5">
-                        <input name="sowEndDateMonth" type="text" maxlength="2" ng-minlength="2" ng-model="$ctrl.seedData.sowAction.endDateMonth" placeholder="MM" class="col-6">
+                        <input name="sowEndDateDay" type="text" maxlength="2" ng-minlength="2" ng-model="$ctrl.seedData.sowAction.endDateDay" placeholder="DD" class="col-5" ng-readonly="$ctrl.readOnly">
+                        <input name="sowEndDateMonth" type="text" maxlength="2" ng-minlength="2" ng-model="$ctrl.seedData.sowAction.endDateMonth" placeholder="MM" class="col-6" ng-readonly="$ctrl.readOnly">
                     </td>
                     <td>
                     </td>
@@ -121,21 +121,21 @@
 
                 <tr class="actionItem">
                     <td class="width4">
-                        <input name="harvestActionName" class="width12" ng-disabled="true" ng-model="$ctrl.seedData.harvestAction.actionName">
+                        <input name="harvestActionName" class="width12" ng-disabled="true" ng-model="$ctrl.seedData.harvestAction.actionName" ng-readonly="$ctrl.readOnly">
                     </td>
                     <td class="width1">
-                        <input name="harvestDisplayChar" type="text" maxlength="1" class="width12" ng-model="$ctrl.seedData.harvestAction.displayChar">
+                        <input name="harvestDisplayChar" type="text" maxlength="1" class="width12" ng-model="$ctrl.seedData.harvestAction.displayChar" ng-readonly="$ctrl.readOnly">
                     </td>
                     <td class="width2">
-                        <input name="harvestDisplayColour" type="color" class="width12" ng-model="$ctrl.seedData.harvestAction.displayColour">
+                        <input name="harvestDisplayColour" type="color" class="width12" ng-model="$ctrl.seedData.harvestAction.displayColour" ng-disabled="$ctrl.readOnly">
                     </td>
                     <td class="width2">
-                        <input name="harvestStartDateDay" type="text" maxlength="2" ng-minlength="2" ng-model="$ctrl.seedData.harvestAction.startDateDay" placeholder="DD" class="col-5">
-                        <input name="harvestStartDateMonth" type="text" maxlength="2" ng-minlength="2" ng-model="$ctrl.seedData.harvestAction.startDateMonth" placeholder="MM" class="col-6">
+                        <input name="harvestStartDateDay" type="text" maxlength="2" ng-minlength="2" ng-model="$ctrl.seedData.harvestAction.startDateDay" placeholder="DD" class="col-5" ng-readonly="$ctrl.readOnly">
+                        <input name="harvestStartDateMonth" type="text" maxlength="2" ng-minlength="2" ng-model="$ctrl.seedData.harvestAction.startDateMonth" placeholder="MM" class="col-6" ng-readonly="$ctrl.readOnly">
                     </td>
                     <td class="width2">
-                        <input name="harvestEndDateDay" type="text" maxlength="2" ng-minlength="2" ng-model="$ctrl.seedData.harvestAction.endDateDay" placeholder="DD" class="col-5">
-                        <input name="harvestEndDateMonth" type="text" maxlength="2" ng-minlength="2" ng-model="$ctrl.seedData.harvestAction.endDateMonth" placeholder="MM" class="col-6">
+                        <input name="harvestEndDateDay" type="text" maxlength="2" ng-minlength="2" ng-model="$ctrl.seedData.harvestAction.endDateDay" placeholder="DD" class="col-5" ng-readonly="$ctrl.readOnly">
+                        <input name="harvestEndDateMonth" type="text" maxlength="2" ng-minlength="2" ng-model="$ctrl.seedData.harvestAction.endDateMonth" placeholder="MM" class="col-6" ng-readonly="$ctrl.readOnly">
                     </td>
                     <td>
                     </td>
@@ -144,24 +144,24 @@
 
                 <tr class="actionItem" ng-repeat="action in $ctrl.seedData.actions">
                     <td class="width4">
-                        <input name="actionName" class="width12" ng-model="action.actionName">
+                        <input name="actionName" class="width12" ng-model="action.actionName" ng-readonly="$ctrl.readOnly">
                     </td>
                     <td class="width1">
-                        <input name="displayChar" type="text" maxlength="1" class="width12" ng-model="action.displayChar">
+                        <input name="displayChar" type="text" maxlength="1" class="width12" ng-model="action.displayChar" ng-readonly="$ctrl.readOnly">
                     </td>
                     <td class="width2">
-                        <input name="displayColour" type="color" class="width12" ng-model="action.displayColour">
+                        <input name="displayColour" type="color" class="width12" ng-model="action.displayColour" ng-readonly="$ctrl.readOnly" ng-disabled="$ctrl.readOnly">
                     </td>
                     <td class="width2">
-                        <input name="startDateDay" type="text" maxlength="2" ng-minlength="2" ng-model="action.startDateDay" placeholder="DD" class="col-5">
-                        <input name="startDateMonth" type="text" maxlength="2" ng-minlength="2" ng-model="action.startDateMonth" placeholder="MM" class="col-6">
+                        <input name="startDateDay" type="text" maxlength="2" ng-minlength="2" ng-model="action.startDateDay" placeholder="DD" class="col-5" ng-readonly="$ctrl.readOnly">
+                        <input name="startDateMonth" type="text" maxlength="2" ng-minlength="2" ng-model="action.startDateMonth" placeholder="MM" class="col-6" ng-readonly="$ctrl.readOnly">
                     </td>
                     <td class="width2">
-                        <input name="endDateDay" type="text" maxlength="2" ng-minlength="2" ng-model="action.endDateDay" placeholder="DD" class="col-5">
-                        <input name="endDateMonth" type="text" maxlength="2" ng-minlength="2" ng-model="action.endDateMonth" placeholder="MM" class="col-6">
+                        <input name="endDateDay" type="text" maxlength="2" ng-minlength="2" ng-model="action.endDateDay" placeholder="DD" class="col-5" ng-readonly="$ctrl.readOnly">
+                        <input name="endDateMonth" type="text" maxlength="2" ng-minlength="2" ng-model="action.endDateMonth" placeholder="MM" class="col-6" ng-readonly="$ctrl.readOnly">
                     </td>
                     <td class="width1">
-                        <button ng-click="$ctrl.removeRow($index)" type="button" class="width12">X</button>
+                        <button ng-click="$ctrl.removeRow($index)" type="button" class="width12" ng-hide="$ctrl.readOnly">X</button>
                     </td>
                 </tr>
             </table>

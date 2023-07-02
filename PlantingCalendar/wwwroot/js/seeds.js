@@ -29,8 +29,12 @@
     }
 
     $scope.refresh = function () {
-        console.log("refresh");
         $scope.loadSeedList();
+
+        $scope.displaySeedId = null;
+    }
+
+    $scope.unfocus = function () {
         $scope.displaySeedId = null;
     }
 

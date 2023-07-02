@@ -33,7 +33,7 @@ namespace PlantingCalendar.DataAccess
             }
         }
 
-        public async Task<SqlCalendarDetailsModel> GetCalendar(long id)
+        public async Task<List<SqlCalendarDetailsModel>> GetCalendar(long id)
         {
             try
             {
@@ -41,10 +41,10 @@ namespace PlantingCalendar.DataAccess
 
                 if (calendars == null || !calendars.Any())
                 {
-                    return new SqlCalendarDetailsModel();
+                    return new List<SqlCalendarDetailsModel>();
                 }
 
-                return calendars.First();
+                return calendars;
             }
             catch (Exception ex)
             {
@@ -56,6 +56,7 @@ namespace PlantingCalendar.DataAccess
         {
             try
             {
+                //FIX: this not returning the long? something wrong with datacollector
                 var calendarId = await ExecuteSql<long>($"Exec plantbase.NewCalendar_Create '{calendarName}', {calendarYear}, '{seedListJson}'");
 
                 if (calendarId == null || !calendarId.Any())

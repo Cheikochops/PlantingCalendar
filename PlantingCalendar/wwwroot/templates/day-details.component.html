@@ -1,0 +1,40 @@
+﻿<div class="flex-column space-evenly">
+    <div>
+        {{$ctrl.seedInfo.seed.plantTypeName}} - {{$ctrl.seedInfo.seed.plantBreed}}
+    </div>
+    <div ng-show="!$ctrl.newTask">
+        <button ng-click="$ctrl.switchDisplay()">Add Task</button>
+        <table>
+            <tr ng-repeat="task in $ctrl.seedInfo.tasks.tasks">
+                <td><input type="checkbox" ng-model="task.isComplete" /></td>
+                <td>{{task.taskName}}</td>
+                <td>
+                    <div ng-show="!task.isSet">
+                        <button ng-click="$ctrl.setTaskDate(task)">Set Date</button>
+                    </div>
+                    <div ng-show="task.isSet">X</div>
+                </td>
+            </tr>
+        </table>
+    </div>
+    <div ng-show="$ctrl.newTask">
+        <button ng-click="$ctrl.switchDisplay()">Back</button>
+        <button ng-click="$ctrl.saveTask()">Create</button>
+        <div>TaskName: <input type="text" /></div>
+
+        <div>
+            Repeat: <select name="repeatableSelect" ng-model="$ctrl.newTaskRepeatableType">
+                <option ng-repeat="option in $ctrl.repeatableTypes" value="{{option.id}}">{{option.name}}</option>
+            </select>
+        </div>
+        <div ng-show="$ctrl.isNever()">
+            Date <input type="date" />
+        </div>
+        <div ng-show="!$ctrl.isNever()">
+            From: <input type="date" />
+        </div>
+        <div ng-show="!$ctrl.isNever()">
+            To: <input type="date" />
+        </div>
+    </div>
+</div>

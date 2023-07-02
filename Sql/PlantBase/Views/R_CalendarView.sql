@@ -8,7 +8,6 @@ AS
 			PlantBreed = s.Breed,
 			SeedId = s.Id,
 			TaskName = tt.Name,
-			TaskDescription = tt.Description,
 			TaskTypeId = tt.Id,
 			TaskId = t.Id,
 			t.IsComplete,

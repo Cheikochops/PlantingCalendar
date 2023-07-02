@@ -225,3 +225,7 @@ body {
 .space-between {
     align-content: space-between;
 }
+
+.table-first-column {
+    position: absolute;
+}

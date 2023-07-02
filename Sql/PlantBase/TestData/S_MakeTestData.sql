@@ -106,6 +106,9 @@ Insert Into
 		) 
 		VALUES 
 		(
+			'Never'
+		),
+		(
 			'Weekly'
 		),
 		(
@@ -119,7 +122,6 @@ Insert Into
 		plantbase.TaskType
 		(
 			Name,
-			Description,
 			StartDate,
 			EndDate,
 			DisplayChar,
@@ -127,7 +129,6 @@ Insert Into
 		)
 		VALUES (
 			'Sow',
-			'Sow the plants in the ground',
 			'2023-02-01',
 			'2023-04-30',
 			'S',
@@ -135,7 +136,6 @@ Insert Into
 		),
 		(
 			'Harvest',
-			'Harvest the crop',
 			'2023-07-01',
 			'2023-10-30',
 			'H',

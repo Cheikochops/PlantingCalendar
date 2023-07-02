@@ -7,7 +7,7 @@ namespace PlantingCalendar.Interfaces
     {
         Task<List<SeedItemModel>> GetAllSeeds();
 
-        Task<List<SqlSeedDetailsModel>> GetSeedDetails(long seedId);
+        Task<List<SqlSeedDetailsModel>> GetSeedDetails(long seedId, bool includeDeleted);
 
         Task DeleteSeed(long seedId);
 

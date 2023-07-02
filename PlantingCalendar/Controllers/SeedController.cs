@@ -21,7 +21,7 @@ public class SeedController : ControllerBase
     [HttpGet("")]
     public async Task<ActionResult> SeedInfo(long seedId)
     {
-        var seedModel = await SeedHelper.GetFormatedSeedItem(seedId);
+        var seedModel = await SeedHelper.GetFormatedSeedItem(seedId, true);
 
         return Ok(seedModel);
     }

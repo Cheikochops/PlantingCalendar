@@ -5,7 +5,8 @@ angular.module('seedApp')
         controller: SeedInfoController,
         bindings: {
             seedId: '<',
-            refresh: '&'
+            refresh: '&',
+            readOnly: '<'
         }
     });
 
@@ -13,14 +14,13 @@ function SeedInfoController($http) {
 
     var ctrl = this;
 
-    console.log(ctrl);
-
     ctrl.hasData = false;
 
     ctrl.$onChanges = function (changes) {
         if (ctrl.seedId != null) {
             ctrl.getSeedDetails(ctrl.seedId);
             ctrl.hasData = true;
+            console.log(ctrl.hasData)
         }
         else {
             ctrl.seedData = {
@@ -62,7 +62,7 @@ function SeedInfoController($http) {
             actions: ctrl.seedData.actions,
             sowAction: ctrl.seedData.sowAction,
             harvestAction: ctrl.seedData.harvestAction,
-            id: ctrl.seedId,
+            id: ctrl.seedData.id,
             plantType: ctrl.seedData.plantType ?? "",
             breed: ctrl.seedData.breed ?? "",
             sunRequirement: ctrl.seedData.sunRequirement ?? "",
@@ -76,6 +76,8 @@ function SeedInfoController($http) {
             headers: { 'Content-Type': 'application/json' },
         }).then(function mySuccess(response) {
             ctrl.refresh();
+            ctrl.getSeedDetails();
+
         }, function myError(response) {
             
         });
@@ -105,8 +107,6 @@ function SeedInfoController($http) {
             $http.get(url).then(
                 function (response) {
                     ctrl.seedData = response.data;
-
-                    console.log(ctrl.seedData)
                 });
         }
     }

@@ -2,12 +2,14 @@
 const urlParams = new URLSearchParams(queryString);
 const calendarId = urlParams.get('calendarId')
 
-angular.module('calendarApp').controller('calendar', function ($scope, $http) {
-    calendarUrl = "calendar/calendar"
+angular.module('seedApp').controller('calendar', function ($scope, $http) {
+    calendarUrl = "api/calendar"
 
     if (calendarId != null) {
         calendarUrl += "?id=" + calendarId;
     }
+
+    $scope.displaySeedId = null;
 
     $http.get(calendarUrl).then(
         function (response) {
@@ -91,30 +93,18 @@ angular.module('calendarApp').controller('calendar', function ($scope, $http) {
         $scope.showSingleMonth = false;
     }
 
-
-    $scope.loadSeedInfoPopup = function(popupBackgroundId, popupId, id) {
-
-        var url = "/Seed/SeedInfo";
-
-        if (id != null) {
-            url += "?seedId=" + id;
-        }
-
-        $.get(url,
-            function (data) {
-                $('#seedInfo').html(data);
-            });
-
-        $scope.togglePopup(popupBackgroundId, popupId)
+    $scope.loadSeedInfoPopup = function (popupBackgroundId, popupId, id) {
+        $scope.displaySeedId = id;
+        $scope.togglePopup(popupBackgroundId, popupId);
     }
 
     $scope.loadDayPopup = function (popupBackgroundId, popupId, seedId, day) {
-
         seed = $scope.seedsByMonth.filter(function (s) { return s.plantId == seedId; })[0];
         tasks = seed.dayTasks.filter(function (s) { return s.day == day })[0]
 
         $scope.popupCurrentDay = {
             currentDay: day,
+            month: $scope.chosenMonth.order,
             tasks: tasks,
             seed: {
                 plantBreed: seed.plantBreed,
@@ -144,12 +134,16 @@ angular.module('calendarApp').controller('calendar', function ($scope, $http) {
     window.onclick = function (event) {
         var background = document.getElementById("popupBackground");
         var dayBackground = document.getElementById("dayPopupBackground");
+        var taskBackground = document.getElementById("taskPopupBackground");
 
         if (event.target == background) {
             $scope.togglePopup("popupBackground", "seedInfoPopup");
         }
         else if (event.target == dayBackground) {
             $scope.togglePopup("dayPopupBackground", "dayPopup");
+        }
+        else if (event.target == taskBackground) {
+            $scope.togglePopup("taskPopupBackground", "taskPopup");
         }
     }
 });

@@ -17,20 +17,22 @@ public class CalendarController : ControllerBase
         _calendarHelper = calendarHelper;
     }
 
-    [HttpGet]
+    [HttpGet("")]
     public async Task<ActionResult> Calendar(int id)
     {
         var calendar = await _dataAccess.GetCalendar(id);
 
-        return Ok(calendar);
+        var details = _calendarHelper.FormatCalendar(calendar);
+
+        return Ok(details);
     }
 
-    [HttpPost]
+    [HttpPost("")]
     public async Task<ActionResult> Calendar([FromBody]GenerateCalendarModel calendar)
     {
         var calendarId = await _calendarHelper.GenerateCalendar(calendar);
 
-        return Ok(calendar);
+        return Ok(calendarId);
     }
 
 }

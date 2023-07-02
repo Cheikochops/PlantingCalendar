@@ -1,4 +1,4 @@
-Create or Alter Procedure [plantbase].Seed_Save
+Create or ALTER Procedure [plantbase].[Seed_Save]
 (
 	@SeedDetailsJson varchar(max)
 )
@@ -13,7 +13,7 @@ declare @SeedTable table (
 	Merge 
 			plantbase.Seed as target
 			using (
-				Select
+				Select distinct
 						*
 					From
 						OPENJSON(@SeedDetailsJson)
@@ -58,7 +58,7 @@ declare @SeedTable table (
 						Actions nvarchar(max) as JSON 
 						) as s
 					outer apply (
-						Select
+						Select distinct
 								*
 							From
 								OPENJSON(s.Actions)
@@ -83,7 +83,8 @@ declare @SeedTable table (
 				target.DisplayChar = source.DisplayChar,
 				target.DisplayColour = source.DisplayColour,
 				target.StartDate = source.StartDate,
-				target.EndDate = source.EndDate;
+				target.EndDate = source.EndDate
+		WHEN NOT MATCHED BY SOURCE then
+			Delete;
 		
 End
-GO

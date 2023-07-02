@@ -32,13 +32,13 @@ namespace PlantingCalendar.DataAccess
             }
         }
 
-        public async Task<List<SqlSeedDetailsModel>> GetSeedDetails(long seedId)
+        public async Task<List<SqlSeedDetailsModel>> GetSeedDetails(long seedId, bool includeDeleted)
         {
             try
             {
                 //FIX: task duplication issue
                 //Sow and harvest not saving colour
-                var seeds = await ExecuteSql<SqlSeedDetailsModel>($"Exec plantbase.Seed_Details_Read {seedId}");
+                var seeds = await ExecuteSql<SqlSeedDetailsModel>($"Exec plantbase.Seed_Details_Read {seedId}, {includeDeleted}");
 
                 if (seeds == null)
                 {

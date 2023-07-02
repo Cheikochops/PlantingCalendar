@@ -5,7 +5,7 @@ namespace PlantingCalendar.Interfaces
 {
     public interface ISeedHelper
     {
-        Task<SeedDetailModel> GetFormatedSeedItem(long seedId);
+        Task<SeedDetailModel> GetFormatedSeedItem(long seedId, bool includeDeleted);
 
         Task<IEnumerable<SeedItemModel>> GetSeedList();
 
