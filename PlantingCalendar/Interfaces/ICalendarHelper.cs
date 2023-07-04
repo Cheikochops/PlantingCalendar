@@ -5,8 +5,12 @@ namespace PlantingCalendar.Interfaces
 {
     public interface ICalendarHelper
     {
-        CalendarDetailsModel FormatCalendar(List<SqlCalendarDetailsModel> calendarDetails);
+        Task<CalendarDetailsModel> FormatCalendar(long id);
 
         Task<long> GenerateCalendar(GenerateCalendarModel model);
+
+        Task RemoveSeedFromCalendar(long calendarId, long seedId);
+
+        Task AddSeedToCalendar(long calendarId, long seedId);
     }
 }

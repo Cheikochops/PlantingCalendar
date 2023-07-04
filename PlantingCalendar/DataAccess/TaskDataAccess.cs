@@ -14,13 +14,11 @@ namespace PlantingCalendar.DataAccess
         {
         }
 
-        public async Task<List<RepeatableType>> GetRepeatableTypes()
+        public async Task SetTaskDate(UploadTaskDate task)
         {
             try
             {
-                var types = await ExecuteSql<RepeatableType>("Exec plantbase.RepeatableTypes_Read");
-
-                return types;
+                await ExecuteSql($"Exec plantbase.Task_SetDate {task.TaskId}, {task.Day}, {task.Month}");
             }
             catch (Exception ex)
             {
@@ -28,11 +26,35 @@ namespace PlantingCalendar.DataAccess
             }
         }
 
-        public async Task SetTaskDate(UploadTaskDate task)
+        public async Task DeleteTask(long taskId)
         {
             try
             {
-                await ExecuteSql($"Exec plantbase.Task_SetDate {task.TaskId}, {task.Day}, {task.Month}");
+                await ExecuteSql($"Exec plantbase.Task_Delete {taskId}");
+            }
+            catch (Exception ex)
+            {
+                throw;
+            }
+        }
+
+        public async Task ToggleCompleteTask(long taskId)
+        {
+            try
+            {
+                await ExecuteSql($"Exec plantbase.Task_ToggleComplete {taskId}");
+            }
+            catch (Exception ex)
+            {
+                throw;
+            }
+        }
+
+        public async Task CreateTask(string taskJson)
+        {
+            try
+            {
+                await ExecuteSql($"Exec plantbase.Task_ToggleComplete {taskJson}");
             }
             catch (Exception ex)
             {

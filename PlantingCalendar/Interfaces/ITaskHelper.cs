@@ -1,15 +1,16 @@
 using PlantingCalendar.Models;
-using PlantingCalendar.Models.Sql;
 
 namespace PlantingCalendar.Interfaces
 {
-    public interface ITaskDataAccess
+    public interface ITaskHelper
     {
+        Task CreateNewTask(UploadNewTask task);
+
         Task SetTaskDate(UploadTaskDate taskDate);
 
-        Task DeleteTask(long taskId);
+        List<string> GetRepeatableTypes();
 
-        Task CreateTask(string taskJson);
+        Task DeleteTask(long taskId);
 
         Task ToggleCompleteTask(long taskId);
     }

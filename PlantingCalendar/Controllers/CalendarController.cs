@@ -9,26 +9,36 @@ using PlantingCalendar.Pages;
 [Route("api/calendar")]
 public class CalendarController : ControllerBase
 {
-    private readonly ICalendarDataAccess _dataAccess;
     private readonly ICalendarHelper _calendarHelper;
-    public CalendarController (ICalendarDataAccess dataAccess, ICalendarHelper calendarHelper)
+    public CalendarController (ICalendarHelper calendarHelper)
     {
-        _dataAccess = dataAccess;
         _calendarHelper = calendarHelper;
     }
 
     [HttpGet("")]
-    public async Task<ActionResult> Calendar(int id)
+    public async Task<ActionResult> GetCalendar(long id)
     {
-        var calendar = await _dataAccess.GetCalendar(id);
-
-        var details = _calendarHelper.FormatCalendar(calendar);
+        var details = _calendarHelper.FormatCalendar(id);
 
         return Ok(details);
     }
 
+    [HttpDelete("seed")]
+    public async Task<ActionResult> RemoveSeedFromCalendar(long calendarId, long seedId)
+    {
+        await _calendarHelper.RemoveSeedFromCalendar(calendarId, seedId);
+        return Ok();
+    }
+
+    [HttpPost("seed")]
+    public async Task<ActionResult> AddSeedToCalendar(long calendarId, long seedId)
+    {
+        await _calendarHelper.AddSeedToCalendar(calendarId, seedId);
+        return Ok();
+    }
+
     [HttpPost("")]
-    public async Task<ActionResult> Calendar([FromBody]GenerateCalendarModel calendar)
+    public async Task<ActionResult> GenerateCalendar([FromBody]GenerateCalendarModel calendar)
     {
         var calendarId = await _calendarHelper.GenerateCalendar(calendar);
 

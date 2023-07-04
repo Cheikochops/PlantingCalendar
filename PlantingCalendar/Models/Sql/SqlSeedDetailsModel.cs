@@ -16,7 +16,7 @@ namespace PlantingCalendar.Models.Sql
 
         public long? ActionId { get; set; }
 
-        public ActionType ActionType { get; set; }
+        public ActionTypeEnum ActionType { get; set; }
 
         public string ActionName { get; set; }
 

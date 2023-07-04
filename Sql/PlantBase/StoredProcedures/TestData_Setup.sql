@@ -1,3 +1,7 @@
+Create or Alter Procedure plantbase.TestData_Setup
+AS
+BEGIN
+
 	Insert Into		
 			plantbase.Seed
 		(
@@ -145,3 +149,5 @@
 				@calendarSeedId,
 				null
 			)
+
+END

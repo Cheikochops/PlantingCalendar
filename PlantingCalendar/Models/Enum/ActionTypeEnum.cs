@@ -1,6 +1,6 @@
 namespace PlantingCalendar.Models
 {
-    public enum ActionType
+    public enum ActionTypeEnum
     {
         Custom = 0,
         Sow = 1,

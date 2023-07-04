@@ -71,5 +71,29 @@ namespace PlantingCalendar.DataAccess
                 throw;
             }
         }
+
+        public async Task RemoveSeedFromCalendar(long calendarId, long seedId)
+        {
+            try
+            {
+                await ExecuteSql($"Exec plantbase.Calendar_SeedRemove {calendarId}, {seedId}");
+            }
+            catch (Exception ex)
+            {
+                throw;
+            }
+        }
+
+        public async Task AddSeedToCalendar(long calendarId, long seedId)
+        {
+            try
+            {
+                await ExecuteSql($"Exec plantbase.Calendar_SeedAdd {calendarId}, {seedId}");
+            }
+            catch (Exception ex)
+            {
+                throw;
+            }
+        }
     }
 }

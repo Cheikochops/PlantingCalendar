@@ -13,15 +13,18 @@
 
         <div class="text-center">
             <h1 class="display-4">{{calendar.calendarName}} - {{calendar.year}}</h1>
+            <button>Add Seed</button>
         </div>
 
         <div ng-show="!showSingleMonth">
             <table class="non-scroll-table">
                 <tr>
+                    <th></th>
                     <th class="col-2">Seeds</th>
                     <th ng-repeat="month in months" ng-click="showMonth(month.order)" class="header"> {{month.monthName}} </th>
                 </tr>
                 <tr ng-repeat="seed in calendar.seeds">
+                    <td ng-click="removeSeed(seed)">X</td>
                     <td ng-click="loadSeedInfoPopup('popupBackground', 'seedInfoPopup', seed.id)">{{seed.plantTypeName}} - {{seed.plantBreed}}</td>
                     <td ng-repeat="(month, taskmonth) in seed.tasks" ng-click="showMonth(month)" class="td">
                         <ul ng-repeat="task in taskmonth">

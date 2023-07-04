@@ -6,7 +6,7 @@ namespace PlantingCalendar.Models
 
         public int CalendarYear { get; set; }
 
-        public List<int> Seeds { get; set; }
+        public List<long> Seeds { get; set; }
     }
 
 }

@@ -16,8 +16,10 @@ namespace PlantingCalendar.DataAccess
             _calendarDataAccess = calendarDataAccess;
         }
 
-        public CalendarDetailsModel FormatCalendar(List<SqlCalendarDetailsModel> calendarDetails)
+        public async Task<CalendarDetailsModel> FormatCalendar(long id)
         {
+            var calendarDetails = await _calendarDataAccess.GetCalendar(id);
+
             var first = calendarDetails.FirstOrDefault();
 
             if (first == null)
@@ -28,7 +30,7 @@ namespace PlantingCalendar.DataAccess
             var months = GetMonths(first.Year);
             var seeds = MakeSeeds(calendarDetails, months);
 
-            foreach ( var seed in seeds)
+            foreach (var seed in seeds)
             {
                 var dict = new Dictionary<int, List<CalendarTask>>();
 
@@ -112,5 +114,14 @@ namespace PlantingCalendar.DataAccess
             return calendarId;
         }
 
+        public async Task RemoveSeedFromCalendar(long calendarId, long seedId)
+        {
+            await _calendarDataAccess.RemoveSeedFromCalendar(calendarId, seedId);
+        }
+
+        public async Task AddSeedToCalendar(long calendarId, long seedId)
+        {
+            await _calendarDataAccess.AddSeedToCalendar(calendarId, seedId);
+        }
     }
 }

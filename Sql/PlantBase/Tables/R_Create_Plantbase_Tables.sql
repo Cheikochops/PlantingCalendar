@@ -1,6 +1,5 @@
 drop table if exists plantbase.Task;
 drop table if exists plantbase.TaskType;
-drop table if exists plantbase.RepeatableType;
 drop table if exists plantbase.CalendarSeed;
 drop table if exists plantbase.Calendar;
 drop table if exists plantbase.SeedAction;
@@ -61,24 +60,6 @@ BEGIN
 
 END
 
-IF (NOT EXISTS (SELECT * 
-                 FROM INFORMATION_SCHEMA.TABLES 
-                 WHERE TABLE_SCHEMA = 'plantbase' 
-                 AND  TABLE_NAME = 'RepeatableType'))
-BEGIN
-
-	/*
-		Table for storing the type of repeatable task e.g Monthly, Weekly, Bi Monthly.
-	*/
-
-    Create Table plantbase.RepeatableType 
-	(
-		Id bigint IDENTITY(1,1),  
-		Name varchar(50) not null,
-		PRIMARY KEY (Id)
-	)
-
-END
 
 IF (NOT EXISTS (SELECT * 
                  FROM INFORMATION_SCHEMA.TABLES 
@@ -94,13 +75,12 @@ BEGIN
 	(
 		Id bigint IDENTITY(1,1),  
 		Name varchar(50) not null,
-		FK_RepeatableTypeId bigint null,
+		Enum_RepeatableTypeId bigint null,
 		StartDate datetime null,
 		EndDate datetime null,
 		DisplayChar char null,
 		DisplayColour varchar(6) null, --colour code
-		PRIMARY KEY (Id),
-		FOREIGN KEY (FK_RepeatableTypeId) REFERENCES plantbase.RepeatableType(Id)
+		PRIMARY KEY (Id)
 	)
 
 END

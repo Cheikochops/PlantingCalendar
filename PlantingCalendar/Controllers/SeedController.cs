@@ -19,7 +19,7 @@ public class SeedController : ControllerBase
     }
 
     [HttpGet("")]
-    public async Task<ActionResult> SeedInfo(long seedId)
+    public async Task<ActionResult> GetSeedInfo(long seedId)
     {
         var seedModel = await SeedHelper.GetFormatedSeedItem(seedId, true);
 
@@ -27,7 +27,7 @@ public class SeedController : ControllerBase
     }
 
     [HttpGet("list")]
-    public async Task<ActionResult> SeedsList()
+    public async Task<ActionResult> GetSeedsList()
     {
         var seeds = await SeedHelper.GetSeedList();
 
@@ -35,7 +35,7 @@ public class SeedController : ControllerBase
     }
 
     [HttpPost("")]
-    public async Task<ActionResult> SeedInfo([FromBody] object seedItem)
+    public async Task<ActionResult> UpdateSeedInfo([FromBody] object seedItem)
     {
         try
         {

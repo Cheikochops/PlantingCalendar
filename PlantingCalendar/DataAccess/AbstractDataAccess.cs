@@ -18,7 +18,7 @@ namespace PlantingCalendar.DataAccess
             _dataAccessSettings = dataAccessSettings.Value;
         }
 
-        internal async Task<List<T>> ExecuteSql<T>(string sql)
+        protected async Task<List<T>> ExecuteSql<T>(string sql)
         {
             var sqlConnection = new SqlConnection(_dataAccessSettings.Plantbase);
 
@@ -51,7 +51,7 @@ namespace PlantingCalendar.DataAccess
             return null;
         }
 
-        internal async Task ExecuteSql(string sql)
+        protected async Task ExecuteSql(string sql)
         {
             var sqlConnection = new SqlConnection(_dataAccessSettings.Plantbase);
 

@@ -18,9 +18,9 @@ namespace PlantingCalendar.Models
 
         public List<UploadSeedAction> Actions { get; set; } = new List<UploadSeedAction>();
 
-        public SeedAction SowAction { get; set; }
+        public UploadSeedAction SowAction { get; set; }
 
-        public SeedAction HarvestAction { get; set; }
+        public UploadSeedAction HarvestAction { get; set; }
     }
 
     public class UploadSeedAction

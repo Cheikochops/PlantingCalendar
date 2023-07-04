@@ -44,21 +44,17 @@
               "target": "Package",
               "version": "[1.2.26, )"
             },
-            "AngularJS.Core": {
-              "target": "Package",
-              "version": "[1.8.2, )"
-            },
             "AngularJS.Intellisense": {
               "target": "Package",
               "version": "[1.0.3, )"
             },
-            "Microsoft.AspNet.WebApi.Core": {
-              "target": "Package",
-              "version": "[5.2.9, )"
-            },
             "Microsoft.VisualStudio.Azure.Containers.Tools.Targets": {
               "target": "Package",
               "version": "[1.17.2, )"
+            },
+            "Newtonsoft.Json": {
+              "target": "Package",
+              "version": "[13.0.3, )"
             },
             "System.Data.SqlClient": {
               "target": "Package",
