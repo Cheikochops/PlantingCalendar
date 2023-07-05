@@ -22,6 +22,7 @@ builder.Services.AddSingleton<ISeedDataAccess, SeedDataAccess>();
 builder.Services.AddSingleton<ITaskDataAccess, TaskDataAccess>();
 builder.Services.AddSingleton<ICalendarHelper, CalendarHelper>();
 builder.Services.AddSingleton<ISeedHelper, SeedHelper>();
+builder.Services.AddSingleton<ITaskHelper, TaskHelper>();
 builder.Services.Configure<DataAccessSettings>(builder.Configuration.GetSection(DataAccessSettings.SectionName));
 
 builder.Services.Configure<RazorViewEngineOptions>(options =>

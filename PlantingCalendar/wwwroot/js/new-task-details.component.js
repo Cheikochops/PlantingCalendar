@@ -1,20 +1,22 @@
 ﻿
 angular.module('seedApp')
-    .component('dayDetails', {
-        templateUrl: 'templates/day-details.component.html',
-        controller: DayDetailsController,
+    .component('newTaskDetails', {
+        templateUrl: 'templates/new-task-details.component.html',
+        controller: NewTaskController,
         bindings: {
-            seedInfo: '<',
-            refresh: '&'
+            refresh: '&',
+            seeds: '<'
         }
     });
 
-function DayDetailsController($http) {
+function NewTaskController($http) {
 
     var ctrl = this;
     ctrl.repeatableType = [];
     ctrl.newTask = false;
-    ctrl.newTaskRepeatableType = '1';
+    ctrl.newTaskRepeatableType = '0';
+
+    console.log(ctrl.seeds);
 
     ctrl.getRepeatableType = function () {
         var url = "api/tasks/types"
@@ -26,11 +28,7 @@ function DayDetailsController($http) {
             });
     }
 
-    ctrl.switchDisplay = function () {
-        ctrl.newTask = !ctrl.newTask;
-    }
-
-    ctrl.setTaskDate = function (task) {
+    ctrl.saveNewtask = function (task) {
         var url = "api/tasks";
 
         var data = {
@@ -54,7 +52,7 @@ function DayDetailsController($http) {
     }
 
     ctrl.isNever = function () {
-        return ctrl.newTaskRepeatableType == '1'
+        return ctrl.newTaskRepeatableType == '0'
     }
 
     ctrl.getRepeatableType();

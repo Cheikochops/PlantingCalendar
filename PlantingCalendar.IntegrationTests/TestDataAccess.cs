@@ -3,6 +3,7 @@ using Microsoft.Extensions.Options;
 using PlantingCalendar.DataAccess;
 using PlantingCalendar.Interfaces;
 using PlantingCalendar.Models;
+using PlantingCalendar.UnitTests.Models;
 using System.Data.SqlClient;
 
 namespace PlantingCalendar.UnitTests
@@ -19,14 +20,14 @@ namespace PlantingCalendar.UnitTests
             await ExecuteSql("Exec plantbase.TestData_Setup");
         }
 
-        public async Task<List<long>> GetTestCalendarIds()
+        public async Task<List<NameIdModel>> GetTestCalendarIds()
         {
-           return await ExecuteSql<long>("Select Id From plantbase.Calendar Where LEFT(Name, 4) = 'TEST'");
+           return await ExecuteSql<NameIdModel>("Select Id, Name From plantbase.Calendar Where LEFT(Name, 4) = 'TEST'");
         }
 
-        public async Task<List<long>> GetTestSeedIds()
+        public async Task<List<NameIdModel>> GetTestSeedIds()
         {
-            return await ExecuteSql<long>("Select Id From plantbase.Seed Where LEFT(Name, 4) = 'TEST'");
+            return await ExecuteSql<NameIdModel>("Select Id, Name From plantbase.Seed Where LEFT(Name, 4) = 'TEST'");
         }
 
         public async Task RemoveTestData()

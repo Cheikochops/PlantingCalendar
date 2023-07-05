@@ -1,0 +1,47 @@
+﻿<div class="flex-column space-evenly">
+    <div>
+
+        <div>
+            <button ng-click="$ctrl.saveTask()">Create</button>
+            <select ng-model="$ctrl.seedIds" multiple>
+                <option ng-repeat="seed in seeds" value="{{seed.id}}">{{seed.PlantType - seed.Breed}}</option>
+            </select>
+        </div>
+
+        <div>Name: <input type="text" ng-model="$ctrl.name"/></div>
+
+        <div>Description: <textarea ng-model="$ctrl.description"></textarea></div>
+
+         <div>
+             Is A Ranged Task: <input type="checkbox" ng-model="$ctrl.isRanged"  />
+         </div>
+
+         <div ng-show="$ctrl.isRanged">
+             <div>
+                 Range Start:  <input type="date" ng-model="$ctrl.rangeStartDate" />
+             </div>
+             <div>
+                 Range End:  <input type="date" ng-model="$ctrl.rangeEndDate" />
+             </div>
+         </div>
+
+        <div ng-show="!$ctrl.isRanged">
+            <div>
+                Repeat: <select name="repeatableSelect" ng-model="$ctrl.newTaskRepeatableType">
+                    <option ng-repeat="option in $ctrl.repeatableTypes" value="{{$index}}">{{option}}</option>
+                </select>
+            </div>
+            <div ng-show="$ctrl.isNever()">
+                Date: <input type="date" ng-model="$ctrl.setDate" />
+            </div>
+            <div ng-show="!$ctrl.isNever()">
+                <div>
+                    From: <input type="date" ng-model="$ctrl.fromDate" />
+                </div>
+                <div>
+                    To: <input type="date"  ng-model="$ctrl.toDate" />
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

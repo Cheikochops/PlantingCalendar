@@ -11,16 +11,18 @@ angular.module('seedApp').controller('calendar', function ($scope, $http) {
 
     $scope.displaySeedId = null;
 
-    $http.get(calendarUrl).then(
-        function (response) {
-            $scope.calendar = response.data;
-            $scope.months = response.data.months;
+    $scope.getCalendar = function () {
+        $http.get(calendarUrl).then(
+            function (response) {
+                $scope.calendar = response.data;
+                $scope.months = response.data.months;
 
-            $scope.showSingleMonth = false;
+                $scope.showSingleMonth = false;
 
-            console.log($scope.calendar)
-            console.log($scope.months)
-        });
+                console.log($scope.calendar)
+                console.log($scope.months)
+            });
+    }
 
     $scope.showMonth = function (month) {
         $scope.chosenMonth = $scope.months[month - 1]
@@ -98,27 +100,16 @@ angular.module('seedApp').controller('calendar', function ($scope, $http) {
         $scope.togglePopup(popupBackgroundId, popupId);
     }
 
-    $scope.loadDayPopup = function (popupBackgroundId, popupId, seedId, day) {
-        seed = $scope.seedsByMonth.filter(function (s) { return s.plantId == seedId; })[0];
-        tasks = seed.dayTasks.filter(function (s) { return s.day == day })[0]
-
-        $scope.popupCurrentDay = {
-            currentDay: day,
-            month: $scope.chosenMonth.order,
-            tasks: tasks,
-            seed: {
-                plantBreed: seed.plantBreed,
-                plantId: seed.plantId,
-                plantTypeName: seed.plantTypeName
-            }
-        }
-
-        console.log($scope.popupCurrentDay)
-
+    $scope.loadNewTaskPopup = function (popupBackgroundId, popupId) {
         $scope.togglePopup(popupBackgroundId, popupId)
     }
 
-    $scope.loadTaskInfoPopup = function (popupBackgroundId, popupId, taskId) {
+    $scope.loadNewSeedPopup = function (popupBackgroundId, popupId) {
+        $scope.togglePopup(popupBackgroundId, popupId)
+    }
+
+    $scope.loadTaskInfoPopup = function (popupBackgroundId, popupId, task) {
+        $scope.editPopupTask = task;
 
         $scope.togglePopup(popupBackgroundId, popupId)
     }
@@ -131,19 +122,29 @@ angular.module('seedApp').controller('calendar', function ($scope, $http) {
         popup.classList.toggle("visible");
     }
 
+    $scope.refresh = function () {
+        $scope.getCalendar();
+    }
+
     window.onclick = function (event) {
         var background = document.getElementById("popupBackground");
-        var dayBackground = document.getElementById("dayPopupBackground");
-        var taskBackground = document.getElementById("taskPopupBackground");
+        var newTaskPopupBackground = document.getElementById("newTaskPopupBackground");
+        var editTaskPopupBackground = document.getElementById("editTaskPopupBackground");
+        var newSeedPopupBackground = document.getElementById("newSeedPopupBackground");
 
         if (event.target == background) {
             $scope.togglePopup("popupBackground", "seedInfoPopup");
         }
-        else if (event.target == dayBackground) {
-            $scope.togglePopup("dayPopupBackground", "dayPopup");
+        else if (event.target == newTaskPopupBackground) {
+            $scope.togglePopup("newTaskPopupBackground", "newTaskPopup");
         }
-        else if (event.target == taskBackground) {
-            $scope.togglePopup("taskPopupBackground", "taskPopup");
+        else if (event.target == editTaskPopupBackground) {
+            $scope.togglePopup("editTaskPopupBackground", "editTaskPopup");
+        }
+        else if (event.target == newSeedPopupBackground) {
+            $scope.togglePopup("newSeedPopupBackground", "newSeedPopup");
         }
     }
+
+    $scope.getCalendar();
 });

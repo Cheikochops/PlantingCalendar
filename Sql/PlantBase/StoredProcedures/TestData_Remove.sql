@@ -9,22 +9,26 @@ BEGIN
 	declare @TestCurrentCalendar bigint = (Select Top 1 Id From plantbase.Calendar Where Name = 'TEST: Current Greenhouse Calendar');
 	declare @TestPreviousCalendar bigint = (Select Top 1 Id From plantbase.Calendar Where Name = 'TEST: A Previous Calendar');
 
-	Delete From
-			plantbase.TaskType
-		Where
-			Id in
-			(
-				Select
-						tt.Id
-					From
-						plantbase.Task t
-						join plantbase.CalendarSeed cs on t.FK_CalendarSeedId = cs.Id
-						join plantbase.TaskType tt on t.FK_TaskTypeId = tt.Id
-					Where
-						cs.FK_CalendarId = @TestCurrentCalendar
-						or cs.FK_CalendarId = @TestPreviousCalendar
-			)
+	Declare @TaskTypeTable table (
+		Id bigint
+	)
 
+	Insert Into
+			@TaskTypeTable
+			(
+				tt.Id
+			)
+		Select
+				t.Id
+			From
+				plantbase.Task t
+				join plantbase.CalendarSeed cs on t.FK_CalendarSeedId = cs.Id
+				join plantbase.TaskType tt on tt.Id = t.FK_TaskTypeId
+			Where
+				cs.FK_CalendarId = @TestCurrentCalendar
+				or cs.FK_CalendarId = @TestPreviousCalendar
+	
+	
 	Delete From
 			plantbase.Task
 		Where
@@ -37,14 +41,20 @@ BEGIN
 						join plantbase.CalendarSeed cs on t.FK_CalendarSeedId = cs.Id
 					Where
 						cs.FK_CalendarId = @TestCurrentCalendar
-						and cs.FK_CalendarId = @TestPreviousCalendar
+						or cs.FK_CalendarId = @TestPreviousCalendar
 
 			)
 
 	Delete From
-			plantbase.SeedAction
+			plantbase.TaskType
 		Where
-			FK_SeedId = @TestTomato
+			Id in
+			(
+				Select
+						Id
+					From
+						@TaskTypeTable
+			)
 
 	Delete From
 			plantbase.CalendarSeed
@@ -54,16 +64,21 @@ BEGIN
 			or FK_SeedId = @TestCourgette
 
 	Delete From
+			plantbase.Calendar
+		Where
+			Id = @TestCurrentCalendar
+			or Id = @TestPreviousCalendar	
+
+	Delete From
+			plantbase.SeedAction
+		Where
+			FK_SeedId = @TestTomato
+
+	Delete From
 			plantbase.Seed
 		Where
 			Id = @TestTomato
 			or Id = @TestCucumber
 			or Id = @TestCourgette
-
-	Delete From
-			plantbase.Calendar
-		Where
-			Id = @TestCurrentCalendar
-			or Id = @TestPreviousCalendar
 
 END

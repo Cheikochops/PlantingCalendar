@@ -18,7 +18,7 @@ public class CalendarController : ControllerBase
     [HttpGet("")]
     public async Task<ActionResult> GetCalendar(long id)
     {
-        var details = _calendarHelper.FormatCalendar(id);
+        var details = await _calendarHelper.FormatCalendar(id);
 
         return Ok(details);
     }

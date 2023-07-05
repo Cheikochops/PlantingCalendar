@@ -1,0 +1,34 @@
+﻿<div class="flex-column space-evenly">
+    <div>
+        {{$ctrl.seed.plantTypeName}} - {{$ctrl.seed.plantBreed}}
+    </div>
+
+    <button ng-click="$ctrl.saveTask()">Save</button>
+    <button ng-click="$ctrl.DeleteTask()">Delete</button>
+
+    <div>
+        Name: <input type="text" ng-model="$ctrl.task.name" />
+    </div>
+
+    <div>
+        Description: <textarea ng-model="$ctrl.task.description" />
+    </div>
+
+    <div>
+        Is A Ranged Task <input type="checkbox" ng-model="$ctrl.task.isRanged" />
+    </div>
+
+    <div ng-show="$ctrl.task.isRanged">
+        <div>
+            Range Start:  <input type="date" ng-model="$ctrl.task.rangeStartDate" />
+        </div>
+        <div>
+            Range End:  <input type="date" ng-model="$ctrl.task.rangeEndDate" />
+        </div>
+    </div>
+
+    <div ng-show="!$ctrl.task.isRanged">
+        Date: <input type="date" ng-model="$ctrl.task.setDate" />
+    </div>
+</div>
+</div>
