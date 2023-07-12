@@ -35,13 +35,11 @@ public class SeedController : ControllerBase
     }
 
     [HttpPost("")]
-    public async Task<ActionResult> UpdateSeedInfo([FromBody] object seedItem)
+    public async Task<ActionResult> UpdateSeedInfo([FromBody] UploadSeedDetailModel seedItem)
     {
         try
         {
-            var seed = JsonConvert.DeserializeObject<UploadSeedDetailModel>(seedItem.ToString());
-
-            await SeedHelper.SaveSeedInfo(seed);
+            await SeedHelper.SaveSeedInfo(seedItem);
 
             return Ok();
         }

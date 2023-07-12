@@ -44,8 +44,6 @@ namespace PlantingCalendar.UnitTests
                     Description = "This is a big tomato variety",
                     SunRequirement = "Full Sun",
                     WaterRequirement = "2 Inches a Week",
-                    BackImageUrl = "backimageUrl",
-                    FrontImageUrl = "frontimageUrl",
                     ExpiryDate = new DateTime(2022, 01, 01)
                 }
             };
@@ -63,9 +61,7 @@ namespace PlantingCalendar.UnitTests
             Assert.Equal(first.Breed, seeds.Breed);
             Assert.Equal(first.SunRequirement, seeds.SunRequirement);
             Assert.Equal(first.WaterRequirement, seeds.WaterRequirement);
-            Assert.Equal(first.BackImageUrl, seeds.BackImageUrl);
-            Assert.Equal(first.FrontImageUrl, seeds.FrontImageUrl);
-            Assert.Equal(first.ExpiryDate?.ToString("yyyy/MM/dd"), seeds.ExpiryDate);
+            Assert.Equal(first.ExpiryDate.Value.ToString("yyyy-MM-dd"), seeds.ExpiryDate);
 
             Assert.Empty(seeds.Actions);
             Assert.Equal("Sow", seeds.SowAction.ActionName);
@@ -95,8 +91,6 @@ namespace PlantingCalendar.UnitTests
                     Description = "This is a big tomato variety",
                     SunRequirement = "Full Sun",
                     WaterRequirement = "2 Inches a Week",
-                    BackImageUrl = "backimageUrl",
-                    FrontImageUrl = "frontimageUrl",
                     ExpiryDate = new DateTime(2022, 01, 01),
                     ActionType = ActionTypeEnum.Sow,
                     ActionId = 1,
@@ -114,8 +108,6 @@ namespace PlantingCalendar.UnitTests
                     Description = "This is a big tomato variety",
                     SunRequirement = "Full Sun",
                     WaterRequirement = "2 Inches a Week",
-                    BackImageUrl = "backimageUrl",
-                    FrontImageUrl = "frontimageUrl",
                     ExpiryDate = new DateTime(2022, 01, 01),
                     ActionType = ActionTypeEnum.Harvest,
                     ActionId = 2,
@@ -133,8 +125,6 @@ namespace PlantingCalendar.UnitTests
                     Description = "This is a big tomato variety",
                     SunRequirement = "Full Sun",
                     WaterRequirement = "2 Inches a Week",
-                    BackImageUrl = "backimageUrl",
-                    FrontImageUrl = "frontimageUrl",
                     ExpiryDate = new DateTime(2022, 01, 01),
                     ActionType = ActionTypeEnum.Custom,
                     ActionId = 3,
@@ -159,9 +149,7 @@ namespace PlantingCalendar.UnitTests
             Assert.Equal(first.Breed, seeds.Breed);
             Assert.Equal(first.SunRequirement, seeds.SunRequirement);
             Assert.Equal(first.WaterRequirement, seeds.WaterRequirement);
-            Assert.Equal(first.BackImageUrl, seeds.BackImageUrl);
-            Assert.Equal(first.FrontImageUrl, seeds.FrontImageUrl);
-            Assert.Equal(first.ExpiryDate?.ToString("yyyy/MM/dd"), seeds.ExpiryDate);
+            Assert.Equal(first.ExpiryDate.Value.ToString("yyyy-MM-dd"), seeds.ExpiryDate);
 
             Assert.Single(seeds.Actions);
             Assert.Equal("Sow", seeds.SowAction.ActionName);
@@ -225,29 +213,6 @@ namespace PlantingCalendar.UnitTests
         }
 
         [Fact]
-        public async Task SaveSeedInfo_InvalidExpiryDate()
-        {
-            var seedDataAccess = new Mock<ISeedDataAccess>(MockBehavior.Strict);
-            var helper = new SeedHelper(seedDataAccess.Object);
-
-            var seed = new UploadSeedDetailModel()
-            {
-                Id = 1,
-                PlantType = "Cucumber",
-                Breed = "Masterpiece",
-                Description = "This is a cucumber",
-                SunRequirement = "Full Sun",
-                WaterRequirement = "2 Inches",
-                SowAction = new UploadSeedAction(),
-                HarvestAction = new UploadSeedAction(),
-                Actions = null,
-                ExpiryDate = "BADFORMATTING"
-            };
-
-            await Assert.ThrowsAnyAsync<Exception>(async () => await helper.SaveSeedInfo(seed));
-        }
-
-        [Fact]
         public async Task SaveSeedInfo_Submit()
         {
             var seedDataAccess = new Mock<ISeedDataAccess>(MockBehavior.Strict);
@@ -297,7 +262,7 @@ namespace PlantingCalendar.UnitTests
                         EndDateMonth = "09"
                     }
                 },
-                ExpiryDate = "2023/07/04"
+                ExpiryDate = new DateTime(2023, 07, 12)
             };
 
             seedDataAccess.Setup(x => x.SaveSeed(It.IsAny<string>()))

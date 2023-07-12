@@ -24,9 +24,7 @@ BEGIN
 		Description varchar(1000) null,
 		WaterRequirement varchar(100) null,
 		SunRequirement varchar(100) null,
-		ExpiryDate Datetime null,
-		FrontImageUrl nvarchar(max) null,
-		BackImageUrl nvarchar(max) null,
+		ExpiryDate Date null,
 		IsDeleted bit default(0)
 		PRIMARY KEY (Id)
 	)
@@ -50,6 +48,7 @@ BEGIN
 		FK_SeedId bigint not null,
 		Enum_ActionTypeId int not null default(0),
 		Name varchar(50) not null,
+		Description varchar(1000) null,
 		DisplayChar char null,
 		DisplayColour varchar(6) null, --colour code
 		StartDate varchar(4) not null, --format DDMM
@@ -75,6 +74,7 @@ BEGIN
 	(
 		Id bigint IDENTITY(1,1),  
 		Name varchar(50) not null,
+		Description varchar(1000) null,
 		Enum_RepeatableTypeId bigint null,
 		StartDate datetime null,
 		EndDate datetime null,

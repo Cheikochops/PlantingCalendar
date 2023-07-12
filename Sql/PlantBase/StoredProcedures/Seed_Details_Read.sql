@@ -16,6 +16,7 @@ Begin
 			ExpiryDate,
 			ActionId,
 			ActionName,
+			ActionDescription,
 			ActionType,
 			DisplayChar,
 			DisplayColour,

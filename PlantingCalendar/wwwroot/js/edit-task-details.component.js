@@ -13,22 +13,22 @@ angular.module('seedApp')
 function EditTaskController($http) {
 
     var ctrl = this;
-    ctrl.task = {}
-    ctrl.seed = {}
+    ctrl.thisTask = {}
+    ctrl.thisSeed = {}
 
     ctrl.saveTask = function () {
-        var url = "api/tasks";
+        var url = "api/tasks?taskId=" + ctrl.thisTask.taskId;
 
         var data = {
-            taskId: ctrl.task.taskId,
-            taskName: ctrl.task.taskName,
-            taskDescription: ctrl.task.taskDescription,
-            displayChar: ctrl.task.displayChar,
-            displayColour: ctrl.task.displayColour,
-            isRanged: ctrl.task.isRanged,
-            taskStartDate: ctrl.task.taskStartDate,
-            taskEndDate: ctrl.task.taskEndDate,
-            taskSetDate: ctrl.task.taskSetDate
+            taskId: ctrl.thisTask.taskId,
+            taskName: ctrl.thisTask.taskName,
+            taskDescription: ctrl.thisTask.taskDescription,
+            displayChar: ctrl.thisTask.displayChar,
+            displayColour: ctrl.thisTask.displayColour,
+            isRanged: ctrl.thisTask.isRanged,
+            taskStartDate: ctrl.thisTask.taskStartDate ?? null,
+            taskEndDate: ctrl.thisTask.taskEndDate ?? null,
+            taskSetDate: ctrl.thisTask.taskSetDate ?? null
         }
 
         $http({
@@ -44,7 +44,7 @@ function EditTaskController($http) {
     }
 
     ctrl.deleteTask = function () {
-        var url = "api/tasks?taskId=" + ctrl.task.taskId;
+        var url = "api/tasks?taskId=" + ctrl.thisTask.taskId;
 
         $http({
             url: url,
@@ -58,6 +58,8 @@ function EditTaskController($http) {
     }
 
     ctrl.$onChanges = function () {
-
+        console.log(ctrl.task);
+        ctrl.thisTask = structuredClone(ctrl.task)
+        ctrl.thisSeed = structuredClone(ctrl.seed)
     }
 }

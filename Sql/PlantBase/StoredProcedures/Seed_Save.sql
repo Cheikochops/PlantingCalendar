@@ -64,6 +64,7 @@ declare @SeedTable table (
 								OPENJSON(s.Actions)
 							with (
 								ActionName varchar(100),
+								ActionDescription varchar(max),
 							    ActionId bigint,
 								ActionType int,
 								DisplayChar char,
@@ -75,11 +76,12 @@ declare @SeedTable table (
 				) as source
 			on target.Id = source.ActionId
 		When Not matched by target then
-			Insert (Name, FK_SeedId, Enum_ActionTypeId, DisplayChar, DisplayColour, StartDate, EndDate)
-			Values (source.ActionName, @seedId, source.ActionType, source.DisplayChar, source.DisplayColour, source.StartDate, source.EndDate)
+			Insert (Name, Description, FK_SeedId, Enum_ActionTypeId, DisplayChar, DisplayColour, StartDate, EndDate)
+			Values (source.ActionName, source.ActionDescription, @seedId, source.ActionType, source.DisplayChar, source.DisplayColour, source.StartDate, source.EndDate)
 		When matched then 
 			Update Set
 				target.Name = source.ActionName,
+				target.Description = source.ActionDescription,
 				target.DisplayChar = source.DisplayChar,
 				target.DisplayColour = source.DisplayColour,
 				target.StartDate = source.StartDate,

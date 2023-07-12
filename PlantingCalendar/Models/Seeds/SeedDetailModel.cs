@@ -11,15 +11,13 @@ namespace PlantingCalendar.Models
         public SeedAction SowAction { get; set; }
 
         public SeedAction HarvestAction { get; set; }
-
-        public string FrontImageUrl { get; set; }
-
-        public string BackImageUrl { get; set; }
     }
 
     public class SeedAction
     {
         public string ActionName { get; set; }
+
+        public string ActionDescription { get; set; }
 
         public ActionTypeEnum ActionType { get; set; }
 

@@ -6,7 +6,7 @@ namespace PlantingCalendar.Interfaces
     {
         Task CreateNewTask(UploadNewTask task);
 
-        Task EditTask(UploadTaskDetails taskDetails);
+        Task EditTask(long taskId, UploadTaskDetails taskDetails);
 
         List<string> GetRepeatableTypes();
 

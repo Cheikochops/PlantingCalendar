@@ -1,41 +1,41 @@
 ﻿<div class="flex-column space-evenly">
     <div>
-        {{$ctrl.seed.plantTypeName}} - {{$ctrl.seed.plantBreed}}
+        {{$ctrl.thisSeed.plantTypeName}} - {{$ctrl.thisSeed.plantBreed}}
     </div>
 
     <button ng-click="$ctrl.saveTask()">Save</button>
     <button ng-click="$ctrl.deleteTask()">Delete</button>
 
     <div>
-        Name: <input type="text" name="name" ng-model="$ctrl.task.taskName" />
+        Name: <input type="text" name="name" ng-model="$ctrl.thisTask.taskName" />
     </div>
 
     <div>
-        Description: <textarea ng-model="$ctrl.task.taskDescription">{{$ctrl.task.taskDescription}}</textarea>
+        Description: <textarea ng-model="$ctrl.thisTask.taskDescription">{{$ctrl.thisTask.taskDescription}}</textarea>
     </div>
 
     <div>
-        Display Char: <input name="displayChar" type="text" maxlength="1" ng-model="$ctrl.task.displayChar" />
+        Display Char: <input name="displayChar" type="text" maxlength="1" ng-model="$ctrl.thisTask.displayChar" />
     </div>
 
     <div>
-        Display Colour: <input name="sowDisplayColour" type="color" class="width12" ng-model="$ctrl.task.displayColour">
+        Display Colour: <input name="sowDisplayColour" type="color" class="width12" ng-model="$ctrl.thisTask.displayColour">
     </div>
 
     <div>
-        Is A Ranged Task <input type="checkbox" ng-model="$ctrl.task.isRanged" />
+        Is A Ranged Task <input type="checkbox" ng-model="$ctrl.thisTask.isRanged" />
     </div>
 
-    <div ng-show="$ctrl.task.isRanged">
+    <div ng-show="$ctrl.thisTask.isRanged">
         <div>
-            Range Start:  <input type="date" ng-model="$ctrl.task.taskStartDate" />
+            Range Start:  <input type="date" ng-model="$ctrl.thisTask.taskStartDate" />
         </div>
         <div>
-            Range End:  <input type="date" ng-model="$ctrl.task.taskEndDate" />
+            Range End:  <input type="date" ng-model="$ctrl.thisTask.taskEndDate" />
         </div>
     </div>
 
-    <div ng-show="!$ctrl.task.isRanged">
-        Date: <input type="date" ng-model="$ctrl.task.taskSetDate" />
+    <div ng-show="!$ctrl.thisTask.isRanged">
+        Date: <input type="date" ng-model="$ctrl.thisTask.taskSetDate" />
     </div>
 </div>

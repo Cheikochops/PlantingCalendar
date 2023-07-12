@@ -20,6 +20,8 @@ namespace PlantingCalendar.Models.Sql
 
         public string ActionName { get; set; }
 
+        public string ActionDescription { get; set; }
+
         public string DisplayChar { get; set; }
 
         public string DisplayColour { get; set; }
@@ -29,9 +31,5 @@ namespace PlantingCalendar.Models.Sql
         public string EndDate { get; set; }
 
         public DateTime? ExpiryDate { get; set; }
-
-        public string FrontImageUrl { get; set; }
-
-        public string BackImageUrl { get; set; }
     }
 }

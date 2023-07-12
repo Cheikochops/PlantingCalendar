@@ -14,7 +14,7 @@ namespace PlantingCalendar.Models
 
         public string Description { get; set; }
 
-        public string ExpiryDate { get; set; }
+        public DateTime? ExpiryDate { get; set; }
 
         public List<UploadSeedAction> Actions { get; set; } = new List<UploadSeedAction>();
 
@@ -27,11 +27,15 @@ namespace PlantingCalendar.Models
     {
         public string ActionName { get; set; }
 
+        public string ActionDescription { get; set; }
+
         public long? ActionId {  get; set; }
+
+        public ActionTypeEnum ActionType { get; set; }
 
         public char? DisplayChar { get; set; }
 
-        public string DisplayColour { get; set; }
+        public string? DisplayColour { get; set; } = "#000000";
 
         public string StartDateMonth { get; set; }
 

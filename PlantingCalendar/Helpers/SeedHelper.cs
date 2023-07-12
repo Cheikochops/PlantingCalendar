@@ -32,11 +32,9 @@ namespace PlantingCalendar.DataAccess
                 Breed = first.Breed,
                 PlantType = first.PlantType,
                 Description = first.Description,
-                ExpiryDate = first.ExpiryDate?.ToString("yyyy/MM/dd"),
+                ExpiryDate = first.ExpiryDate != null ? first.ExpiryDate.Value.ToString("yyyy-MM-dd") : null,
                 SunRequirement = first.SunRequirement,
-                WaterRequirement = first.WaterRequirement,
-                FrontImageUrl = first.FrontImageUrl,
-                BackImageUrl = first.BackImageUrl
+                WaterRequirement = first.WaterRequirement
             };
 
             model = AddManadatoryActions(seedDetails, model);
@@ -47,6 +45,7 @@ namespace PlantingCalendar.DataAccess
                 {
                     ActionId = x.Id,
                     ActionName = x.ActionName,
+                    ActionDescription = x.ActionDescription,
                     ActionType = x.ActionType,
                     DisplayChar = x.DisplayChar != null ? x.DisplayChar.First() : null,
                     DisplayColour = "#" + (x.DisplayColour ?? "000000"),
@@ -69,8 +68,9 @@ namespace PlantingCalendar.DataAccess
             {
                 model.SowAction = new SeedAction
                 {
-                    ActionId = sowAction.Id,
+                    ActionId = sowAction.ActionId,
                     ActionName = sowAction.ActionName,
+                    ActionDescription = sowAction.ActionDescription,
                     ActionType = sowAction.ActionType,
                     DisplayChar = sowAction.DisplayChar != null ? sowAction.DisplayChar.First() : 'S',
                     DisplayColour = "#" + (sowAction.DisplayColour ?? "000000"),
@@ -85,6 +85,7 @@ namespace PlantingCalendar.DataAccess
                 model.SowAction = new SeedAction
                 {
                     ActionName = "Sow",
+                    ActionDescription = "Sow the seed",
                     ActionType = ActionTypeEnum.Sow,
                     DisplayChar = 'S',
                     DisplayColour = "#000000"
@@ -97,8 +98,9 @@ namespace PlantingCalendar.DataAccess
             {
                 model.HarvestAction = new SeedAction
                 {
-                    ActionId = harvestAction.Id,
+                    ActionId = harvestAction.ActionId,
                     ActionName = harvestAction.ActionName,
+                    ActionDescription = harvestAction.ActionDescription,
                     ActionType = harvestAction.ActionType,
                     DisplayChar = harvestAction.DisplayChar != null ? harvestAction.DisplayChar.First() : 'H',
                     DisplayColour = "#" + (harvestAction.DisplayColour ?? "000000"),
@@ -113,6 +115,7 @@ namespace PlantingCalendar.DataAccess
                 model.HarvestAction = new SeedAction
                 {
                     ActionName = "Harvest",
+                    ActionDescription = "Harvest the crop",
                     ActionType = ActionTypeEnum.Harvest,
                     DisplayChar = 'H',
                     DisplayColour = "#000000"
@@ -131,13 +134,6 @@ namespace PlantingCalendar.DataAccess
 
         public async Task SaveSeedInfo(UploadSeedDetailModel seed)
         {
-            //need to convert to json correctly for sql to process it
-
-            if (!DateTime.TryParseExact(seed.ExpiryDate, "yyyy/MM/dd", null, System.Globalization.DateTimeStyles.AssumeUniversal, out DateTime date))
-            {
-                throw new Exception("Invalid ExpiryDate format");
-            }
-
             var saveModel = new SqlSaveSeedModel
             {
                 Id = seed.Id,
@@ -151,6 +147,7 @@ namespace PlantingCalendar.DataAccess
                 {
                     ActionId = x.ActionId,
                     ActionName = x.ActionName,
+                    ActionDescription = x.ActionDescription,
                     ActionType = ActionTypeEnum.Custom,
                     DisplayChar = x.DisplayChar,
                     DisplayColour = x.DisplayColour.TrimStart('#'),
@@ -163,6 +160,7 @@ namespace PlantingCalendar.DataAccess
             {
                 ActionId = seed.SowAction.ActionId,
                 ActionName = seed.SowAction.ActionName,
+                ActionDescription = seed.SowAction.ActionDescription,
                 ActionType = ActionTypeEnum.Sow,
                 DisplayChar = seed.SowAction.DisplayChar,
                 DisplayColour = seed.SowAction.DisplayColour.TrimStart('#'),
@@ -174,6 +172,7 @@ namespace PlantingCalendar.DataAccess
             {
                 ActionId = seed.HarvestAction.ActionId,
                 ActionName = seed.HarvestAction.ActionName,
+                ActionDescription = seed.HarvestAction.ActionDescription,
                 ActionType = ActionTypeEnum.Harvest,
                 DisplayChar = seed.HarvestAction.DisplayChar,
                 DisplayColour = seed.HarvestAction.DisplayColour.TrimStart('#'),

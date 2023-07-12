@@ -14,7 +14,7 @@ namespace PlantingCalendar.Models.Sql
 
         public string Description { get; set; }
 
-        public string ExpiryDate { get; set; }
+        public DateTime? ExpiryDate { get; set; }
 
         public List<SqlSaveSeedAction> Actions { get; set; } = new List<SqlSaveSeedAction>();
     }
@@ -22,6 +22,8 @@ namespace PlantingCalendar.Models.Sql
     public class SqlSaveSeedAction
     {
         public string ActionName { get; set; }
+
+        public string ActionDescription { get; set; }
 
         public long? ActionId { get; set; }
 

@@ -2,13 +2,11 @@ namespace PlantingCalendar.Models
 {
     public class UploadTaskDetails
     {
-        public long TaskId { get; set; }
-
         public string TaskName { get; set; }
 
-        public string TaskDescription { get; set; }
+        public string? TaskDescription { get; set; }
 
-        public char DisplayChar { get; set; }
+        public string DisplayChar { get; set; }
 
         public string DisplayColour { get; set; }
 

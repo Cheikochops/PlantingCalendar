@@ -20,7 +20,7 @@ public class TaskController : ControllerBase
         return Ok(taskTypes);
     }
 
-    [HttpPost("")]
+    [HttpPost("new")]
     public async Task<ActionResult> CreateNewTask([FromBody]UploadNewTask task)
     {
         await _taskHelper.CreateNewTask(task);
@@ -28,9 +28,9 @@ public class TaskController : ControllerBase
     }
 
     [HttpPost("")]
-    public async Task<ActionResult> UpdateTask([FromBody] UploadTaskDetails task)
+    public async Task<ActionResult> UpdateTask(long taskId, [FromBody]UploadTaskDetails task)
     {
-        await _taskHelper.EditTask(task);
+        await _taskHelper.EditTask(taskId, task);
         return Ok();
     }
 

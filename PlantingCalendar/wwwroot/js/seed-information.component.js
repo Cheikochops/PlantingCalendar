@@ -17,6 +17,8 @@ function SeedInfoController($http) {
     ctrl.hasData = false;
 
     ctrl.$onChanges = function (changes) {
+        ctrl.expiryDate = null
+
         if (ctrl.seedId != null) {
             ctrl.getSeedDetails(ctrl.seedId);
             ctrl.hasData = true;
@@ -57,7 +59,7 @@ function SeedInfoController($http) {
 
         var data = {
             description: ctrl.seedData.description ?? "",
-            expiryDate: ctrl.seedData.expiryDate ?? null,
+            expiryDate: ctrl.expiryDate,
             actions: ctrl.seedData.actions,
             sowAction: ctrl.seedData.sowAction,
             harvestAction: ctrl.seedData.harvestAction,
@@ -106,8 +108,19 @@ function SeedInfoController($http) {
             $http.get(url).then(
                 function (response) {
                     ctrl.seedData = response.data;
+
+                    if (ctrl.seedData.expiryDate == null) {
+                        ctrl.expiryDate = null
+                    }
+                    else {
+                        ctrl.expiryDate = new Date(ctrl.seedData.expiryDate)
+                    }
                 });
         }
+    }
+
+    ctrl.isValid = function () {
+
     }
 
     ctrl.getSeedDetails();

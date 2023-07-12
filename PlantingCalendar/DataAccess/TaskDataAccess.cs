@@ -38,11 +38,30 @@ namespace PlantingCalendar.DataAccess
             }
         }
 
-        public async Task CreateTask(string taskJson)
+        public async Task CreateTask(string newTaskJson)
         {
             try
             {
-                await ExecuteSql($"Exec plantbase.Task_ToggleComplete {taskJson}");
+                await ExecuteSql($"Exec plantbase.Task_Create @newTaskJson", new Dictionary<string, object>
+                {
+                    { "@newTaskJson", newTaskJson }
+                });
+            }
+            catch (Exception ex)
+            {
+                throw;
+            }
+        }
+
+        public async Task UpdateTask(long taskId, string taskDetailsJson)
+        {
+            try
+            {
+                await ExecuteSql($"Exec plantbase.Task_Update @taskId, @taskDetailsJson", new Dictionary<string, object>
+                {
+                    { "@taskId", taskId },
+                    { "@taskDetailsJson", taskDetailsJson }
+                });
             }
             catch (Exception ex)
             {

@@ -1,36 +1,36 @@
 html {
-  font-size: 14px;
+    font-size: 14px;
 }
 
 @media (min-width: 768px) {
-  html {
-    font-size: 16px;
-  }
+    html {
+        font-size: 16px;
+    }
 }
 
 html {
-  position: relative;
-  min-height: 100%;
+    position: relative;
+    min-height: 100%;
 }
 
 body {
-  margin-bottom: 60px;
-  width: 100%;
-  height: 100%;
+    margin-bottom: 60px;
+    width: 100%;
+    height: 100%;
 }
 
 /* Popup container */
 .popupBackground {
-    display: none; 
-    position: fixed; 
-    z-index: 1; 
+    display: none;
+    position: fixed;
+    z-index: 1;
     left: 0;
     top: 0;
-    width: 100%; 
+    width: 100%;
     height: 100%;
-    overflow: auto; 
+    overflow: auto;
     background-color: rgb(0,0,0);
-    background-color: rgba(0,0,0,0.4); 
+    background-color: rgba(0,0,0,0.4);
 }
 
 .popupBox {
@@ -51,7 +51,7 @@ body {
 
 .hidden {
     visibility: hidden;
-    display:none;
+    display: none;
 }
 
 .flex {
@@ -141,9 +141,9 @@ body {
     border: 2px solid black;
 }
 
-.task:hover {
-    background-color: coral;
-}
+    .task:hover {
+        background-color: coral;
+    }
 
 .scroll-table {
     width: 100%;
@@ -173,7 +173,6 @@ body {
 }
 
 .navTitle {
-
 }
 
 .navLink {
@@ -228,4 +227,18 @@ body {
 
 .table-first-column {
     position: absolute;
+}
+
+.my-form {
+    -webkit-transition: all linear 0.5s;
+    transition: all linear 0.5s;
+    background: transparent;
+}
+
+    .my-form.ng-invalid {
+        background: white;
+    }
+
+.my-input.ng-invalid {
+    border-color: red;
 }
