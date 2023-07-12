@@ -15,8 +15,8 @@
 
         <div class="text-center flex">
             <div><h1 class="display-4">{{calendar.calendarName}} - {{calendar.year}}</h1></div>
-            <div><button ng-click="loadNewSeedPopup('newSeedPopupBackground', 'newSeedPopup')">Edit Seeds</button></div>
-            <div><button ng-click="loadNewTaskPopup('newTaskPopupBackground', 'newTaskPopup')">New Task</button></div>
+            <div><button ng-click="loadNewSeedPopup()">Edit Seeds</button></div>
+            <div><button ng-click="loadNewTaskPopup()">New Task</button></div>
         </div>
 
         <div ng-show="!showSingleMonth">
@@ -26,7 +26,7 @@
                     <th ng-repeat="month in months" ng-click="showMonth(month.order)" class="header"> {{month.monthName}} </th>
                 </tr>
                 <tr ng-repeat="seed in calendar.seeds">
-                    <td ng-click="loadSeedInfoPopup('popupBackground', 'seedInfoPopup', seed.id)">{{seed.plantTypeName}} - {{seed.plantBreed}}</td>
+                    <td ng-click="loadSeedInfoPopup(seed.id)">{{seed.plantTypeName}} - {{seed.plantBreed}}</td>
                     <td ng-repeat="(month, taskmonth) in seed.tasks" ng-click="showMonth(month)" class="td">
                         <ul ng-repeat="task in taskmonth">
                             <li>{{task.displayChar}}</li>
@@ -53,10 +53,10 @@
                         </th>
                     </tr>
                     <tr ng-repeat="seed in seedsByMonth">
-                        <td ng-click="loadSeedInfoPopup('popupBackground', 'seedInfoPopup', seed.id)">{{seed.plantTypeName}} - {{seed.plantBreed}}</td>
+                        <td ng-click="loadSeedInfoPopup(seed.id)">{{seed.plantTypeName}} - {{seed.plantBreed}}</td>
 
                         <td ng-repeat="day in seed.dayTasks" class="td">
-                            <div ng-repeat="task in day.tasks" class="task" ng-click="loadTaskInfoPopup('editTaskPopupBackground', 'editTaskPopup', task)">
+                            <div ng-repeat="task in day.tasks" class="task" ng-click="loadTaskInfoPopup(task, seed)">
                                 <input type="checkbox" ng-bind="task.isComplete" />
                                 {{task.taskName}}
                                 {{task.taskDescription}}
@@ -70,7 +70,7 @@
         <div id="popupBackground" class="popupBackground">
             <div id="seedInfoPopup" class="popupBox">
                 <div id="seedInfo">
-                    <seed-info seed-id="displaySeedId" refresh="refresh()" read-only="true"></seed-info>
+                    <seed-info seed-id="displaySeedId" read-only="true"></seed-info>
                 </div>
             </div>
         </div>
@@ -78,7 +78,7 @@
         <div id="newTaskPopupBackground" class="popupBackground">
             <div id="newTaskPopup" class="popupBox">
                 <div id="newTaskInfo">
-                    <new-task-details seeds="calendar.seeds" refresh="refresh()"></new-task-details>
+                    <new-task-details seeds="calendar.seeds" refresh="refreshNewTask()" refresh-trigger="refreshTrigger"></new-task-details>
                 </div>
             </div>
         </div>
@@ -86,7 +86,7 @@
         <div id="editTaskPopupBackground" class="popupBackground">
             <div id="editTaskPopup" class="popupBox">
                 <div id="editTaskInfo">
-                    <edit-task-details task="editPopupTask" seed="editPopupSeed" refresh="refresh()"></edit-task-details>
+                    <edit-task-details task="editPopupTask" seed="editPopupSeed" refresh="refreshTaskInfo()"></edit-task-details>
                 </div>
             </div>
         </div>
@@ -94,7 +94,7 @@
         <div id="newSeedPopupBackground" class="popupBackground">
             <div id="newSeedPopup" class="popupBox">
                 <div id="newSeedInfo">
-                    <edit-calendar-seeds refresh="refresh()"></edit-calendar-seeds>
+                    <edit-calendar-seeds calendar-id="calendar.calendarId" current-seeds="calendar.seeds" refresh="refreshNewSeed()" refresh-trigger="refreshTrigger"></edit-calendar-seeds>
                 </div>
             </div>
         </div>

@@ -9,8 +9,6 @@ namespace PlantingCalendar.Interfaces
 
         Task<long> GenerateCalendar(GenerateCalendarModel model);
 
-        Task RemoveSeedFromCalendar(long calendarId, long seedId);
-
-        Task AddSeedToCalendar(long calendarId, long seedId);
+        Task UpdateCalendarSeeds(long calendarId, List<long> seedIds);
     }
 }

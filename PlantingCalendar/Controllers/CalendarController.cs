@@ -23,17 +23,10 @@ public class CalendarController : ControllerBase
         return Ok(details);
     }
 
-    [HttpDelete("seed")]
-    public async Task<ActionResult> RemoveSeedFromCalendar(long calendarId, long seedId)
+    [HttpPost("seeds")]
+    public async Task<ActionResult> UpdateCalendarSeeds(long calendarId, [FromBody]long[] seedIds)
     {
-        await _calendarHelper.RemoveSeedFromCalendar(calendarId, seedId);
-        return Ok();
-    }
-
-    [HttpPost("seed")]
-    public async Task<ActionResult> AddSeedToCalendar(long calendarId, long seedId)
-    {
-        await _calendarHelper.AddSeedToCalendar(calendarId, seedId);
+        await _calendarHelper.UpdateCalendarSeeds(calendarId, seedIds.ToList());
         return Ok();
     }
 

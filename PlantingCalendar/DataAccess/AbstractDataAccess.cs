@@ -18,12 +18,21 @@ namespace PlantingCalendar.DataAccess
             _dataAccessSettings = dataAccessSettings.Value;
         }
 
-        protected async Task<List<T>> ExecuteSql<T>(string sql)
+        protected async Task<List<T>> ExecuteSql<T>(string sql, Dictionary<string, object>? parameters = null)
         {
             var sqlConnection = new SqlConnection(_dataAccessSettings.Plantbase);
 
             var command = new SqlCommand(sql, sqlConnection);
-            SqlDataAdapter dataAdapter = new SqlDataAdapter(sql, sqlConnection);
+
+            if (parameters != null)
+            {
+                foreach (var param in parameters)
+                {
+                    command.Parameters.AddWithValue(param.Key, param.Value);
+                }
+            }
+
+            SqlDataAdapter dataAdapter = new SqlDataAdapter(command);
 
             DataTable dataTable = new DataTable();
 
@@ -41,7 +50,8 @@ namespace PlantingCalendar.DataAccess
                 await sqlConnection.CloseAsync();
             }
 
-            if (dataTable != null) {
+            if (dataTable != null)
+            {
 
                 var itemList = ConvertDataTable<T>(dataTable);
 
@@ -51,12 +61,22 @@ namespace PlantingCalendar.DataAccess
             return null;
         }
 
-        protected async Task ExecuteSql(string sql)
+        protected async Task ExecuteSql(string sql, Dictionary<string, object>? parameters = null)
         {
             var sqlConnection = new SqlConnection(_dataAccessSettings.Plantbase);
 
             var command = new SqlCommand(sql, sqlConnection);
-            SqlDataAdapter dataAdapter = new SqlDataAdapter(sql, sqlConnection);
+
+            if (parameters != null)
+            {
+                foreach (var param in parameters)
+                {
+                    command.Parameters.AddWithValue(param.Key, param.Value);
+                }
+            }
+
+            SqlDataAdapter dataAdapter = new SqlDataAdapter(command);
+
 
             DataTable dataTable = new DataTable();
 
@@ -95,7 +115,7 @@ namespace PlantingCalendar.DataAccess
 
                             property.SetValue(newObject, (item == DBNull.Value) ? null : item);
                         }
-                        catch (Exception ex) 
+                        catch (Exception ex)
                         {
                             throw;
                         }

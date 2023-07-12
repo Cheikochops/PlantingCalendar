@@ -10,8 +10,6 @@
         $http.get(url).then(
             function (response) {
                 $scope.seedList = response.data;
-
-                console.log($scope.seedList)
             });
     };
 

@@ -38,7 +38,11 @@ namespace PlantingCalendar.DataAccess
             {
                 //FIX: task duplication issue
                 //Sow and harvest not saving colour
-                var seeds = await ExecuteSql<SqlSeedDetailsModel>($"Exec plantbase.Seed_Details_Read {seedId}, {includeDeleted}");
+                var seeds = await ExecuteSql<SqlSeedDetailsModel>($"Exec plantbase.Seed_Details_Read @seedId, @includeDeleted", new Dictionary<string, object>
+                {
+                    { "@seedId", seedId },
+                    { "@includeDeleted", includeDeleted }
+                });
 
                 if (seeds == null)
                 {
@@ -57,7 +61,10 @@ namespace PlantingCalendar.DataAccess
         {
             try
             {
-                await ExecuteSql($"Exec plantbase.Seed_Save '{seedDetails}'");
+                await ExecuteSql($"Exec plantbase.Seed_Save @seedDetails", new Dictionary<string, object>
+                {
+                    { "@seedDetails", seedDetails }
+                });
             }
             catch (Exception ex)
             {
@@ -69,7 +76,10 @@ namespace PlantingCalendar.DataAccess
         {
             try
             {
-                await ExecuteSql($"Exec plantbase.Seed_Delete {seedId}");
+                await ExecuteSql($"Exec plantbase.Seed_Delete @seedId", new Dictionary<string, object>
+                {
+                    { "@seedId", seedId }
+                });
 
             }
             catch (Exception ex)

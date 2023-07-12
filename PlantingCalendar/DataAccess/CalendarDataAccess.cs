@@ -1,4 +1,5 @@
 using Microsoft.Extensions.Options;
+using Newtonsoft.Json;
 using PlantingCalendar.Interfaces;
 using PlantingCalendar.Models;
 using PlantingCalendar.Models.Sql;
@@ -37,7 +38,10 @@ namespace PlantingCalendar.DataAccess
         {
             try
             {
-                var calendars = await ExecuteSql<SqlCalendarDetailsModel>($"Exec plantbase.Calendar_Read {id}");
+                var calendars = await ExecuteSql<SqlCalendarDetailsModel>($"Exec plantbase.Calendar_Read @id", new Dictionary<string, object>
+                {
+                    { "@id", id }
+                });
 
                 if (calendars == null || !calendars.Any())
                 {
@@ -56,8 +60,12 @@ namespace PlantingCalendar.DataAccess
         {
             try
             {
-                //FIX: this not returning the long? something wrong with datacollector
-                var calendarId = await ExecuteSql<long>($"Exec plantbase.NewCalendar_Create '{calendarName}', {calendarYear}, '{seedListJson}'");
+                var calendarId = await ExecuteSql<long>($"Exec plantbase.NewCalendar_Create @calendarName, @calendarYear, @seedListJson", new Dictionary<string, object>
+                {
+                    { "@calendarName", calendarName },
+                    { "@calendarYear", calendarYear },
+                    { "@seedListJson", seedListJson }
+                });
 
                 if (calendarId == null || !calendarId.Any())
                 {
@@ -72,23 +80,15 @@ namespace PlantingCalendar.DataAccess
             }
         }
 
-        public async Task RemoveSeedFromCalendar(long calendarId, long seedId)
+        public async Task UpdateCalendarSeeds(long calendarId, List<long> seedIds)
         {
             try
             {
-                await ExecuteSql($"Exec plantbase.Calendar_SeedRemove {calendarId}, {seedId}");
-            }
-            catch (Exception ex)
-            {
-                throw;
-            }
-        }
-
-        public async Task AddSeedToCalendar(long calendarId, long seedId)
-        {
-            try
-            {
-                await ExecuteSql($"Exec plantbase.Calendar_SeedAdd {calendarId}, {seedId}");
+                await ExecuteSql($"Exec plantbase.Calendar_SeedUpdate @calendarId, @seedIds", new Dictionary<string, object>
+                {
+                    { "@calendarId", calendarId },
+                    { "@seedIds", JsonConvert.SerializeObject(seedIds)}
+                });
             }
             catch (Exception ex)
             {

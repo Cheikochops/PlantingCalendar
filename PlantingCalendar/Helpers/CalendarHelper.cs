@@ -48,7 +48,7 @@ namespace PlantingCalendar.DataAccess
                                 Id = y.TaskId.Value,
                                 TaskTypeId = y.TaskTypeId.Value,
                                 DisplayChar = y.TaskDisplayChar.First(),
-                                DisplayColour = y.TaskDisplayColour,
+                                DisplayColour = '#' + y.TaskDisplayColour,
                                 IsComplete = y.IsComplete.Value,
                                 TaskDate = y.SetTaskDate,
                                 TaskEndDate = y.RangeTaskEndDate,
@@ -114,14 +114,9 @@ namespace PlantingCalendar.DataAccess
             return calendarId;
         }
 
-        public async Task RemoveSeedFromCalendar(long calendarId, long seedId)
+        public async Task UpdateCalendarSeeds(long calendarId, List<long> seedIds)
         {
-            await _calendarDataAccess.RemoveSeedFromCalendar(calendarId, seedId);
-        }
-
-        public async Task AddSeedToCalendar(long calendarId, long seedId)
-        {
-            await _calendarDataAccess.AddSeedToCalendar(calendarId, seedId);
+            await _calendarDataAccess.UpdateCalendarSeeds(calendarId, seedIds);
         }
     }
 }

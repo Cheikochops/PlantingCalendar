@@ -20,7 +20,6 @@ function SeedInfoController($http) {
         if (ctrl.seedId != null) {
             ctrl.getSeedDetails(ctrl.seedId);
             ctrl.hasData = true;
-            console.log(ctrl.hasData)
         }
         else {
             ctrl.seedData = {

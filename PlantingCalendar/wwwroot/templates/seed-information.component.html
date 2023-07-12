@@ -1,22 +1,4 @@
 ﻿<div class="flex-column space-evenly">
-
-    <div class="text-center flex col-12" ng-hide="$ctrl.readOnly">
-        <div ng-hide="$ctrl.hasData" class="col-5">
-            Upload New Seed
-        </div>
-        <div ng-hide="!$ctrl.hasData" class="col-5">
-            Edit Existing Seed
-        </div>
-        <div class="flex">
-            <div>
-                <button ng-click="$ctrl.saveSeed()">Save</button>
-            </div>
-            <div>
-                <button ng-click="$ctrl.deleteSeed()" ng-disabled="!$ctrl.hasData">Delete</button>
-            </div>
-        </div>
-    </div>
-
     <div class="width12 flex-column mb-4">
         <div class="flex mb-4" ng-hide="!$ctrl.hasData">
             <div class="flex-column col-6 text-center" ng-hide="$ctrl.readOnly && $ctrl.seedData.frontPhotoUrl == null" >

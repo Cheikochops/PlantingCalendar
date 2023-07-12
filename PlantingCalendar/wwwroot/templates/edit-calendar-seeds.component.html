@@ -1,65 +1,57 @@
-﻿<div class="flex mainbox">
-    <div id="seedDisplay" class="col-6">
+﻿<div class="flex-column">
+    <div class="flex">
         <div class="text-center">
-            All Seeds
+            <button ng-click="$ctrl.saveCalendarSeeds()">Save</button>
         </div>
         <div>
-            <input placeholder="Search..." id="searchBar" ng-model="$ctrl.fullListfilter" />
-        </div>
-        <div class="flex">
-            <table class="col-12">
-                <tr>
-                    <th class="col-6">Plant Type</th>
-                    <th Class="col-6">Breed</th>
-                    <th class="col-1"></th>
-                </tr>
-                <tbody id="plantList">
-                    <tr ng-hide="$ctrl.allSeedList.length > 0">
-                        <td></td>
-                        <td>No Seeds!.</td>
-                        <td></td>
-                    </tr>
-                    <tr ng-hide="$ctrl.allSeedList.length == 0" ng-repeat="seed in allSeedList | orderBy:'plantType' | filter:$ctrl.fullListfilter">
-                        <td>{{seed.plantType}}</td>
-                        <td>{{seed.breed}}</td>
-                        <td ng-click="addSeed(seed)"> ADD </td>
-                    </tr>
-                </tbody>
-            </table>
+            <input placeholder="Search..." id="searchBar" ng-model="$ctrl.seedListFilter" />
         </div>
     </div>
-    <div id="calendarSetup" class="col-6">
-        <div class="text-center">
-            Your Calendar
-            <button ng-click="$ctrl.saveSeeds()">Save</button>
-        </div>
-        <div>
-            <input placeholder="Search..." id="searchBar" ng-model="$ctrl.selectedSeedListFilter" />
-        </div>
-
-        <div id="calendarSeedList">
-            <div id="calendarSeedDisplay" class="col-6">
-                <div class="flex">
-                    <table class="col-12">
-                        <tr>
-                            <th class="col-6">Plant Type</th>
-                            <th Class="col-6">Breed</th>
-                            <th class="col-1"></th>
+    <div class="flex">
+        <div id="seedDisplay" class="col-6">
+            <div class="flex">
+                <table class="col-12">
+                    <tr>
+                        <th class="col-5">Plant Type</th>
+                        <th class="col-5">Breed</th>
+                        <th class="col-2"></th>
+                    </tr>
+                    <tbody id="plantList">
+                        <tr ng-hide="$ctrl.allSeedList.length > 0">
+                            <td></td>
+                            <td>No Seeds!</td>
+                            <td></td>
                         </tr>
-                        <tbody id="plantList">
-                            <tr ng-hide="$ctrl.selectedSeedList.length > 0">
-                                <td></td>
-                                <td>No Seeds!</td>
-                                <td></td>
-                            </tr>
-                            <tr ng-hide="$ctrl.selectedSeedList.length == 0" ng-repeat="seed in selectedSeedList | orderBy:'plantType' | filter:$ctrl.selectedSeedListFilter">
-                                <td>{{seed.plantType}}</td>
-                                <td>{{seed.breed}}</td>
-                                <td ng-click="removeSeed(seed)"> REMOVE </td>
-                            </tr>
-                        </tbody>
-                    </table>
-                </div>
+                        <tr ng-hide="$ctrl.allSeedList.length == 0" ng-repeat="seed in $ctrl.allSeedList | filter:$ctrl.seedListFilter" ng-click="$ctrl.addSeed(seed)">
+                            <td>{{seed.plantType}}</td>
+                            <td>{{seed.breed}}</td>
+                            <td class="text-center">></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+        <div id="calendarSeedDisplay" class="col-6">
+            <div class="flex">
+                <table class="col-12">
+                    <tr>
+                        <th class="col-2"></th>
+                        <th class="col-5">Plant Type</th>
+                        <th class="col-5">Breed</th>
+                    </tr>
+                    <tbody id="plantList">
+                        <tr ng-hide="$ctrl.currentSeedList.length > 0">
+                            <td></td>
+                            <td>No Seeds!</td>
+                            <td></td>
+                        </tr>
+                        <tr ng-hide="$ctrl.currentSeedList.length == 0" ng-repeat="seed in $ctrl.currentSeedList | filter:$ctrl.seedListFilter" ng-click="$ctrl.removeSeed(seed)">
+                            <td class="text-center"><</td>
+                            <td>{{seed.plantTypeName}}</td>
+                            <td>{{seed.plantBreed}}</td>
+                        </tr>
+                    </tbody>
+                </table>
             </div>
         </div>
     </div>

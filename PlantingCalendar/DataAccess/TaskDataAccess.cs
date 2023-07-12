@@ -14,18 +14,6 @@ namespace PlantingCalendar.DataAccess
         {
         }
 
-        public async Task SetTaskDate(UploadTaskDate task)
-        {
-            try
-            {
-                await ExecuteSql($"Exec plantbase.Task_SetDate {task.TaskId}, {task.Day}, {task.Month}");
-            }
-            catch (Exception ex)
-            {
-                throw;
-            }
-        }
-
         public async Task DeleteTask(long taskId)
         {
             try

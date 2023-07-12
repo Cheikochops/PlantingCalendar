@@ -5,9 +5,25 @@ Create or ALTER Procedure [plantbase].[Task_Delete]
 As
 Begin
 
+	declare @taskTypeId bigint = 
+	(
+		Select Top 1 
+				tt.Id 
+			From 
+				plantbase.TaskType tt
+				join plantbase.Task t on tt.Id = t.FK_TaskTypeId
+			Where
+				t.Id = @TaskId
+	);
+
 	Delete From 
 			plantbase.Task
 		Where
-			Id = @TaskId
+			FK_TaskTypeId = @taskTypeId
+
+	Delete From 
+			plantbase.TaskType
+		Where
+			Id = @taskTypeId
 
 End

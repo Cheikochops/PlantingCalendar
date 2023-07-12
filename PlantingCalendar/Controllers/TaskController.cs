@@ -12,14 +12,6 @@ public class TaskController : ControllerBase
         _taskHelper = taskHelper;
     }
 
-    [HttpPost("")]
-    public async Task<ActionResult> SetTaskDate(UploadTaskDate task)
-    {
-        await _taskHelper.SetTaskDate(task);
-
-        return Ok();
-    }
-
     [HttpGet("types")]
     public async Task<ActionResult> GetTaskTypes()
     {
@@ -32,6 +24,13 @@ public class TaskController : ControllerBase
     public async Task<ActionResult> CreateNewTask([FromBody]UploadNewTask task)
     {
         await _taskHelper.CreateNewTask(task);
+        return Ok();
+    }
+
+    [HttpPost("")]
+    public async Task<ActionResult> UpdateTask([FromBody] UploadTaskDetails task)
+    {
+        await _taskHelper.EditTask(task);
         return Ok();
     }
 

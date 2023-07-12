@@ -20,9 +20,9 @@ namespace PlantingCalendar.DataAccess
             await TaskDataAccess.CreateTask(taskJson);
         }
 
-        public async Task SetTaskDate(UploadTaskDate taskDate)
+        public async Task EditTask(UploadTaskDetails taskDetails)
         {
-            await TaskDataAccess.SetTaskDate(taskDate);
+            //await TaskDataAccess.UpdateTask(taskDate);
         }
 
         public List<string> GetRepeatableTypes()

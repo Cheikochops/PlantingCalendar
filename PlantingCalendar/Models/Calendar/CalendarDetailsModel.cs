@@ -40,6 +40,8 @@ namespace PlantingCalendar.Models
 
         public DateTime? TaskEndDate { get; set; }
 
+        public bool IsRanged { get => !TaskDate.HasValue && TaskStartDate.HasValue && TaskEndDate.HasValue; }
+
         public bool IsComplete { get; set; }
 
         public string DisplayColour { get; set; }

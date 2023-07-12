@@ -5,7 +5,8 @@ angular.module('seedApp')
         controller: NewTaskController,
         bindings: {
             refresh: '&',
-            seeds: '<'
+            seeds: '<',
+            refreshTrigger: '<'
         }
     });
 
@@ -16,15 +17,12 @@ function NewTaskController($http) {
     ctrl.newTask = false;
     ctrl.newTaskRepeatableType = '0';
 
-    console.log(ctrl.seeds);
-
     ctrl.getRepeatableType = function () {
         var url = "api/tasks/types"
 
         $http.get(url).then(
             function (response) {
                 ctrl.repeatableTypes = response.data;
-                console.log(ctrl.repeatableTypes);
             });
     }
 
@@ -44,7 +42,7 @@ function NewTaskController($http) {
             headers: { 'Content-Type': 'application/json' },
         }).then(function mySuccess(response) {
             var task = ctrl.seedInfo.tasks.tasks.filter(function (s) { return s.taskId == task.taskId })[0]
-            task.isSet = true;
+            task.isRanged = false;
 
         }, function myError(response) {
 

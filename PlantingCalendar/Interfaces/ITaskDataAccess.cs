@@ -5,8 +5,6 @@ namespace PlantingCalendar.Interfaces
 {
     public interface ITaskDataAccess
     {
-        Task SetTaskDate(UploadTaskDate taskDate);
-
         Task DeleteTask(long taskId);
 
         Task CreateTask(string taskJson);

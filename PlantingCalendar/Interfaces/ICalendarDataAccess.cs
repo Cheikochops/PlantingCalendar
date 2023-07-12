@@ -1,5 +1,6 @@
 using PlantingCalendar.Models;
 using PlantingCalendar.Models.Sql;
+using System.Globalization;
 
 namespace PlantingCalendar.Interfaces
 {
@@ -11,8 +12,6 @@ namespace PlantingCalendar.Interfaces
 
         Task<long> GenerateNewCalendar(string calendarName, int calendarYear, string seedListJson);
 
-        Task RemoveSeedFromCalendar(long calendarId, long seedId);
-
-        Task AddSeedToCalendar(long calendarId, long seedId);
+        Task UpdateCalendarSeeds(long calendarId, List<long> seedIds);
     }
 }

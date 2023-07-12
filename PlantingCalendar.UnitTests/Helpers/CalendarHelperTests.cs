@@ -177,40 +177,40 @@ namespace PlantingCalendar.UnitTests
             calendarDataAccess.Verify();
         }
 
-        [Fact]
-        public async Task RemoveSeedFromCalendar()
-        {
-            var seedId = long.MaxValue;
-            var calendarId = long.MaxValue - 5;
+        //[Fact]
+        //public async Task RemoveSeedFromCalendar()
+        //{
+        //    var seedId = long.MaxValue;
+        //    var calendarId = long.MaxValue - 5;
 
-            var calendarDataAccess = new Mock<ICalendarDataAccess>(MockBehavior.Strict);
-            calendarDataAccess.Setup(x => x.RemoveSeedFromCalendar(seedId, calendarId))
-                .Returns(Task.CompletedTask)
-                .Verifiable();
+        //    var calendarDataAccess = new Mock<ICalendarDataAccess>(MockBehavior.Strict);
+        //    calendarDataAccess.Setup(x => x.RemoveSeedFromCalendar(seedId, calendarId))
+        //        .Returns(Task.CompletedTask)
+        //        .Verifiable();
 
-            var calendarHelper = new CalendarHelper(calendarDataAccess.Object);
+        //    var calendarHelper = new CalendarHelper(calendarDataAccess.Object);
 
-            await calendarHelper.RemoveSeedFromCalendar(seedId, calendarId);
+        //    await calendarHelper.RemoveSeedFromCalendar(seedId, calendarId);
 
-            calendarDataAccess.Verify();
-        }
+        //    calendarDataAccess.Verify();
+        //}
 
-        [Fact]
-        public async Task AddSeedToCalendar()
-        {
-            var seedId = long.MaxValue;
-            var calendarId = long.MaxValue - 5;
+        //[Fact]
+        //public async Task AddSeedToCalendar()
+        //{
+        //    var seedId = long.MaxValue;
+        //    var calendarId = long.MaxValue - 5;
 
-            var calendarDataAccess = new Mock<ICalendarDataAccess>(MockBehavior.Strict);
-            calendarDataAccess.Setup(x => x.AddSeedToCalendar(seedId, calendarId))
-                .Returns(Task.CompletedTask)
-                .Verifiable();
+        //    var calendarDataAccess = new Mock<ICalendarDataAccess>(MockBehavior.Strict);
+        //    calendarDataAccess.Setup(x => x.AddSeedToCalendar(seedId, calendarId))
+        //        .Returns(Task.CompletedTask)
+        //        .Verifiable();
 
-            var calendarHelper = new CalendarHelper(calendarDataAccess.Object);
+        //    var calendarHelper = new CalendarHelper(calendarDataAccess.Object);
 
-            await calendarHelper.AddSeedToCalendar(seedId, calendarId);
+        //    await calendarHelper.AddSeedToCalendar(seedId, calendarId);
 
-            calendarDataAccess.Verify();
-        }
+        //    calendarDataAccess.Verify();
+        //}
     }
 }

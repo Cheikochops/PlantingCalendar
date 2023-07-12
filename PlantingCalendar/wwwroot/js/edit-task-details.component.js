@@ -13,14 +13,22 @@ angular.module('seedApp')
 function EditTaskController($http) {
 
     var ctrl = this;
+    ctrl.task = {}
+    ctrl.seed = {}
 
-    ctrl.saveTask = function (task) {
+    ctrl.saveTask = function () {
         var url = "api/tasks";
 
         var data = {
-            taskId: task.taskId,
-            day: ctrl.seedInfo.currentDay,
-            month: ctrl.seedInfo.month
+            taskId: ctrl.task.taskId,
+            taskName: ctrl.task.taskName,
+            taskDescription: ctrl.task.taskDescription,
+            displayChar: ctrl.task.displayChar,
+            displayColour: ctrl.task.displayColour,
+            isRanged: ctrl.task.isRanged,
+            taskStartDate: ctrl.task.taskStartDate,
+            taskEndDate: ctrl.task.taskEndDate,
+            taskSetDate: ctrl.task.taskSetDate
         }
 
         $http({
@@ -29,11 +37,27 @@ function EditTaskController($http) {
             method: "POST",
             headers: { 'Content-Type': 'application/json' },
         }).then(function mySuccess(response) {
-            var task = ctrl.seedInfo.tasks.tasks.filter(function (s) { return s.taskId == task.taskId })[0]
-            task.isSet = true;
-
+            ctrl.refresh()
         }, function myError(response) {
 
         });
+    }
+
+    ctrl.deleteTask = function () {
+        var url = "api/tasks?taskId=" + ctrl.task.taskId;
+
+        $http({
+            url: url,
+            method: "DELETE",
+            headers: { 'Content-Type': 'application/json' },
+        }).then(function mySuccess(response) {
+            ctrl.refresh()
+        }, function myError(response) {
+
+        });
+    }
+
+    ctrl.$onChanges = function () {
+
     }
 }
