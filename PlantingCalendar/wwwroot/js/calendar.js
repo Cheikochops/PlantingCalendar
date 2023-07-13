@@ -11,14 +11,13 @@ angular.module('seedApp').controller('calendar', function ($scope, $http) {
 
     $scope.displaySeedId = null;
     $scope.refreshTrigger = false;
+    $scope.showSingleMonth = false;
 
     $scope.getCalendar = function () {
         $http.get(calendarUrl).then(
             function (response) {
                 $scope.calendar = response.data;
                 $scope.months = response.data.months;
-
-                $scope.showSingleMonth = false;
 
                 console.log($scope.calendar)
             });

@@ -6,7 +6,8 @@ angular.module('seedApp')
         bindings: {
             refresh: '&',
             seeds: '<',
-            refreshTrigger: '<'
+            refreshTrigger: '<',
+            calendarId: '<'
         }
     });
 
@@ -14,8 +15,18 @@ function NewTaskController($http) {
 
     var ctrl = this;
     ctrl.repeatableType = [];
-    ctrl.newTask = false;
     ctrl.newTaskRepeatableType = '0';
+
+    ctrl.isSaving = false;
+    ctrl.isConfirmSave = false;
+
+    ctrl.confirmSave = function () {
+        ctrl.isConfirmSave = true
+        ctrl.confirmSaveTimeout = setTimeout(
+            function () {
+                ctrl.isConfirmSave = false;
+            }, 3000);
+    }
 
     ctrl.getRepeatableType = function () {
         var url = "api/tasks/types"
@@ -26,14 +37,26 @@ function NewTaskController($http) {
             });
     }
 
-    ctrl.saveNewtask = function (task) {
-        var url = "api/tasks";
+    ctrl.saveNewTask = function () {
+        var url = "api/tasks/new";
+
+        clearTimeout(ctrl.confirmSaveTimeout);
 
         var data = {
-            taskId: task.taskId,
-            day: ctrl.seedInfo.currentDay,
-            month: ctrl.seedInfo.month
+            calendarId: ctrl.calendarId,
+            seeds: ctrl.seedIds,
+            name: ctrl.name,
+            description: ctrl.description,
+            isRanged: ctrl.isRanged,
+            rangeStartDate: ctrl.rangeStartDate,
+            rangeEndDate: ctrl.rangeEndDate,
+            repeatableType: ctrl.newTaskRepeatableType,
+            singleDate: ctrl.setDate,
+            fromDate: ctrl.fromDate,
+            toDate: ctrl.toDate
         }
+
+        ctrl.isSaving = true;
 
         $http({
             url: url,
@@ -41,12 +64,31 @@ function NewTaskController($http) {
             method: "POST",
             headers: { 'Content-Type': 'application/json' },
         }).then(function mySuccess(response) {
-            var task = ctrl.seedInfo.tasks.tasks.filter(function (s) { return s.taskId == task.taskId })[0]
-            task.isRanged = false;
+            ctrl.isSaving = false;
+            ctrl.isConfirmSave = false;
 
         }, function myError(response) {
-
+            ctrl.isSaving = false;
+            ctrl.isConfirmSave = false;
         });
+    }
+
+    ctrl.$onChanges = function () {
+        console.log(ctrl.seeds)
+        ctrl.newTaskRepeatableType = '0'
+        ctrl.isRanged = false
+        ctrl.name = null
+        ctrl.seedIds = []
+        ctrl.description = null
+        ctrl.rangeStartDate = null
+        ctrl.rangeEndDate = null
+        ctrl.setDate = null
+        ctrl.fromDate = null
+        ctrl.toDate = null
+
+        ctrl.isSaving = false;
+        ctrl.isConfirmSave = false;
+
     }
 
     ctrl.isNever = function () {

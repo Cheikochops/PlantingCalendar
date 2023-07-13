@@ -1,47 +1,86 @@
 ﻿<div class="flex-column space-evenly">
-    <div>
-
+    <form name="newTaskForm" class="my-form">
         <div>
-            <button ng-click="$ctrl.saveTask()">Create</button>
-            <select ng-model="$ctrl.seedIds" multiple>
-                <option ng-repeat="seed in seeds" value="{{seed.id}}">{{seed.PlantType - seed.Breed}}</option>
-            </select>
+            <button ng-click="$ctrl.confirmSave()" ng-show="!$ctrl.isConfirmSave && !$ctrl.isSaving" class="btn btn-primary" ng-disabled="newTaskForm.$invalid">Save</button>
+            <button ng-click="$ctrl.saveNewTask()" ng-show="$ctrl.isConfirmSave && !$ctrl.isSaving" class="btn btn-danger">Confirm?</button>
+            <button disabled ng-show="$ctrl.isSaving" class="btn btn-primary">
+                <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
+                Saving...
+            </button>
         </div>
 
-        <div>Name: <input type="text" ng-model="$ctrl.name"/></div>
+        <div class="form-group mt-2">
+            <label for="name">Name</label>
+            <input type="text" class="form-control my-input" id="name" ng-model="$ctrl.name" required>
+        </div>
 
-        <div>Description: <textarea ng-model="$ctrl.description"></textarea></div>
+        <div class="row mt-2">
 
-         <div>
-             Is A Ranged Task: <input type="checkbox" ng-model="$ctrl.isRanged"  />
-         </div>
-
-         <div ng-show="$ctrl.isRanged">
-             <div>
-                 Range Start:  <input type="date" ng-model="$ctrl.rangeStartDate" />
-             </div>
-             <div>
-                 Range End:  <input type="date" ng-model="$ctrl.rangeEndDate" />
-             </div>
-         </div>
-
-        <div ng-show="!$ctrl.isRanged">
-            <div>
-                Repeat: <select name="repeatableSelect" ng-model="$ctrl.newTaskRepeatableType">
-                    <option ng-repeat="option in $ctrl.repeatableTypes" value="{{$index}}">{{option}}</option>
+            <div class="form-group col">
+                <label for="seedSelect">Seeds</label>
+                <select multiple class="form-control my-input" id="seedSelect" ng-model="$ctrl.seedIds" required>
+                    <option ng-repeat="seed in $ctrl.seeds" value="{{seed.id}}">{{seed.plantTypeName}} - {{seed.plantBreed}}</option>
                 </select>
             </div>
-            <div ng-show="$ctrl.isNever()">
-                Date: <input type="date" ng-model="$ctrl.setDate" />
+
+            <div class="form-group col">
+                <label for="description">Description</label>
+                <textarea type="text" class="form-control my-input" id="description" ng-model="$ctrl.description" rows="4">
+                    {{$ctrl.description}}
+                </textarea>
             </div>
-            <div ng-show="!$ctrl.isNever()">
-                <div>
-                    From: <input type="date" ng-model="$ctrl.fromDate" />
+
+        </div>
+
+        <div class="form-group mt-4">
+            <input class="form-check-input" type="checkbox" ng-model="$ctrl.isRanged" id="isRanged">
+            <label class="form-check-label" for="isRanged">
+                Is A Ranged Task
+            </label>
+        </div>
+
+        <div ng-show="$ctrl.isRanged">
+
+            <div class="row">
+                <div class="form-group col">
+                    <label for="name">Range Start</label>
+                    <input type="date" class="form-control my-input" id="rangeStart" ng-model="$ctrl.rangeStartDate" ng-required="$ctrl.isRanged">
                 </div>
-                <div>
-                    To: <input type="date"  ng-model="$ctrl.toDate" />
+                <div class="form-group col">
+                    <label for="name">Range End</label>
+                    <input type="date" class="form-control my-input" id="rangeEnd" ng-model="$ctrl.rangeEndDate" ng-required="$ctrl.isRanged">
                 </div>
             </div>
         </div>
-    </div>
+
+        <div ng-show="!$ctrl.isRanged">
+
+            <div class="row">
+                <div class="form-group col">
+                    <label for="repeateableType">Repeat</label>
+                    <select class="form-control" id="repeateableType" ng-model="$ctrl.newTaskRepeatableType" required>
+                        <option ng-repeat="option in $ctrl.repeatableTypes" value="{{$index}}">{{option}}</option>
+                    </select>
+                </div>
+                <div ng-show="$ctrl.isNever()" class="col">
+                    <div class="form-group col">
+                        <label for="dateFrom">Task Date</label>
+                        <input type="date" class="form-control my-input" id="setDate" ng-model="$ctrl.setDate" ng-required="$ctrl.isNever()">
+                    </div>
+                </div>
+                <div ng-show="!$ctrl.isNever()" class="col">
+                    <div class="row">
+                        <div class="form-group col">
+                            <label for="dateFrom">From</label>
+                            <input type="date" class="form-control my-input" id="dateFrom" ng-model="$ctrl.fromDate" ng-required="!$ctrl.isNever()">
+                        </div>
+                        <div class="form-group col">
+                            <label for="dateTo">To</label>
+                            <input type="date" class="form-control my-input" id="dateTo" ng-model="$ctrl.toDate" ng-required="!$ctrl.isNever()">
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </form>
 </div>

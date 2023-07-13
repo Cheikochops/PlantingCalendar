@@ -3,8 +3,22 @@
         {{$ctrl.thisSeed.plantTypeName}} - {{$ctrl.thisSeed.plantBreed}}
     </div>
 
-    <button ng-click="$ctrl.saveTask()">Save</button>
-    <button ng-click="$ctrl.deleteTask()">Delete</button>
+    <div>
+        <button ng-click="$ctrl.confirmSave()" ng-show="!$ctrl.isConfirmSave && !$ctrl.isSaving" class="btn btn-primary">Save</button>
+        <button ng-click="$ctrl.saveTask()" ng-show="$ctrl.isConfirmSave && !$ctrl.isSaving" class="btn btn-danger">Confirm?</button>
+        <button disabled ng-show="$ctrl.isSaving" class="btn btn-primary">
+            <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
+            Saving...
+        </button>
+    </div>
+    <div>
+        <button ng-click="$ctrl.confirmDelete()" class="btn btn-secondary" ng-show="!$ctrl.isConfirmDelete && !$ctrl.isDeleting">Delete</button>
+        <button ng-click="$ctrl.deleteTask()" ng-show="$ctrl.isConfirmDelete && !$ctrl.isDeleting" class="btn btn-danger">Confirm?</button>
+        <button disabled ng-show="$ctrl.isDeleting" class="btn btn-primary">
+            <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
+            Deleting...
+        </button>
+    </div>
 
     <div>
         Name: <input type="text" name="name" ng-model="$ctrl.thisTask.taskName" />

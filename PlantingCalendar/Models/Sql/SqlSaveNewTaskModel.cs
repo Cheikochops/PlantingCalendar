@@ -1,8 +1,8 @@
-namespace PlantingCalendar.Models
+namespace PlantingCalendar.Models.Sql
 {
-    public class UploadNewTask
+    public class SqlSaveNewTaskModel
     {
-        public long CalendarId { get; set; }
+        public long SeedId { get; set; }
 
         public List<long> Seeds { get; set; }
 
@@ -16,9 +16,9 @@ namespace PlantingCalendar.Models
 
         public DateTime? RangeEndDate { get; set; }
 
-        public string RepeatableType { get; set; }
+        public RepeatableTypeEnum RepeatableType { get; set; }
 
-        public DateTime? SingleDate { get; set;}
+        public DateTime? SingleDate { get; set; }
 
         public DateTime? FromDate { get; set; }
 

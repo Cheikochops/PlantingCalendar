@@ -31,7 +31,7 @@ function SeedInfoController($http) {
                     actionId: null,
                     
                 },
-                harvestAction: {
+                harvestAction: { 
                     actionName: "Harvest",
                     displayChar: "H",
                     actionId: null

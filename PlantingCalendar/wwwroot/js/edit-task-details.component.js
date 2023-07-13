@@ -16,8 +16,32 @@ function EditTaskController($http) {
     ctrl.thisTask = {}
     ctrl.thisSeed = {}
 
+    ctrl.isConfirmSave = false;
+    ctrl.isSaving = false;
+    ctrl.isDeleting = false;
+    ctrl.isConfirmDelete = false;
+
+    ctrl.confirmSave = function () {
+        ctrl.confirmSave = true
+        ctrl.saveTimeout = setTimeout(
+            function () {
+                ctrl.isConfirmSave = false;
+            }, 3000);
+    }
+
+    ctrl.confirmDelete = function () {
+        ctrl.isConfirmDelete = true
+        ctrl.deleteTimeout = setTimeout(
+            function () {
+                ctrl.isConfirmDelete = false;
+            }, 3000);
+    }
+
     ctrl.saveTask = function () {
         var url = "api/tasks?taskId=" + ctrl.thisTask.taskId;
+
+        clearTimeout(ctrl.saveTimeout)
+        ctrl.isSaving = true;
 
         var data = {
             taskId: ctrl.thisTask.taskId,
@@ -37,23 +61,32 @@ function EditTaskController($http) {
             method: "POST",
             headers: { 'Content-Type': 'application/json' },
         }).then(function mySuccess(response) {
+            ctrl.isSaving = false;
+            ctrl.isConfirmSave = false;
             ctrl.refresh()
         }, function myError(response) {
-
+            ctrl.isSaving = false;
+            ctrl.isConfirmSave = false;
         });
     }
 
     ctrl.deleteTask = function () {
         var url = "api/tasks?taskId=" + ctrl.thisTask.taskId;
 
+        clearTimeout(ctrl.deleteTimeout);
+        ctrl.isDeleting = true;
+
         $http({
             url: url,
             method: "DELETE",
             headers: { 'Content-Type': 'application/json' },
         }).then(function mySuccess(response) {
+            ctrl.isDeleting = false
+            ctrl.isConfirmDelete = false;
             ctrl.refresh()
         }, function myError(response) {
-
+            ctrl.isDeleting = false
+            ctrl.isConfirmDelete = false;
         });
     }
 
@@ -61,5 +94,10 @@ function EditTaskController($http) {
         console.log(ctrl.task);
         ctrl.thisTask = structuredClone(ctrl.task)
         ctrl.thisSeed = structuredClone(ctrl.seed)
+
+        ctrl.confirmSave = false;
+        ctrl.isSaving = false;
+        ctrl.isDeleting = false;
+        ctrl.confirmDelete = false;
     }
 }
