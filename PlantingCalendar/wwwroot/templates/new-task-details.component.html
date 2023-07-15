@@ -2,7 +2,7 @@
     <form name="newTaskForm" class="my-form">
         <div>
             <button ng-click="$ctrl.confirmSave()" ng-show="!$ctrl.isConfirmSave && !$ctrl.isSaving" class="btn btn-primary" ng-disabled="newTaskForm.$invalid">Save</button>
-            <button ng-click="$ctrl.saveNewTask()" ng-show="$ctrl.isConfirmSave && !$ctrl.isSaving" class="btn btn-danger">Confirm?</button>
+            <button ng-click="$ctrl.saveNewTask()" ng-show="$ctrl.isConfirmSave && !$ctrl.isSaving" class="btn btn-danger" ng-disabled="newTaskForm.$invalid">Confirm?</button>
             <button disabled ng-show="$ctrl.isSaving" class="btn btn-primary">
                 <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
                 Saving...
@@ -28,6 +28,27 @@
                 <textarea type="text" class="form-control my-input" id="description" ng-model="$ctrl.description" rows="4">
                     {{$ctrl.description}}
                 </textarea>
+            </div>
+        </div>
+
+
+        <div class="form-group mt-4">
+            <input class="form-check-input" type="checkbox" ng-model="$ctrl.isDisplay" id="isDisplay">
+            <label class="form-check-label" for="isDisplay">
+                Display on Yearly Calendar
+            </label>
+        </div>
+
+        <div class="form-group row mt-2" ng-show="$ctrl.isDisplay">
+
+            <div class="form-group col">
+                <label for="character">Display Character</label>
+                <input name="character" type="text" maxlength="1" ng-model="$ctrl.displayChar" class="form-control my-input" ng-disabled="!$ctrl.isDisplay" ng-required="$ctrl.isDisplay" />
+            </div>
+
+            <div class="form-group col">
+                <label for="displayColour">Display Colour</label>
+                <input name="displayColour" type="color" ng-model="$ctrl.displayColour" class="form-control my-input" ng-disabled="!$ctrl.isDisplay" ng-required="$ctrl.isDisplay">
             </div>
 
         </div>

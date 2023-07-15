@@ -23,6 +23,10 @@ angular.module('seedApp').controller('calendar', function ($scope, $http) {
             });
     }
 
+    $scope.toggleComplete = function (taskId) {
+
+    }
+
     $scope.showMonth = function (month) {
         $scope.chosenMonth = $scope.months[month - 1]
 
@@ -41,12 +45,12 @@ angular.module('seedApp').controller('calendar', function ($scope, $http) {
                     if (x.taskDate != null && x.taskDate != undefined) {
                         if (new Date(x.taskDate).getUTCDate() == d.day) {
                             tasks.push({
-                                taskTypeId: x.taskTypeId,
                                 isRanged: x.isRanged,
                                 taskId: x.id,
                                 taskName: x.taskName,
                                 taskDescription: x.taskDescription,
                                 isComplete: x.isComplete,
+                                isDisplay: x.isDisplay,
                                 displayColour: x.displayColour,
                                 displayChar: x.displayChar,
                                 taskSetDate: new Date(x.taskDate)
@@ -60,7 +64,6 @@ angular.module('seedApp').controller('calendar', function ($scope, $http) {
 
                         if (startDate <= dayDate && endDate >= dayDate) {
                             tasks.push({
-                                taskTypeId: x.taskTypeId,
                                 isRanged: x.isRanged,
                                 taskId: x.id,
                                 taskName: x.taskName,
@@ -68,6 +71,7 @@ angular.module('seedApp').controller('calendar', function ($scope, $http) {
                                 taskStartDate: startDate,
                                 taskEndDate: endDate,
                                 isComplete: x.isComplete,
+                                isDisplay: x.isDisplay,
                                 displayColour: x.displayColour,
                                 displayChar: x.displayChar
                             })
@@ -79,6 +83,7 @@ angular.module('seedApp').controller('calendar', function ($scope, $http) {
                     day: d.day,
                     tasks: tasks
                 })
+
             })
 
             $scope.seedsByMonth.push({
@@ -87,6 +92,8 @@ angular.module('seedApp').controller('calendar', function ($scope, $http) {
                 plantTypeName: s.plantTypeName,
                 dayTasks: days
             })
+
+            console.log($scope.seedsByMonth);
         });
 
         $scope.showSingleMonth = true;        

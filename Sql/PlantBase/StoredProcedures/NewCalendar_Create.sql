@@ -38,77 +38,50 @@ BEGIN
 			From
 				OPENJSON(@SeedDetailsJson) o
 
-	Declare @CalendarSeedTaskType table
-	(
-		SeedId bigint,
-		TaskTypeId bigint,
-		ActionId bigint
-	)
 
-	Merge 
-		plantbase.TaskType as target
-		Using (
-			Select
-					SeedId = cs.FK_SeedId,
-					ActionId = sa.Id,
-					ActionName = sa.Name,
-					ActionDescription = null, --SORT THIS OUT
-					FK_RepeatableTypeId = null, --SORT THIS OUT
-					Parse(concat(@calendarYear, '-', right(sa.StartDate, 2), '-', left(sa.StartDate, 2)) as date),
-					Parse(concat(@calendarYear, '-', right(sa.EndDate, 2), '-', left(sa.EndDate, 2)) as date),
-					sa.DisplayChar,
-					sa.DisplayColour
-				From
-					plantbase.CalendarSeed cs
-					join plantbase.SeedAction sa on cs.FK_SeedId = sa.FK_SeedId	
-				Where
-					coalesce(sa.StartDate, '') != ''
-					and coalesce(sa.EndDate, '') != ''
-		) as source (SeedId, ActionId, ActionName, ActionDescription, FK_RepeatableTypeId, StartDate, EndDate, DisplayChar, DisplayColour) on 1 = 2
-		When Not Matched Then
-			Insert
-			(
-				Name,
-				Description,
-				FK_RepeatableTypeId,
-				StartDate,
-				EndDate,
-				DisplayChar,
-				DisplayColour
-			)
-			Values (
-				source.ActionName,
-				source.ActionDescription,
-				source.FK_RepeatableTypeId,
-				source.StartDate,
-				source.EndDate,
-				source.DisplayChar,
-				source.DisplayColour
-			)
-		Output 
-				source.SeedId,
-				INSERTED.Id,
-				source.ActionId
-			Into @CalendarSeedTaskType;
-
-		
 		Insert Into
 			plantbase.Task
 			(
-				FK_TaskTypeId,
 				FK_CalendarSeedId,
-				TaskDate,
-				IsComplete
+				Name,
+				Description,
+				IsRanged,
+				RangeStartDate,
+				RangeEndDate,
+				SetDate,
+				DisplayChar,
+				DisplayColour,
+				IsComplete,
+				IsDisplay
 			)
 			Select
-					c.TaskTypeId,
-					c.SeedId,
-					null,
-					0
+					cs.Id,
+					sa.Name,
+					sa.Description,
+					0,
+					case 
+						when sa.StartDate = sa.EndDate then 1
+						else 0
+					end,
+					case 
+						when sa.StartDate = sa.EndDate then null
+						else Parse(concat(c.Year, '-', right(sa.StartDate, 2), '-', left(sa.StartDate, 2)) as date)
+					end,
+					case 
+						when sa.StartDate = sa.EndDate then null
+						else Parse(concat(c.Year, '-', right(sa.EndDate, 2), '-', left(sa.EndDate, 2)) as date)
+					end,
+					sa.DisplayChar,
+					sa.DisplayColour,
+					0,
+					sa.IsDisplay
 				From
-					@CalendarSeedTaskType c
-					join plantbase.SeedAction sa on sa.Id = c.ActionId
-					join plantbase.CalendarSeed cs on cs.FK_SeedId = c.SeedId and cs.FK_CalendarId = @CalendarId
+					plantbase.CalendarSeed cs
+					join plantbase.SeedAction sa on cs.FK_SeedId = sa.FK_SeedId	
+					join plantbase.Calendar c on cs.FK_CalendarId = c.Id and c.Id = @calendarId
+				Where
+					coalesce(sa.StartDate, '') != ''
+					and coalesce(sa.EndDate, '') != ''
 
 
 		select @CalendarId

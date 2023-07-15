@@ -1,55 +1,98 @@
-﻿<div class="flex-column space-evenly">
-    <div>
-        {{$ctrl.thisSeed.plantTypeName}} - {{$ctrl.thisSeed.plantBreed}}
-    </div>
+﻿<form name="editTaskForm" class="my-form">
+    <div class="flex-column space-evenly">
 
-    <div>
-        <button ng-click="$ctrl.confirmSave()" ng-show="!$ctrl.isConfirmSave && !$ctrl.isSaving" class="btn btn-primary">Save</button>
-        <button ng-click="$ctrl.saveTask()" ng-show="$ctrl.isConfirmSave && !$ctrl.isSaving" class="btn btn-danger">Confirm?</button>
-        <button disabled ng-show="$ctrl.isSaving" class="btn btn-primary">
-            <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
-            Saving...
-        </button>
-    </div>
-    <div>
-        <button ng-click="$ctrl.confirmDelete()" class="btn btn-secondary" ng-show="!$ctrl.isConfirmDelete && !$ctrl.isDeleting">Delete</button>
-        <button ng-click="$ctrl.deleteTask()" ng-show="$ctrl.isConfirmDelete && !$ctrl.isDeleting" class="btn btn-danger">Confirm?</button>
-        <button disabled ng-show="$ctrl.isDeleting" class="btn btn-primary">
-            <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
-            Deleting...
-        </button>
-    </div>
+        <div class="flex">
+            <div class="col-6">
+                <div>
+                    {{$ctrl.thisSeed.plantTypeName}} - {{$ctrl.thisSeed.plantBreed}}
+                </div>
+            </div>
 
-    <div>
-        Name: <input type="text" name="name" ng-model="$ctrl.thisTask.taskName" />
-    </div>
-
-    <div>
-        Description: <textarea ng-model="$ctrl.thisTask.taskDescription">{{$ctrl.thisTask.taskDescription}}</textarea>
-    </div>
-
-    <div>
-        Display Char: <input name="displayChar" type="text" maxlength="1" ng-model="$ctrl.thisTask.displayChar" />
-    </div>
-
-    <div>
-        Display Colour: <input name="sowDisplayColour" type="color" class="width12" ng-model="$ctrl.thisTask.displayColour">
-    </div>
-
-    <div>
-        Is A Ranged Task <input type="checkbox" ng-model="$ctrl.thisTask.isRanged" />
-    </div>
-
-    <div ng-show="$ctrl.thisTask.isRanged">
-        <div>
-            Range Start:  <input type="date" ng-model="$ctrl.thisTask.taskStartDate" />
-        </div>
-        <div>
-            Range End:  <input type="date" ng-model="$ctrl.thisTask.taskEndDate" />
+            <div class="form-group col-6">
+                <div class="flex justify-content-end">
+                    <div>
+                        <button ng-click="$ctrl.toggleComplete()" ng-show="$ctrl.thisTask.isComplete" class="btn btn-success">Complete</button>
+                        <button ng-click="$ctrl.toggleComplete()" ng-show="!$ctrl.thisTask.isComplete" class="btn btn-secondary">Incomplete</button>
+                    </div>
+                    <div>
+                        <button ng-click="$ctrl.editConfirmSave()" ng-show="!$ctrl.isConfirmSave && !$ctrl.isSaving" class="btn btn-primary" ng-disabled="editTaskForm.$invalid || $ctrl.thisTask.isComplete">Save</button>
+                        <button ng-click="$ctrl.saveTask()" ng-show="$ctrl.isConfirmSave && !$ctrl.isSaving" class="btn btn-danger" ng-disabled="editTaskForm.$invalid || $ctrl.thisTask.isComplete">Confirm?</button>
+                        <button disabled ng-show="$ctrl.isSaving" class="btn btn-primary">
+                            <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
+                            Saving...
+                        </button>
+                    </div>
+                    <div>
+                        <button ng-click="$ctrl.editConfirmDelete()" class="btn btn-secondary" ng-show="!$ctrl.isConfirmDelete && !$ctrl.isDeleting">Delete</button>
+                        <button ng-click="$ctrl.deleteTask()" ng-show="$ctrl.isConfirmDelete && !$ctrl.isDeleting" class="btn btn-danger">Confirm?</button>
+                        <button disabled ng-show="$ctrl.isDeleting" class="btn btn-primary">
+                            <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
+                            Deleting...
+                        </button>
+                    </div>
+                </div>
+            </div>
         </div>
     </div>
 
-    <div ng-show="!$ctrl.thisTask.isRanged">
-        Date: <input type="date" ng-model="$ctrl.thisTask.taskSetDate" />
+    <div>
+        <div class="form-group mt-2">
+            <label for="name">Description</label>
+            <input type="text" class="form-control my-input" id="name" ng-model="$ctrl.thisTask.taskName" required ng-disabled="$ctrl.thisTask.isComplete">
+        </div>
+
+        <div class="form-group mt-2">
+            <label for="name">Name</label>
+            <textarea type="text" class="form-control my-input" id="name" description="{{$ctrl.thisTask.taskDescription}}" ng-disabled="$ctrl.thisTask.isComplete">{{$ctrl.thisTask.taskDescription}}</textarea>
+        </div>
+
+        <div class="form-group mt-4">
+            <input class="form-check-input" type="checkbox" ng-model="$ctrl.thisTask.isDisplay" id="isDisplay" ng-disabled="$ctrl.thisTask.isComplete">
+            <label class="form-check-label" for="isDisplay">
+                Display on Yearly Calendar
+            </label>
+        </div>
+
+        <div class="form-group row mt-2" ng-show="$ctrl.thisTask.isDisplay">
+
+            <div class="form-group col">
+                <label for="character">Display Character</label>
+                <input name="character" type="text" maxlength="1" ng-model="$ctrl.thisTask.displayChar" class="form-control my-input" ng-required="$ctrl.thisTask.isDisplay" ng-disabled="$ctrl.thisTask.isComplete" />
+            </div>
+
+            <div class="form-group col">
+                <label for="displayColour">Display Colour</label>
+                <input name="displayColour" type="color" ng-model="$ctrl.thisTask.displayColour" class="form-control my-input" ng-required="$ctrl.thisTask.isDisplay" ng-disabled="$ctrl.thisTask.isComplete">
+            </div>
+
+        </div>
+
+
+        <div class="row mt-4">
+            <div class="form-group col">
+                <input class="form-check-input" type="checkbox" ng-model="$ctrl.thisTask.isRanged" id="isRanged" ng-disabled="$ctrl.thisTask.isComplete">
+                <label class="form-check-label" for="isRanged">
+                    Is A Ranged Task
+                </label>
+            </div>
+        </div>
+
+        <div ng-show="!$ctrl.thisTask.isRanged" class="row">
+            <div class="form-group col">
+                <label for="taskSetDate">Date</label>
+                <input class="form-control my-input" type="date" ng-model="$ctrl.thisTask.taskSetDate" id="taskSetDate" ng-disabled="$ctrl.thisTask.isComplete">
+            </div>
+        </div>
+
+        <div class="row" ng-show="$ctrl.thisTask.isRanged">
+            <div class="form-group col">
+                <label for="taskStartDate">Range Start</label>
+                <input class="form-control  my-input" type="date" ng-model="$ctrl.thisTask.taskStartDate" id="taskStartDate" ng-disabled="$ctrl.thisTask.isComplete">
+            </div>
+            <div class="form-group col">
+                <label for="taskEndDate">Range End</label>
+                <input class="form-control my-input" type="date" ng-model="$ctrl.thisTask.taskEndDate" id="taskEndDate" ng-disabled="$ctrl.thisTask.isComplete">
+            </div>
+        </div>
     </div>
-</div>
+</form>

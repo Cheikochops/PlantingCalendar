@@ -28,8 +28,6 @@ namespace PlantingCalendar.Models
     {
         public long Id { get; set; }
 
-        public long TaskTypeId { get; set; }
-
         public string TaskName { get; set; }
 
         public string TaskDescription { get; set; }
@@ -40,12 +38,14 @@ namespace PlantingCalendar.Models
 
         public DateTime? TaskEndDate { get; set; }
 
-        public bool IsRanged { get => !TaskDate.HasValue && TaskStartDate.HasValue && TaskEndDate.HasValue; }
+        public bool IsRanged { get; set; }
 
         public bool IsComplete { get; set; }
 
-        public string DisplayColour { get; set; }
+        public bool IsDisplay { get; set; }
 
-        public char DisplayChar { get; set; }
+        public string? DisplayColour { get; set; }
+
+        public char? DisplayChar { get; set; }
     }
 }

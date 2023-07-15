@@ -14,21 +14,23 @@ namespace PlantingCalendar.Models.Sql
 
         public string? TaskDescription { get; set; }
 
-        public DateTime? SetTaskDate { get; set; }
+        public bool IsRanged { get; set; }
 
-        public DateTime? RangeTaskStartDate { get; set; }
+        public DateTime? SetDate { get; set; }
 
-        public DateTime? RangeTaskEndDate { get; set; }
+        public DateTime? RangeStartDate { get; set; }
 
-        public long? TaskTypeId { get; set; }
+        public DateTime? RangeEndDate { get; set; }
 
         public long? TaskId { get; set; }
 
         public bool? IsComplete { get; set; }
 
-        public string? TaskDisplayColour { get; set; }
+        public bool? IsDisplay { get; set; }
 
-        public string? TaskDisplayChar { get; set; }
+        public string? DisplayColour { get; set; }
+
+        public string? DisplayChar { get; set; }
     
     }
 }

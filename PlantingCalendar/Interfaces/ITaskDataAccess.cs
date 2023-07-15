@@ -7,7 +7,7 @@ namespace PlantingCalendar.Interfaces
     {
         Task DeleteTask(long taskId);
 
-        Task CreateTask(string newTaskJson);
+        Task CreateTask(long calendarId, string newTaskJson);
 
         Task ToggleCompleteTask(long taskId);
 

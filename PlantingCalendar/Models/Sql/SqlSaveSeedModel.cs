@@ -29,6 +29,8 @@ namespace PlantingCalendar.Models.Sql
 
         public ActionTypeEnum ActionType { get; set; }
 
+        public bool IsDisplay { get; set; }
+
         public char? DisplayChar { get; set; }
 
         public string DisplayColour { get; set; }

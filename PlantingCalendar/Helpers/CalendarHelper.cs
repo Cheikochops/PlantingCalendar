@@ -38,21 +38,21 @@ namespace PlantingCalendar.DataAccess
                 {
                     dict.Add(month.Order, calendarDetails
                             .Where(y => y.SeedId == seed.Id)
-                            .Where(y => (y.SetTaskDate != null && y.SetTaskDate.Value.Month == month.Order)
-                            || (
-                                y.SetTaskDate == null && y.RangeTaskStartDate != null && y.RangeTaskEndDate != null &&
-                                month.Order <= y.RangeTaskEndDate.Value.Month &&
-                                month.Order >= y.RangeTaskStartDate.Value.Month))
+                            .Where(y => (!y.IsRanged && y.SetDate.Value.Month == month.Order)
+                            || (y.IsRanged &&
+                                month.Order <= y.RangeEndDate.Value.Month &&
+                                month.Order >= y.RangeStartDate.Value.Month))
                             .Select(y => new CalendarTask
                             {
                                 Id = y.TaskId.Value,
-                                TaskTypeId = y.TaskTypeId.Value,
-                                DisplayChar = y.TaskDisplayChar.First(),
-                                DisplayColour = '#' + y.TaskDisplayColour,
+                                IsDisplay = y.IsDisplay.Value,
+                                DisplayChar = y.IsDisplay.Value ? y.DisplayChar?.First() : null,
+                                DisplayColour = y.IsDisplay.Value ? '#' + y.DisplayColour : null,
                                 IsComplete = y.IsComplete.Value,
-                                TaskDate = y.SetTaskDate,
-                                TaskEndDate = y.RangeTaskEndDate,
-                                TaskStartDate = y.RangeTaskStartDate,
+                                IsRanged = y.IsRanged,
+                                TaskDate = y.SetDate,
+                                TaskEndDate = y.RangeEndDate,
+                                TaskStartDate = y.RangeStartDate,
                                 TaskDescription = y.TaskDescription,
                                 TaskName = y.TaskName
                             }).ToList());

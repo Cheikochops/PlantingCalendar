@@ -42,6 +42,13 @@ function NewTaskController($http) {
 
         clearTimeout(ctrl.confirmSaveTimeout);
 
+        var colour = null;
+        var character = null;
+        if (ctrl.isDisplay) {
+            colour = ctrl.displayColour
+            character = ctrl.displayChar
+        }
+
         var data = {
             calendarId: ctrl.calendarId,
             seeds: ctrl.seedIds,
@@ -53,7 +60,10 @@ function NewTaskController($http) {
             repeatableType: ctrl.newTaskRepeatableType,
             singleDate: ctrl.setDate,
             fromDate: ctrl.fromDate,
-            toDate: ctrl.toDate
+            toDate: ctrl.toDate,
+            isDisplay: ctrl.isDisplay,
+            displayColour: colour,
+            displayChar: character
         }
 
         ctrl.isSaving = true;
@@ -74,7 +84,6 @@ function NewTaskController($http) {
     }
 
     ctrl.$onChanges = function () {
-        console.log(ctrl.seeds)
         ctrl.newTaskRepeatableType = '0'
         ctrl.isRanged = false
         ctrl.name = null
@@ -85,6 +94,9 @@ function NewTaskController($http) {
         ctrl.setDate = null
         ctrl.fromDate = null
         ctrl.toDate = null
+        ctrl.displayColour = null
+        ctrl.displayChar = null
+        ctrl.isDisplay = false
 
         ctrl.isSaving = false;
         ctrl.isConfirmSave = false;

@@ -37,38 +37,15 @@ Begin
 				and not exists (Select * from @seedIds where Id = cs.FK_SeedId)
 
 
-		Declare @RemovableTaskTypeIds table
-		(
-			Id bigint
-		)
-
-		Merge 
-			plantbase.Task as target
-		Using (
-			Select
-					t.FK_TaskTypeId,
-					t.Id
-				From
-					plantbase.CalendarSeed cs
-					join @RemovableCalendarSeedIds rcs on cs.Id = rcs.Id
-					join plantbase.Task t on cs.Id = t.FK_CalendarSeedId
-		) as source (FK_TaskTypeId, Id) on target.Id = source.Id
-		When Matched Then 
-			Delete
-		Output 
-				source.FK_TaskTypeId
-			Into 
-				@RemovableTaskTypeIds;
-
-
 		Delete From
-				plantbase.TaskType
+				plantbase.Task
 			Where
-				Id in (
-					Select	
-							Id
+				FK_CalendarSeedId in
+				(
+					Select
+							Id 
 						From
-							@RemovableTaskTypeIds
+							@RemovableCalendarSeedIds
 				)
 
 		Delete From
@@ -106,25 +83,43 @@ Begin
 			inserted.Id
 		Into
 			@newCalendarSeedId;
-
-	Declare @CalendarSeedTaskType table
-	(
-		SeedId bigint,
-		TaskTypeId bigint,
-		ActionId bigint
-	)
-
-	Merge 
-		plantbase.TaskType as target 
-		Using (
+		
+		Insert Into
+			plantbase.Task
+			(
+				FK_CalendarSeedId,
+				Name,
+				Description,
+				IsRanged,
+				RangeStartDate,
+				RangeEndDate,
+				SetDate,
+				DisplayChar,
+				DisplayColour,
+				IsComplete,
+				IsDisplay
+			)
 			Select
-					SeedId = cs.FK_SeedId,
-					ActionId = sa.Id,
-					ActionName = sa.Name,
-					Parse(concat(c.Year, '-', right(sa.StartDate, 2), '-', left(sa.StartDate, 2)) as date),
-					Parse(concat(c.Year, '-', right(sa.EndDate, 2), '-', left(sa.EndDate, 2)) as date),
+					cs.Id,
+					sa.Name,
+					sa.Description,
+					0,
+					case 
+						when sa.StartDate = sa.EndDate then 1
+						else 0
+					end,
+					case 
+						when sa.StartDate = sa.EndDate then null
+						else Parse(concat(c.Year, '-', right(sa.StartDate, 2), '-', left(sa.StartDate, 2)) as date)
+					end,
+					case 
+						when sa.StartDate = sa.EndDate then null
+						else Parse(concat(c.Year, '-', right(sa.EndDate, 2), '-', left(sa.EndDate, 2)) as date)
+					end,
 					sa.DisplayChar,
-					sa.DisplayColour
+					sa.DisplayColour,
+					0,
+					sa.IsDisplay
 				From
 					plantbase.CalendarSeed cs
 					join plantbase.SeedAction sa on cs.FK_SeedId = sa.FK_SeedId	
@@ -133,46 +128,6 @@ Begin
 				Where
 					coalesce(sa.StartDate, '') != ''
 					and coalesce(sa.EndDate, '') != ''
-		) as source (SeedId, ActionId, ActionName, StartDate, EndDate, DisplayChar, DisplayColour) on 1 = 2
-		When Not Matched Then
-			Insert
-			(
-				Name,
-				StartDate,
-				EndDate,
-				DisplayChar,
-				DisplayColour
-			)
-			Values (
-				source.ActionName,
-				source.StartDate,
-				source.EndDate,
-				source.DisplayChar,
-				source.DisplayColour
-			)
-		Output 
-				source.SeedId,
-				INSERTED.Id,
-				source.ActionId
-			Into @CalendarSeedTaskType;
-
-		
-		Insert Into
-			plantbase.Task
-			(
-				FK_TaskTypeId,
-				FK_CalendarSeedId,
-				TaskDate,
-				IsComplete
-			)
-			Select
-					c.TaskTypeId,
-					cs.Id,
-					null,
-					0
-				From
-					@CalendarSeedTaskType c
-					join plantbase.SeedAction sa on sa.Id = c.ActionId
-					join plantbase.CalendarSeed cs on cs.FK_SeedId = c.SeedId and cs.FK_CalendarId = @CalendarId
 
 End
+

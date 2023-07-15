@@ -1,5 +1,4 @@
 drop table if exists plantbase.Task;
-drop table if exists plantbase.TaskType;
 drop table if exists plantbase.CalendarSeed;
 drop table if exists plantbase.Calendar;
 drop table if exists plantbase.SeedAction;
@@ -53,34 +52,9 @@ BEGIN
 		DisplayColour varchar(6) null, --colour code
 		StartDate varchar(4) not null, --format DDMM
 		EndDate varchar(4) not null, --format DDMM
+		IsDisplay bit default(0),
 		PRIMARY KEY (Id),
 		FOREIGN KEY (FK_SeedId) REFERENCES plantbase.Seed(Id)
-	)
-
-END
-
-
-IF (NOT EXISTS (SELECT * 
-                 FROM INFORMATION_SCHEMA.TABLES 
-                 WHERE TABLE_SCHEMA = 'plantbase' 
-                 AND  TABLE_NAME = 'TaskType'))
-BEGIN
-
-	/*
-		Table for storing a type of task
-	*/
-
-    Create Table plantbase.TaskType 
-	(
-		Id bigint IDENTITY(1,1),  
-		Name varchar(50) not null,
-		Description varchar(1000) null,
-		Enum_RepeatableTypeId bigint null,
-		StartDate datetime null,
-		EndDate datetime null,
-		DisplayChar char null,
-		DisplayColour varchar(6) null, --colour code
-		PRIMARY KEY (Id)
 	)
 
 END
@@ -142,12 +116,18 @@ BEGIN
     Create Table plantbase.Task 
 	(
 		Id bigint IDENTITY(1,1),  
-		FK_TaskTypeId bigint not null,
 		FK_CalendarSeedId bigint not null,
-		TaskDate datetime null,
+		Name varchar(50) not null,
+		Description varchar(1000) null,
+		IsRanged bit not null,
+		RangeStartDate datetime null,
+		RangeEndDate datetime null,
+		SetDate datetime null,
+		IsDisplay bit default(0),
+		DisplayChar char null,
+		DisplayColour varchar(6) null, --colour code
 		IsComplete bit default(0),
 		PRIMARY KEY (Id),
-		FOREIGN KEY (FK_TaskTypeId) REFERENCES plantbase.TaskType(Id),
 		FOREIGN KEY (FK_CalendarSeedId) REFERENCES plantbase.CalendarSeed(Id)
 	)
 

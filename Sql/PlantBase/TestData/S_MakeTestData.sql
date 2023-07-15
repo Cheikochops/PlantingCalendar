@@ -56,34 +56,36 @@
 			plantbase.SeedAction
 		(
 			Name,
+			Description,
 			FK_SeedId,
 			StartDate,
 			EndDate,
-			Enum_ActionTypeId
+			Enum_ActionTypeId,
+			IsDisplay,
+			DisplayColour,
+			DisplayChar
 		)
 		VALUES (
-			'TEST: Sow',
+			'Sow',
+			'Sow the plant',
 			@tomatoSeedId,
 			'0102',
 			'3004',
-			1
-		)
-	
-	Insert Into
-			plantbase.SeedAction
+			1,
+			1,
+			'00000F',
+			'S'
+		),
 		(
-			Name,
-			FK_SeedId,
-			StartDate,
-			EndDate,
-			Enum_ActionTypeId
-		)
-		VALUES (
-			'TEST: Harvest',
+			'Harvest',
+			'Harvest the plant',
 			@tomatoSeedId,
 			'1007',
 			'2010',
-			2
+			2,
+			1,
+			'111111',
+			'H'
 		)
 	
 	declare @calendarId bigint = (Select Top 1 Id from plantbase.Calendar Where Year = 2023)
@@ -98,50 +100,60 @@
 				@calendarId,
 				@tomatoSeedId
 			);
-	
-	Insert Into
-			plantbase.TaskType
-			(
-				Name,
-				StartDate,
-				EndDate,
-				DisplayChar,
-				DisplayColour		
-			)
-			VALUES (
-				'TEST: Sow',
-				'2023-02-01',
-				'2023-04-30',
-				'S',
-				'00FF00'
-			),
-			(
-				'TEST: Harvest',
-				'2023-07-01',
-				'2023-10-30',
-				'H',
-				'0000FF'
-			)
-	
-	declare @sowTaskTypeId bigint = (Select Top 1 Id from plantbase.TaskType Where Name = 'TEST: Sow')
-	declare @harvestTaskTypeId bigint = (Select Top 1 Id from plantbase.TaskType Where Name = 'TEST: Harvest')
-	declare @calendarSeedId bigint = (Select Top 1 Id from plantbase.CalendarSeed where FK_CalendarId = @calendarId)
+
+		declare @calendarSeedId bigint = (Select Top 1 Id from plantbase.CalendarSeed where FK_CalendarId = @calendarId)	
 	
 	Insert Into
 			plantbase.Task
 			(
-				FK_TaskTypeId,
 				FK_CalendarSeedId,
-				TaskDate
+				Name,
+				Description,
+				IsRanged,
+				RangeStartDate,
+				RangeEndDate,
+				SetDate,
+				IsDisplay,
+				DisplayChar,
+				DisplayColour,
+				IsComplete		
 			)
-			VALUES
-			(
-				@harvestTaskTypeId,
+			VALUES (
 				@calendarSeedId,
-				'2023-09-10'
+				'Sow',
+				'Sow the plant',
+				1,
+				'2023-02-01',
+				'2023-04-30',
+				null,
+				1,
+				'S',
+				'00FF00',
+				0
 			),
 			(
-				@sowTaskTypeId,
 				@calendarSeedId,
-				null
+				'Harvest',
+				'Harvest the plant',
+				1,
+				'2023-07-01',
+				'2023-10-30',
+				null,
+				1,
+				'H',
+				'0000FF',
+				0
+			),
+			(
+				@calendarSeedId,
+				'Trim',
+				'Trim the bottom leaves off of plants',
+				0,
+				null,
+				null,
+				'2023-05-01',
+				0,
+				null,
+				null,
+				0
 			)

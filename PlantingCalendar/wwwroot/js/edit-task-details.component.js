@@ -10,7 +10,7 @@ angular.module('seedApp')
         }
     });
 
-function EditTaskController($http) {
+function EditTaskController($http, $timeout) {
 
     var ctrl = this;
     ctrl.thisTask = {}
@@ -21,20 +21,18 @@ function EditTaskController($http) {
     ctrl.isDeleting = false;
     ctrl.isConfirmDelete = false;
 
-    ctrl.confirmSave = function () {
+    ctrl.editConfirmSave = function () {
         ctrl.confirmSave = true
-        ctrl.saveTimeout = setTimeout(
-            function () {
-                ctrl.isConfirmSave = false;
-            }, 3000);
+        ctrl.saveTimeout = $timeout(() => {
+            ctrl.isConfirmSave = false;
+        }, 3000);
     }
 
-    ctrl.confirmDelete = function () {
+    ctrl.editConfirmDelete = function () {
         ctrl.isConfirmDelete = true
-        ctrl.deleteTimeout = setTimeout(
-            function () {
-                ctrl.isConfirmDelete = false;
-            }, 3000);
+        ctrl.deleteTimeout = $timeout(() => {
+            ctrl.isConfirmDelete = false;
+        }, 3000);
     }
 
     ctrl.saveTask = function () {
@@ -43,12 +41,20 @@ function EditTaskController($http) {
         clearTimeout(ctrl.saveTimeout)
         ctrl.isSaving = true;
 
+        var colour = null;
+        var character = null;
+        if (ctrl.thisTask.isDisplay) {
+            colour = ctrl.displayColour
+            character = ctrl.displayChar
+        }
+
         var data = {
             taskId: ctrl.thisTask.taskId,
             taskName: ctrl.thisTask.taskName,
             taskDescription: ctrl.thisTask.taskDescription,
-            displayChar: ctrl.thisTask.displayChar,
-            displayColour: ctrl.thisTask.displayColour,
+            isDisplay: ctrl.isDisplay,
+            displayChar: character,
+            displayColour: colour,
             isRanged: ctrl.thisTask.isRanged,
             taskStartDate: ctrl.thisTask.taskStartDate ?? null,
             taskEndDate: ctrl.thisTask.taskEndDate ?? null,
@@ -90,8 +96,20 @@ function EditTaskController($http) {
         });
     }
 
+    ctrl.toggleComplete = function () {
+        var url = "api/tasks/complete?taskId=" + ctrl.thisTask.taskId;
+
+        $http({
+            url: url,
+            method: "PUT",
+            headers: { 'Content-Type': 'application/json' },
+        }).then(function mySuccess(response) {
+            ctrl.thisTask.isComplete = !ctrl.thisTask.isComplete;
+        }, function myError(response) {
+        });
+    }
+
     ctrl.$onChanges = function () {
-        console.log(ctrl.task);
         ctrl.thisTask = structuredClone(ctrl.task)
         ctrl.thisSeed = structuredClone(ctrl.seed)
 

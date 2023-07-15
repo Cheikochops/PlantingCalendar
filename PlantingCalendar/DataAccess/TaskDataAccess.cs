@@ -1,10 +1,6 @@
-using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Options;
-using Newtonsoft.Json;
 using PlantingCalendar.Interfaces;
 using PlantingCalendar.Models;
-using PlantingCalendar.Models.Sql;
-using System.Threading.Tasks;
 
 namespace PlantingCalendar.DataAccess
 {
@@ -22,7 +18,7 @@ namespace PlantingCalendar.DataAccess
             }
             catch (Exception ex)
             {
-                throw;
+                throw new SqlFailureException("Failed to run Task_Delete", ex);
             }
         }
 
@@ -34,22 +30,23 @@ namespace PlantingCalendar.DataAccess
             }
             catch (Exception ex)
             {
-                throw;
+                throw new SqlFailureException("Failed to run Task_ToggleComplete", ex);
             }
         }
 
-        public async Task CreateTask(string newTaskJson)
+        public async Task CreateTask(long calendarId, string newTaskJson)
         {
             try
             {
-                await ExecuteSql($"Exec plantbase.Task_Create @newTaskJson", new Dictionary<string, object>
+                await ExecuteSql($"Exec plantbase.Task_Create @calendarId, @newTaskJson", new Dictionary<string, object>
                 {
+                    { "@calendarId", calendarId },
                     { "@newTaskJson", newTaskJson }
                 });
             }
             catch (Exception ex)
             {
-                throw;
+                throw new SqlFailureException("Failed to run Task_Create", ex);
             }
         }
 
@@ -65,7 +62,7 @@ namespace PlantingCalendar.DataAccess
             }
             catch (Exception ex)
             {
-                throw;
+                throw new SqlFailureException("Failed to run Task_Update", ex);
             }
         }
     }

@@ -26,26 +26,124 @@ namespace PlantingCalendar.DataAccess
             }
 
             var tasks = new List<SqlSaveNewTaskModel>();
-            var taskType = new List<TaskType>();
 
-            if (!task.IsRanged)
-            {
-                var repeatableTypeEnum = Enum.Parse(typeof(RepeatableTypeEnum), task.RepeatableType);
+            foreach (var seed in task.Seeds) {
 
-                switch (repeatableTypeEnum)
+                if (!task.IsRanged)
                 {
-                    case RepeatableTypeEnum.Never:
-                        break;
-                    case RepeatableTypeEnum.Weekly:
-                        break;
-                    case RepeatableTypeEnum.Monthly:
-                        break;
-                    case RepeatableTypeEnum.Fortnightly:
-                        break;
+                    var repeatableTypeEnum = Enum.Parse(typeof(RepeatableTypeEnum), task.RepeatableType);
+
+                    switch (repeatableTypeEnum)
+                    {
+                        case RepeatableTypeEnum.Never:
+                            tasks.Add(new SqlSaveNewTaskModel
+                            {
+                                Name = task.Name,
+                                Description = task.Description,
+                                IsRanged = task.IsRanged,
+                                SeedId = seed,
+                                IsDisplay = task.IsDisplay,
+                                DisplayChar = task.DisplayChar?.First(),
+                                DisplayColour = task.DisplayColour,
+                                SetDate = task.SingleDate
+                            });
+                            break;
+                        case RepeatableTypeEnum.Weekly:
+
+                            for (var date = task.FromDate.Value; date <= task.ToDate; date.AddDays(7))
+                            {
+                                tasks.Add(new SqlSaveNewTaskModel
+                                {
+                                    Name = task.Name,
+                                    Description = task.Description,
+                                    IsRanged = task.IsRanged,
+                                    SeedId = seed,
+                                    IsDisplay = task.IsDisplay,
+                                    DisplayChar = task.DisplayChar.First(),
+                                    DisplayColour = task.DisplayColour,
+                                    SetDate = date
+                                });
+                            }
+
+                            break;
+                        case RepeatableTypeEnum.Monthly:
+
+                            var isEndOfMonth = task.FromDate.Value.Day == DateTime.DaysInMonth(task.FromDate.Value.Year, task.FromDate.Value.Month);
+
+                            for (var month = task.FromDate.Value.Month; month < task.ToDate.Value.Month && month < 12; month++)
+                            {
+                                DateTime currentDate;
+                                var endOfMonth = DateTime.DaysInMonth(task.FromDate.Value.Year, month);
+
+                                if (isEndOfMonth)
+                                {
+                                    currentDate = new DateTime(task.FromDate.Value.Year, month, endOfMonth);
+                                }
+                                else
+                                {
+                                    var day = task.FromDate.Value.Day;
+                                    if (day > endOfMonth)
+                                    {
+                                        day = endOfMonth;
+                                    }
+
+                                    currentDate = new DateTime(task.FromDate.Value.Year, month, day);
+                                }
+
+                                tasks.Add(new SqlSaveNewTaskModel
+                                {
+                                    Name = task.Name,
+                                    Description = task.Description,
+                                    IsRanged = task.IsRanged,
+                                    SeedId = seed,
+                                    IsDisplay = task.IsDisplay,
+                                    DisplayChar = task.DisplayChar.First(),
+                                    DisplayColour = task.DisplayColour,
+                                    SetDate = currentDate
+                                });
+                            }
+
+                            break;
+                        case RepeatableTypeEnum.Fortnightly:
+
+                            for (var date = task.FromDate.Value; date <= task.ToDate; date.AddDays(14))
+                            {
+                                tasks.Add(new SqlSaveNewTaskModel
+                                {
+                                    Name = task.Name,
+                                    Description = task.Description,
+                                    IsRanged = task.IsRanged,
+                                    SeedId = seed,
+                                    IsDisplay = task.IsDisplay,
+                                    DisplayChar = task.DisplayChar.First(),
+                                    DisplayColour = task.DisplayColour,
+                                    SetDate = date
+                                });
+                            }
+
+                            break;
+                    }
                 }
+                else
+                {
+                    tasks.Add(new SqlSaveNewTaskModel
+                    {
+                        Name = task.Name,
+                        Description = task.Description,
+                        IsRanged = task.IsRanged,
+                        SeedId = seed,
+                        IsDisplay = task.IsDisplay,
+                        DisplayChar = task.DisplayChar.First(),
+                        DisplayColour = task.DisplayColour,
+                        RangeEndDate = task.RangeEndDate,
+                        RangeStartDate = task.RangeStartDate,
+                        SetDate = null
+                    });
+                }
+
             }
 
-            var taskJson = JsonConvert.SerializeObject(task);
+            var taskJson = JsonConvert.SerializeObject(tasks);
 
             await TaskDataAccess.CreateTask(task.CalendarId, taskJson);
         }

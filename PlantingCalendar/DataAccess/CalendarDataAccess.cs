@@ -30,7 +30,7 @@ namespace PlantingCalendar.DataAccess
             }
             catch (Exception ex)
             {
-                throw;
+                throw new SqlFailureException("Failed to run Calendar_Basic_Read", ex);
             }
         }
 
@@ -52,7 +52,7 @@ namespace PlantingCalendar.DataAccess
             }
             catch (Exception ex)
             {
-                throw;
+                throw new SqlFailureException("Failed to run Calendar_Read", ex);
             }
         }
 
@@ -60,23 +60,25 @@ namespace PlantingCalendar.DataAccess
         {
             try
             {
-                var calendarId = await ExecuteSql<long>($"Exec plantbase.NewCalendar_Create @calendarName, @calendarYear, @seedListJson", new Dictionary<string, object>
+                var calendarId = await ExecuteSql<SqlIdModel>($"Exec plantbase.NewCalendar_Create @calendarName, @calendarYear, @seedListJson", new Dictionary<string, object>
                 {
                     { "@calendarName", calendarName },
                     { "@calendarYear", calendarYear },
                     { "@seedListJson", seedListJson }
                 });
 
-                if (calendarId == null || !calendarId.Any())
+                if (calendarId == null 
+                    || !calendarId.Any() 
+                    || calendarId.First().Id == null)
                 {
-                    throw new Exception("Unable to get CalendarId");
+                    throw new Exception("Unable to get returned CalendarId");
                 }
 
-                return calendarId.First();
+                return calendarId.First().Id.Value;
             }
             catch (Exception ex)
             {
-                throw;
+                throw new SqlFailureException("Failed to run NewCalendar_Create", ex);
             }
         }
 
@@ -92,7 +94,7 @@ namespace PlantingCalendar.DataAccess
             }
             catch (Exception ex)
             {
-                throw;
+                throw new SqlFailureException("Failed to run Calendar_SeedUpdate", ex);
             }
         }
     }

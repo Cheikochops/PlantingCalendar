@@ -4,8 +4,6 @@ namespace PlantingCalendar.Models.Sql
     {
         public long SeedId { get; set; }
 
-        public List<long> Seeds { get; set; }
-
         public string Name { get; set; }
 
         public string Description { get; set; }
@@ -16,12 +14,12 @@ namespace PlantingCalendar.Models.Sql
 
         public DateTime? RangeEndDate { get; set; }
 
-        public RepeatableTypeEnum RepeatableType { get; set; }
+        public DateTime? SetDate { get; set; }
 
-        public DateTime? SingleDate { get; set; }
+        public bool IsDisplay { get; set; }
 
-        public DateTime? FromDate { get; set; }
+        public char? DisplayChar { get; set; }
 
-        public DateTime? ToDate { get; set; }
+        public string DisplayColour { get; set; }
     }
 }

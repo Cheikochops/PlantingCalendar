@@ -28,7 +28,7 @@ namespace PlantingCalendar.DataAccess
             }
             catch (Exception ex)
             {
-                throw;
+                throw new SqlFailureException("Failed to run Seed_Display_Read", ex);
             }
         }
 
@@ -53,7 +53,7 @@ namespace PlantingCalendar.DataAccess
             }
             catch (Exception ex)
             {
-                throw;
+                throw new SqlFailureException("Failed to run Seed_Details_Read", ex);
             }
         }
 
@@ -68,7 +68,7 @@ namespace PlantingCalendar.DataAccess
             }
             catch (Exception ex)
             {
-                throw;
+                throw new SqlFailureException("Failed to run Seed_Save", ex);
             }
         }
 
@@ -84,7 +84,7 @@ namespace PlantingCalendar.DataAccess
             }
             catch (Exception ex)
             {
-                throw;
+                throw new SqlFailureException("Failed to run Seed_Delete", ex);
             }
         }
     }

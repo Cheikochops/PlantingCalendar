@@ -22,7 +22,6 @@ function EditCalendarSeedController($http) {
     ctrl.seedListFilter = "";
 
     ctrl.addSeed = function (seed) {
-        console.log(seed);
         ctrl.currentSeedList.push({
             id: seed.id,
             plantTypeName: seed.plantType,
@@ -32,7 +31,6 @@ function EditCalendarSeedController($http) {
     }
 
     ctrl.removeSeed = function (seed) {
-        console.log(seed);
         ctrl.allSeedList.push({
             id: seed.id,
             breed: seed.plantBreed,
@@ -56,8 +54,6 @@ function EditCalendarSeedController($http) {
                         }
                     })
                 });
-
-                console.log(ctrl.allSeedList);
             });
     };
 
@@ -94,8 +90,6 @@ function EditCalendarSeedController($http) {
                 })
             });
         }
-
-        console.log(ctrl);
     }
 
     ctrl.loadSeedList();

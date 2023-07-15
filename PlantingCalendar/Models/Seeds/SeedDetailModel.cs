@@ -23,6 +23,8 @@ namespace PlantingCalendar.Models
 
         public long? ActionId {  get; set; }
 
+        public bool IsDisplay { get; set; }
+
         public char? DisplayChar { get; set; }
 
         public string DisplayColour { get; set; }

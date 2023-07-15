@@ -22,6 +22,8 @@ namespace PlantingCalendar.Models.Sql
 
         public string ActionDescription { get; set; }
 
+        public bool IsDisplay { get; set; }
+
         public string DisplayChar { get; set; }
 
         public string DisplayColour { get; set; }

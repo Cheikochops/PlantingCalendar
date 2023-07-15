@@ -28,9 +28,9 @@
                 <tr ng-repeat="seed in calendar.seeds">
                     <td ng-click="loadSeedInfoPopup(seed.id)">{{seed.plantTypeName}} - {{seed.plantBreed}}</td>
                     <td ng-repeat="(month, taskmonth) in seed.tasks" ng-click="showMonth(month)" class="td">
-                        <ul ng-repeat="task in taskmonth">
-                            <li>{{task.displayChar}}</li>
-                        </ul>
+                        <div ng-repeat="task in taskmonth | filter: {isDisplay:true}">
+                            <div ng-style="{'color': task.displayColour }">{{task.displayChar}}</div>
+                        </div>
                     </td>
                 </tr>
             </table>
@@ -57,9 +57,8 @@
 
                         <td ng-repeat="day in seed.dayTasks" class="td">
                             <div ng-repeat="task in day.tasks" class="task" ng-click="loadTaskInfoPopup(task, seed)">
-                                <input type="checkbox" ng-bind="task.isComplete" />
-                                {{task.taskName}}
-                                {{task.taskDescription}}
+                                <input type="checkbox" ng-model="task.isComplete" />
+                                {{task.taskName}} - {{task.taskDescription}}
                             </div>
                         </td>
                     </tr>

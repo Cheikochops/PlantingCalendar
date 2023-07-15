@@ -18,6 +18,7 @@ Begin
 			ActionName,
 			ActionDescription,
 			ActionType,
+			IsDisplay,
 			DisplayChar,
 			DisplayColour,
 			StartDate,

@@ -12,6 +12,7 @@ AS
 			ActionType = sa.Enum_ActionTypeId,
 			ActionName = sa.Name,
 			ActionDescription = sa.Description,
+			sa.IsDisplay,
 			sa.DisplayChar,
 			sa.DisplayColour,
 			sa.StartDate,
