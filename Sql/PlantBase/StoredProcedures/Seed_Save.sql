@@ -66,6 +66,7 @@ declare @SeedTable table (
 								ActionName varchar(100),
 								ActionDescription varchar(max),
 							    ActionId bigint,
+								IsDisplay bit,
 								ActionType int,
 								DisplayChar char,
 								DisplayColour varchar(10),
@@ -76,8 +77,8 @@ declare @SeedTable table (
 				) as source
 			on target.Id = source.ActionId
 		When Not matched by target then
-			Insert (Name, Description, FK_SeedId, Enum_ActionTypeId, DisplayChar, DisplayColour, StartDate, EndDate)
-			Values (source.ActionName, source.ActionDescription, @seedId, source.ActionType, source.DisplayChar, source.DisplayColour, source.StartDate, source.EndDate)
+			Insert (Name, Description, FK_SeedId, Enum_ActionTypeId, IsDisplay, DisplayChar, DisplayColour, StartDate, EndDate)
+			Values (source.ActionName, source.ActionDescription, @seedId, source.ActionType, source.IsDisplay, source.DisplayChar, source.DisplayColour, source.StartDate, source.EndDate)
 		When matched then 
 			Update Set
 				target.Name = source.ActionName,

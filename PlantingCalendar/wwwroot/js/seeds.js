@@ -2,6 +2,9 @@
     $scope.seedList = [];
     $scope.order = "plantType";
     $scope.displaySeedId = null;
+    $scope.showExpired = true;
+
+    $scope.selectedSeedId = null;
 
     $scope.loadSeedList = function () {
 
@@ -17,12 +20,19 @@
         $scope.order = o
     };
 
-    $scope.setInformationDisplay = function (seedId) {
-        if ($scope.displaySeedId == seedId) {
+    $scope.setInformationDisplay = function (seed) {
+        if (seed == null) {
             $scope.displaySeedId = null
+            $scope.selectedSeedId = null
+        }
+
+        if ($scope.displaySeedId == seed.id) {
+            $scope.displaySeedId = null
+            $scope.selectedSeedId = null
         }
         else {
-            $scope.displaySeedId = seedId
+            $scope.displaySeedId = seed.id
+            $scope.selectedSeedId = seed.id
         }
     }
 
@@ -32,8 +42,8 @@
         $scope.displaySeedId = null;
     }
 
-    $scope.unfocus = function () {
-        $scope.displaySeedId = null;
+    $scope.shouldShow = function (item) {
+        return $scope.showExpired || (!$scope.showExpired && !item.isExpired)
     }
 
     $scope.loadSeedList();

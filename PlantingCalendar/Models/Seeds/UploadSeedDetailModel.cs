@@ -27,7 +27,7 @@ namespace PlantingCalendar.Models
     {
         public string ActionName { get; set; }
 
-        public string ActionDescription { get; set; }
+        public string? ActionDescription { get; set; }
 
         public long? ActionId {  get; set; }
 

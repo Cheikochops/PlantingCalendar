@@ -1,1 +1,1 @@
-﻿angular.module('seedApp', []);
+﻿angular.module('seedApp', ['ui.toggle']);

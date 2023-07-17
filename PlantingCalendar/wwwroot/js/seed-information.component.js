@@ -10,11 +10,30 @@ angular.module('seedApp')
         }
     });
 
-function SeedInfoController($http) {
+function SeedInfoController($http, $timeout) {
 
     var ctrl = this;
 
     ctrl.hasData = false;
+
+    ctrl.isConfirmSave = false;
+    ctrl.isSaving = false;
+    ctrl.isDeleting = false;
+    ctrl.isConfirmDelete = false;
+
+    ctrl.confirmSave = function () {
+        ctrl.isConfirmSave = true
+        ctrl.saveTimeout = $timeout(() => {
+            ctrl.isConfirmSave = false;
+        }, 3000);
+    }
+
+    ctrl.confirmDelete = function () {
+        ctrl.isConfirmDelete = true
+        ctrl.deleteTimeout = $timeout(() => {
+            ctrl.isConfirmDelete = false;
+        }, 3000);
+    }
 
     ctrl.$onChanges = function (changes) {
         ctrl.expiryDate = null
@@ -29,12 +48,14 @@ function SeedInfoController($http) {
                     actionName: "Sow",
                     displayChar: "S",
                     actionId: null,
+                    isDisplay: true
                     
                 },
                 harvestAction: { 
                     actionName: "Harvest",
                     displayChar: "H",
-                    actionId: null
+                    actionId: null,
+                    isDisplay: true
                 },
                 actions: []
             }
@@ -57,6 +78,9 @@ function SeedInfoController($http) {
     ctrl.saveSeed = function () {
         var url = "api/seeds"
 
+        clearTimeout(ctrl.saveTimeout)
+        ctrl.isSaving = true;
+
         var data = {
             description: ctrl.seedData.description ?? "",
             expiryDate: ctrl.expiryDate,
@@ -78,22 +102,32 @@ function SeedInfoController($http) {
         }).then(function mySuccess(response) {
             ctrl.refresh();
             ctrl.getSeedDetails();
+            ctrl.isSaving = false;
+            ctrl.isConfirmSave = false;
 
         }, function myError(response) {
-            
+
+            ctrl.isSaving = false;
+            ctrl.isConfirmSave = false;
         });
     }
 
     ctrl.deleteSeed = function () {
         var url = "api/seeds?seedId=" + ctrl.seedId;
 
+        clearTimeout(ctrl.deleteTimeout)
+        ctrl.isDeleting = true;
+
         $http({
             url: url,
             method: "DELETE"
         }).then(function mySuccess(response) {
+            ctrl.isDeleting = false
+            ctrl.isConfirmDelete = false;
             ctrl.refresh();
         }, function myError(response) {
-
+            ctrl.isDeleting = false
+            ctrl.isConfirmDelete = false;
         });
     }
 

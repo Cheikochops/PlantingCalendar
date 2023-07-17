@@ -22,7 +22,7 @@ function EditTaskController($http, $timeout) {
     ctrl.isConfirmDelete = false;
 
     ctrl.editConfirmSave = function () {
-        ctrl.confirmSave = true
+        ctrl.isConfirmSave = true
         ctrl.saveTimeout = $timeout(() => {
             ctrl.isConfirmSave = false;
         }, 3000);

@@ -47,6 +47,7 @@ namespace PlantingCalendar.DataAccess
                     ActionName = x.ActionName,
                     ActionDescription = x.ActionDescription,
                     ActionType = x.ActionType,
+                    IsDisplay = x.IsDisplay,
                     DisplayChar = x.DisplayChar != null ? x.DisplayChar.First() : null,
                     DisplayColour = "#" + (x.DisplayColour ?? "000000"),
                     EndDateMonth = new string(x.EndDate.TakeLast(2).ToArray()),
@@ -73,6 +74,7 @@ namespace PlantingCalendar.DataAccess
                     ActionDescription = sowAction.ActionDescription,
                     ActionType = sowAction.ActionType,
                     DisplayChar = sowAction.DisplayChar != null ? sowAction.DisplayChar.First() : 'S',
+                    IsDisplay = true,
                     DisplayColour = "#" + (sowAction.DisplayColour ?? "000000"),
                     EndDateMonth = new string(sowAction.EndDate.TakeLast(2).ToArray()),
                     EndDateDay = new string(sowAction.EndDate.Take(2).ToArray()),
@@ -87,6 +89,7 @@ namespace PlantingCalendar.DataAccess
                     ActionName = "Sow",
                     ActionDescription = "Sow the seed",
                     ActionType = ActionTypeEnum.Sow,
+                    IsDisplay = true,
                     DisplayChar = 'S',
                     DisplayColour = "#000000"
                 };
@@ -102,6 +105,7 @@ namespace PlantingCalendar.DataAccess
                     ActionName = harvestAction.ActionName,
                     ActionDescription = harvestAction.ActionDescription,
                     ActionType = harvestAction.ActionType,
+                    IsDisplay = true,
                     DisplayChar = harvestAction.DisplayChar != null ? harvestAction.DisplayChar.First() : 'H',
                     DisplayColour = "#" + (harvestAction.DisplayColour ?? "000000"),
                     EndDateMonth = new string(harvestAction.EndDate.TakeLast(2).ToArray()),
@@ -117,6 +121,7 @@ namespace PlantingCalendar.DataAccess
                     ActionName = "Harvest",
                     ActionDescription = "Harvest the crop",
                     ActionType = ActionTypeEnum.Harvest,
+                    IsDisplay = true,
                     DisplayChar = 'H',
                     DisplayColour = "#000000"
                 };
@@ -149,6 +154,7 @@ namespace PlantingCalendar.DataAccess
                     ActionName = x.ActionName,
                     ActionDescription = x.ActionDescription,
                     ActionType = ActionTypeEnum.Custom,
+                    IsDisplay = x.IsDisplay,
                     DisplayChar = x.DisplayChar,
                     DisplayColour = x.DisplayColour.TrimStart('#'),
                     StartDate = x.StartDateDay + x.StartDateMonth,
@@ -162,6 +168,7 @@ namespace PlantingCalendar.DataAccess
                 ActionName = seed.SowAction.ActionName,
                 ActionDescription = seed.SowAction.ActionDescription,
                 ActionType = ActionTypeEnum.Sow,
+                IsDisplay = seed.SowAction.IsDisplay,
                 DisplayChar = seed.SowAction.DisplayChar,
                 DisplayColour = seed.SowAction.DisplayColour.TrimStart('#'),
                 StartDate = seed.SowAction.StartDateDay + seed.SowAction.StartDateMonth,
@@ -174,6 +181,7 @@ namespace PlantingCalendar.DataAccess
                 ActionName = seed.HarvestAction.ActionName,
                 ActionDescription = seed.HarvestAction.ActionDescription,
                 ActionType = ActionTypeEnum.Harvest,
+                IsDisplay = seed.HarvestAction.IsDisplay,
                 DisplayChar = seed.HarvestAction.DisplayChar,
                 DisplayColour = seed.HarvestAction.DisplayColour.TrimStart('#'),
                 StartDate = seed.HarvestAction.StartDateDay + seed.HarvestAction.StartDateMonth,

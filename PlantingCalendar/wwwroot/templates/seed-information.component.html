@@ -1,163 +1,234 @@
 ﻿<div class="flex-column space-evenly">
     <form name="seedForm" class="my-form">
-        <div class="width12 flex-column mb-4">
-            <div class="text-center flex col-12" ng-hide="$ctrl.readOnly">
-                <div ng-hide="$ctrl.hasData" class="col-5">
-                    Upload New Seed
-                </div>
-                <div ng-hide="!$ctrl.hasData" class="col-5">
-                    Edit Existing Seed
-                </div>
-                <div class="flex">
-                    <div>
-                        <button ng-click="$ctrl.saveSeed()" ng-disabled="seedForm.$invalid">Save</button>
-                    </div>
-                    <div>
-                        <button ng-click="$ctrl.deleteSeed()" ng-disabled="!$ctrl.hasData">Delete</button>
-                    </div>
-                </div>
+        <div class="flex" ng-hide="$ctrl.readOnly">
+            <div>
+                <button ng-click="$ctrl.confirmSave()" ng-show="!$ctrl.isConfirmSave && !$ctrl.isSaving" class="btn btn-primary" ng-disabled="seedForm.$invalid"> <span class="fas fa-save"></span> Save</button>
+                <button ng-click="$ctrl.saveSeed()" ng-show="$ctrl.isConfirmSave && !$ctrl.isSaving" class="btn btn-danger" ng-disabled="seedForm.$invalid">Confirm?</button>
+                <button disabled ng-show="$ctrl.isSaving" class="btn btn-primary">
+                    <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
+                    Saving...
+                </button>
             </div>
-            <div class="flex">
-                <div class="width4">
-                    PlantType
-                </div>
-                <div class="width8">
-                    <input class="width12 my-input" name="plantType" ng-model="$ctrl.seedData.plantType" ng-readonly="$ctrl.readOnly" type="text" required />
-                </div>
-            </div>
-            <div class="flex">
-                <div class="width4">
-                    Variety / Breed
-                </div>
-                <div class="width8">
-                    <input class="width12 my-input" name="breed" ng-model="$ctrl.seedData.breed" ng-readonly="$ctrl.readOnly" required />
-                </div>
-            </div>
-            <div class="flex">
-                <div class="width4">
-                    Description
-                </div>
-                <div class="width8">
-                    <textarea class="width12" name="description" ng-model="$ctrl.seedData.description" ng-readonly="$ctrl.readOnly"></textarea>
-                </div>
-            </div>
-            <div class="flex">
-                <div class="width4">
-                    Sun Requirements
-                </div>
-                <div class="width8">
-                    <input class="width12" name="sunRequirement" ng-model="$ctrl.seedData.sunRequirement" ng-readonly="$ctrl.readOnly" />
-                </div>
-            </div>
-            <div class="flex">
-                <div class="width4">
-                    Water Requirements
-                </div>
-                <div class="width8">
-                    <input class="width12" name="wateringRequirement" ng-model="$ctrl.seedData.waterRequirement" ng-readonly="$ctrl.readOnly" />
-                </div>
-            </div>
-            <div class="flex">
-                <div class="width4">
-                    Expiry Date
-                </div>
-                <div class="width8">
-                    <input class="width12" name="expiryDate" ng-model="$ctrl.expiryDate" type="date" ng-readonly="$ctrl.readOnly" />
-                </div>
+
+            <div>
+                <button ng-click="$ctrl.confirmDelete()" class="btn btn-secondary" ng-show="!$ctrl.isConfirmDelete && !$ctrl.isDeleting" ng-disabled="!$ctrl.hasData">Delete</button>
+                <button ng-click="$ctrl.deleteSeed()" ng-show="$ctrl.isConfirmDelete && !$ctrl.isDeleting" class="btn btn-danger">Confirm?</button>
+                <button disabled ng-show="$ctrl.isDeleting" class="btn btn-primary">
+                    <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
+                    Deleting...
+                </button>
             </div>
         </div>
-        <div class="width12">
-            <div>
-                <button ng-click="$ctrl.addAction()" ng-hide="$ctrl.readOnly">Add Action</button>
 
-                <table id="actionTable" class="mb-4">
-                    <tr>
-                        <th class="width2">Name</th>
-                        <th class="width2">Description</th>
-                        <th class="width1">Char</th>
-                        <th class="width2">Colour</th>
-                        <th class="width2 text-center">Start</th>
-                        <th class="width2 text-center">End</th>
-                        <th class="width1"></th>
-                    </tr>
+        <div class="form-group mt-2">
+            <label for="name">Plant Type</label>
+            <input type="text" class="form-control my-input" id="plantType" ng-model="$ctrl.seedData.plantType" ng-readonly="$ctrl.readOnly" required>
+        </div>
 
-                    <tr class="actionItem">
-                        <td class="width2">
-                            <input name="sowActionName" class="width12" ng-disabled="true" ng-model="$ctrl.seedData.sowAction.actionName" ng-readonly="$ctrl.readOnly">
-                        </td>
-                        <td class="width2">
-                            <textarea name="sowActionDescription" class="width12" ng-model="$ctrl.seedData.sowAction.actionDescription" ng-readonly="$ctrl.readOnly">{{$ctrl.seedData.sowAction.actionDescription}}</textarea>
-                        </td>
-                        <td class="width1">
-                            <input name="sowDisplayChar" type="text" maxlength="1" class="width12 my-input" ng-model="$ctrl.seedData.sowAction.displayChar" ng-readonly="$ctrl.readOnly" required>
-                        </td>
-                        <td class="width2">
-                            <input name="sowDisplayColour" type="color" class="width12 my-input" ng-model="$ctrl.seedData.sowAction.displayColour" ng-disabled="$ctrl.readOnly">
-                        </td>
-                        <td class="width2">
-                            <input name="sowStartDateDay" type="text" maxlength="2" ng-minlength="2" ng-model="$ctrl.seedData.sowAction.startDateDay" placeholder="DD" class="col-5 my-input" ng-readonly="$ctrl.readOnly" required>
-                            <input name="sowStartDateMonth" type="text" maxlength="2" ng-minlength="2" ng-model="$ctrl.seedData.sowAction.startDateMonth" placeholder="MM" class="col-6 my-input" ng-readonly="$ctrl.readOnly" required>
-                        </td>
-                        <td class="width2">
-                            <input name="sowEndDateDay" type="text" maxlength="2" ng-minlength="2" ng-model="$ctrl.seedData.sowAction.endDateDay" placeholder="DD" class="col-5 my-input" ng-readonly="$ctrl.readOnly" required>
-                            <input name="sowEndDateMonth" type="text" maxlength="2" ng-minlength="2" ng-model="$ctrl.seedData.sowAction.endDateMonth" placeholder="MM" class="col-6 my-input" ng-readonly="$ctrl.readOnly" required>
-                        </td>
-                        <td>
-                        </td>
-                    </tr>
+        <div class="form-group mt-2">
+            <label for="name">Breed</label>
+            <input type="text" class="form-control my-input" id="breed" ng-model="$ctrl.seedData.breed" ng-readonly="$ctrl.readOnly" required>
+        </div>
 
-                    <tr class="actionItem">
-                        <td class="width2">
-                            <input name="harvestActionName" class="width12" ng-disabled="true" ng-model="$ctrl.seedData.harvestAction.actionName" ng-readonly="$ctrl.readOnly">
-                        </td>
-                        <td class="width2">
-                            <textarea name="sowActionDescription" class="width12" ng-model="$ctrl.seedData.harvestAction.actionDescription" ng-readonly="$ctrl.readOnly">{{$ctrl.seedData.harvestAction.actionDescription}}</textarea>
-                        </td>
-                        <td class="width1">
-                            <input name="harvestDisplayChar" type="text" maxlength="1" class="width12 my-input" ng-model="$ctrl.seedData.harvestAction.displayChar" ng-readonly="$ctrl.readOnly" required>
-                        </td>
-                        <td class="width2">
-                            <input name="harvestDisplayColour" type="color" class="width12 my-input" ng-model="$ctrl.seedData.harvestAction.displayColour" ng-disabled="$ctrl.readOnly" required>
-                        </td>
-                        <td class="width2">
-                            <input name="harvestStartDateDay" type="text" maxlength="2" ng-minlength="2" ng-model="$ctrl.seedData.harvestAction.startDateDay" placeholder="DD" class="col-5 my-input" ng-readonly="$ctrl.readOnly" required>
-                            <input name="harvestStartDateMonth" type="text" maxlength="2" ng-minlength="2" ng-model="$ctrl.seedData.harvestAction.startDateMonth" placeholder="MM" class="col-6 my-input" ng-readonly="$ctrl.readOnly" required>
-                        </td>
-                        <td class="width2">
-                            <input name="harvestEndDateDay" type="text" maxlength="2" ng-minlength="2" ng-model="$ctrl.seedData.harvestAction.endDateDay" placeholder="DD" class="col-5 my-input" ng-readonly="$ctrl.readOnly" required>
-                            <input name="harvestEndDateMonth" type="text" maxlength="2" ng-minlength="2" ng-model="$ctrl.seedData.harvestAction.endDateMonth" placeholder="MM" class="col-6 my-input" ng-readonly="$ctrl.readOnly" required>
-                        </td>
-                        <td>
-                        </td>
-                    </tr>
+        <div class="form-group mt-2">
+            <label for="description">Description</label>
+            <textarea type="text" class="form-control my-input" id="description" ng-model="$ctrl.seedData.description" rows="4" ng-readonly="$ctrl.readOnly">{{$ctrl.seedData.description}}</textarea>
+        </div>
 
+        <div class="form-group mt-2">
+            <label for="sun">Sun Requirements</label>
+            <input type="text" class="form-control my-input" id="sun" ng-model="$ctrl.seedData.sunRequirement" ng-readonly="$ctrl.readOnly" required>
+        </div>
 
-                    <tr class="actionItem" ng-repeat="action in $ctrl.seedData.actions">
-                        <td class="width2">
-                            <input name="actionName" class="width12 my-input" ng-model="action.actionName" ng-readonly="$ctrl.readOnly" required>
-                        </td>
-                        <td class="width2">
-                            <textarea name="actionDescription" class="width12" ng-model="action.actionDescription" ng-readonly="$ctrl.readOnly">{{action.actionDescription}}</textarea>
-                        </td>
-                        <td class="width1">
-                            <input name="displayChar" type="text" maxlength="1" class="width12" ng-model="action.displayChar" ng-readonly="$ctrl.readOnly">
-                        </td>
-                        <td class="width2">
-                            <input name="displayColour" type="color" class="width12" ng-model="action.displayColour" ng-readonly="$ctrl.readOnly" ng-disabled="$ctrl.readOnly">
-                        </td>
-                        <td class="width2">
-                            <input name="startDateDay" type="text" maxlength="2" ng-minlength="2" ng-model="action.startDateDay" placeholder="DD" class="col-5 my-input" ng-readonly="$ctrl.readOnly" required>
-                            <input name="startDateMonth" type="text" maxlength="2" ng-minlength="2" ng-model="action.startDateMonth" placeholder="MM" class="col-6 my-input" ng-readonly="$ctrl.readOnly" required>
-                        </td>
-                        <td class="width2">
-                            <input name="endDateDay" type="text" maxlength="2" ng-minlength="2" ng-model="action.endDateDay" placeholder="DD" class="col-5 my-input" ng-readonly="$ctrl.readOnly" required>
-                            <input name="endDateMonth" type="text" maxlength="2" ng-minlength="2" ng-model="action.endDateMonth" placeholder="MM" class="col-6 my-input" ng-readonly="$ctrl.readOnly" required>
-                        </td>
-                        <td class="width1">
-                            <button ng-click="$ctrl.removeRow($index)" type="button" class="width12" ng-hide="$ctrl.readOnly">X</button>
-                        </td>
-                    </tr>
-                </table>
+        <div class="form-group mt-2">
+            <label for="water">Water Requirements</label>
+            <input type="text" class="form-control my-input" id="water" ng-model="$ctrl.seedData.waterRequirement" ng-readonly="$ctrl.readOnly" required>
+        </div>
+
+        <div class="form-group mt-2">
+            <label for="expiryDate">Expiry Date</label>
+            <input type="date" class="form-control my-input" id="expiryDate" ng-model="$ctrl.expiryDate" ng-readonly="$ctrl.readOnly">
+        </div>
+
+        <div class="mt-4">
+            <button ng-click="$ctrl.addAction()" ng-hide="$ctrl.readOnly" class="btn btn-primary"> <span class="fas fa-plus"></span> Action</button>
+
+            <!--SOWING ACTION-->
+            <div class="bg-light p-4 border b-4 m-4">
+                <div class="row">
+                    <div class="form-group col">
+                        <label for="sowActionName">Name</label>
+                        <input type="text" class="form-control my-input" id="sowActionName" ng-model="$ctrl.seedData.sowAction.actionName" ng-readonly="$ctrl.readOnly" ng-disabled="true">
+                    </div>
+
+                    <div class="form-group col">
+                        <label for="description">Description</label>
+                        <textarea type="text" class="form-control my-input" id="description" ng-model="$ctrl.seedData.sowAction.description" rows="1" ng-readonly="$ctrl.readOnly">{{$ctrl.seedData.description}}</textarea>
+                    </div>
+                </div>
+                <div class="row mt-2 ms-2">
+                    <div class="form-group col align-self-center">
+                        <input class="form-check-input" type="checkbox" ng-model="$ctrl.seedData.sowAction.isDisplay" id="isDisplay" ng-readonly="$ctrl.readOnly" ng-disabled="true">
+                        <label class="form-check-label" for="isDisplay">
+                            Display on Yearly Calendar
+                        </label>
+                    </div>
+
+                    <div class="form-group col">
+                        <label for="character">Display Character</label>
+                        <input name="character" type="text" maxlength="1" ng-model="$ctrl.seedData.sowAction.displayChar" class="form-control my-input" ng-disabled="!$ctrl.seedData.sowAction.isDisplay" ng-required="$ctrl.seedData.sowAction.isDisplay"  ng-readonly="$ctrl.readOnly" />
+                    </div>
+
+                    <div class="form-group col">
+                        <label for="displayColour">Display Colour</label>
+                        <input name="displayColour" type="color" ng-model="$ctrl.seedData.sowAction.displayColour" class="form-control my-input" ng-disabled="!$ctrl.seedData.sowAction.isDisplay" ng-required="$ctrl.seedData.sowAction.isDisplay"  ng-readonly="$ctrl.readOnly">
+                    </div>
+                </div>
+                <div class="row mt-2">
+                    <div class="col">
+                        <label for="sowStartDateDay">Start Date</label>
+                        <div class="row">
+                            <div class="col">
+                                <input name="sowStartDateDay" type="text" maxlength="2" ng-minlength="2" ng-model="$ctrl.seedData.sowAction.startDateDay" placeholder="DD" class="form-control my-input" ng-readonly="$ctrl.readOnly" required >
+                            </div>
+                            <div class="col">
+                                <input name="sowStartDateMonth" type="text" maxlength="2" ng-minlength="2" ng-model="$ctrl.seedData.sowAction.startDateMonth" placeholder="MM" class="form-control my-input" ng-readonly="$ctrl.readOnly" required>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col">
+                        <label for="sowEndDateDay">End Date</label>
+                        <div class="row">
+                            <div class="col">
+                                <input name="sowEndDateDay" type="text" maxlength="2" ng-minlength="2" ng-model="$ctrl.seedData.sowAction.endDateDay" placeholder="DD" class="form-control my-input" ng-readonly="$ctrl.readOnly" required>
+                            </div>
+                            <div class="col">
+                                <input name="sowEndDateMonth" type="text" maxlength="2" ng-minlength="2" ng-model="$ctrl.seedData.sowAction.endDateMonth" placeholder="MM" class="form-control my-input" ng-readonly="$ctrl.readOnly" required>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!---->
+            <!--HARVEST ACTION-->
+            <div class="bg-light p-4 border b-4 m-4">
+                <div class="row">
+                    <div class="form-group col">
+                        <label for="sowActionName">Name</label>
+                        <input type="text" class="form-control my-input" id="sowActionName" ng-model="$ctrl.seedData.harvestAction.actionName" ng-readonly="$ctrl.readOnly" ng-disabled="true">
+                    </div>
+
+                    <div class="form-group col">
+                        <label for="description">Description</label>
+                        <textarea type="text" class="form-control my-input" id="description" ng-model="$ctrl.seedData.harvestAction.description" rows="1" ng-readonly="$ctrl.readOnly">{{$ctrl.seedData.description}}</textarea>
+                    </div>
+                </div>
+                <div class="row mt-2 ms-2">
+                    <div class="form-group col align-self-center">
+                        <input class="form-check-input" type="checkbox" ng-model="$ctrl.seedData.harvestAction.isDisplay" id="hisDisplay" ng-readonly="$ctrl.readOnly" ng-disabled="true">
+                        <label class="form-check-label" for="hisDisplay">
+                            Display on Yearly Calendar
+                        </label>
+                    </div>
+
+                    <div class="form-group col">
+                        <label for="character">Display Character</label>
+                        <input name="character" type="text" maxlength="1" ng-model="$ctrl.seedData.harvestAction.displayChar" class="form-control my-input" ng-disabled="!$ctrl.seedData.harvestAction.isDisplay" ng-required="$ctrl.seedData.harvestAction.isDisplay" ng-readonly="$ctrl.readOnly" />
+                    </div>
+
+                    <div class="form-group col">
+                        <label for="displayColour">Display Colour</label>
+                        <input name="displayColour" type="color" ng-model="$ctrl.seedData.harvestAction.displayColour" class="form-control my-input" ng-disabled="!$ctrl.seedData.harvestAction.isDisplay" ng-required="$ctrl.seedData.harvestAction.isDisplay" ng-readonly="$ctrl.readOnly">
+                    </div>
+                </div>
+                <div class="row mt-2">
+                    <div class="col">
+                        <label for="harvestStartDateDay">Start Date</label>
+                        <div class="row">
+                            <div class="col">
+                                <input name="harvestStartDateDay" type="text" maxlength="2" ng-minlength="2" ng-model="$ctrl.seedData.harvestAction.startDateDay" placeholder="DD" class="form-control my-input" ng-readonly="$ctrl.readOnly" required>
+                            </div>
+                            <div class="col">
+                                <input name="harvestStartDateMonth" type="text" maxlength="2" ng-minlength="2" ng-model="$ctrl.seedData.harvestAction.startDateMonth" placeholder="MM" class="form-control my-input" ng-readonly="$ctrl.readOnly" required>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col">
+                        <label for="sowEndDateDay">End Date</label>
+                        <div class="row">
+                            <div class="col">
+                                <input name="harvestEndDateDay" type="text" maxlength="2" ng-minlength="2" ng-model="$ctrl.seedData.harvestAction.endDateDay" placeholder="DD" class="form-control my-input" ng-readonly="$ctrl.readOnly" required>
+                            </div>
+                            <div class="col">
+                                <input name="harvestEndDateMonth" type="text" maxlength="2" ng-minlength="2" ng-model="$ctrl.seedData.harvestAction.endDateMonth" placeholder="MM" class="form-control my-input" ng-readonly="$ctrl.readOnly" required>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!---->
+
+            <div ng-repeat="action in $ctrl.seedData.actions">
+                <div class="bg-light p-4 border b-4 m-4">
+
+                    <div class="row ms-4 me-4 mb-4">
+                        <button ng-click="$ctrl.removeRow(action.$index)" class="btn btn-secondary float-right"><span ng-click="$ctrl.removeRow(action.$index)" class="fas fa-times"></span></button>
+                    </div>
+
+                    <div class="row">
+                        <div class="form-group col">
+                            <label for="actionName">Name</label>
+                            <input type="text" class="form-control my-input" id="actionName" ng-model="action.actionName" ng-readonly="$ctrl.readOnly" required>
+                        </div>
+
+                        <div class="form-group col">
+                            <label for="description">Description</label>
+                            <textarea type="text" class="form-control my-input" id="description" ng-model="action.description" rows="1" ng-readonly="$ctrl.readOnly">{{action.description}}</textarea>
+                        </div>
+                    </div>
+                    <div class="row mt-2 ms-2">
+                        <div class="form-group col align-self-center">
+                            <input class="form-check-input" type="checkbox" ng-model="action.isDisplay" id="isDisplay">
+                            <label class="form-check-label" for="isDisplay">
+                                Display on Yearly Calendar
+                            </label>
+                        </div>
+
+                        <div class="form-group col">
+                            <label for="character">Display Character</label>
+                            <input name="character" type="text" maxlength="1" ng-model="action.displayChar" class="form-control my-input" ng-disabled="!action.isDisplay" ng-required="action.isDisplay" />
+                        </div>
+
+                        <div class="form-group col">
+                            <label for="displayColour">Display Colour</label>
+                            <input name="displayColour" type="color" ng-model="action.displayColour" class="form-control my-input" ng-disabled="!action.isDisplay" ng-required="action.isDisplay">
+                        </div>
+                    </div>
+                    <div class="row mt-2">
+                        <div class="col">
+                            <label for="startDateDay">Start Date</label>
+                            <div class="row">
+                                <div class="col">
+                                    <input name="startDateDay" type="text" maxlength="2" ng-minlength="2" ng-model="action.startDateDay" placeholder="DD" class="form-control my-input" ng-readonly="$ctrl.readOnly" required>
+                                </div>
+                                <div class="col">
+                                    <input name="startDateMonth" type="text" maxlength="2" ng-minlength="2" ng-model="action.startDateMonth" placeholder="MM" class="form-control my-input" ng-readonly="$ctrl.readOnly" required>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col">
+                            <label for="sowEndDateDay">End Date</label>
+                            <div class="row">
+                                <div class="col">
+                                    <input name="endDateDay" type="text" maxlength="2" ng-minlength="2" ng-model="action.endDateDay" placeholder="DD" class="form-control my-input" ng-readonly="$ctrl.readOnly" required>
+                                </div>
+                                <div class="col">
+                                    <input name="endDateMonth" type="text" maxlength="2" ng-minlength="2" ng-model="action.endDateMonth" placeholder="MM" class="form-control my-input" ng-readonly="$ctrl.readOnly" required>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
     </form>

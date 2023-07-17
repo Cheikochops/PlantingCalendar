@@ -1,1 +1,1 @@
-﻿angular.module('calendarApp', []);
+﻿angular.module('calendarApp', ['ui.toggle']);
