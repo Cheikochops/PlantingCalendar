@@ -1,13 +1,21 @@
-﻿angular.module('newCalendarApp').controller('calendar', function ($scope, $http) {
+﻿angular.module('newCalendarApp').controller('calendar', function ($scope, $http, $timeout) {
 
     $scope.allSeedList = [];
     $scope.selectedSeedList = [];
     $scope.calendarName = null;
     $scope.calendarYear = null;
 
+    $scope.isConfirmSave = false;
+    $scope.isSaving = false;
+
+    $scope.confirmSave = function () {
+        $scope.isConfirmSave = true
+        $scope.saveTimeout = $timeout(() => {
+            $scope.isConfirmSave = false;
+        }, 3000);
+    }
 
     $scope.loadSeedList = function () {
-
         var url = "api/seeds/list";
 
         $http.get(url).then(
@@ -19,6 +27,9 @@
     $scope.createCalendar = function () {
 
         var url = "api/calendar";
+
+        clearTimeout($scope.saveTimeout)
+        $scope.isSaving = true;
 
         var seeds = []
 
@@ -39,13 +50,13 @@
             headers: { 'Content-Type': 'application/json' },
         }).then(function mySuccess(response) {
             window.location.href = "calendar?calendarId=" + response.data
-
-
+            $scope.isSaving = false;
+            $scope.isConfirmSave = false;
         }, function myError(response) {
-
+            $scope.isSaving = false;
+            $scope.isConfirmSave = false;
         });
     };
-
 
     $scope.addSeed = function (seed) {
         $scope.selectedSeedList.push(seed)

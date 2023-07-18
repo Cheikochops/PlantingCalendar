@@ -170,21 +170,18 @@
 
             <div ng-repeat="action in $ctrl.seedData.actions">
                 <div class="bg-light p-4 border b-4 m-4">
-
                     <div class="row ms-4 me-4 mb-4">
-                        <button ng-click="$ctrl.removeRow(action.$index)" class="btn btn-secondary float-right"><span ng-click="$ctrl.removeRow(action.$index)" class="fas fa-times"></span></button>
+                        <button ng-click="$ctrl.removeRow($index)" class="btn btn-secondary float-right"><span class="fas fa-times"></span></button>
                     </div>
-
                     <div class="row">
                         <div class="form-group col">
                             <label for="actionName">Name</label>
                             <input type="text" class="form-control my-input" id="actionName" ng-model="action.actionName" ng-readonly="$ctrl.readOnly" required>
                         </div>
-
                         <div class="form-group col">
                             <label for="description">Description</label>
                             <textarea type="text" class="form-control my-input" id="description" ng-model="action.description" rows="1" ng-readonly="$ctrl.readOnly">{{action.description}}</textarea>
-                        </div>
+                </div>
                     </div>
                     <div class="row mt-2 ms-2">
                         <div class="form-group col align-self-center">

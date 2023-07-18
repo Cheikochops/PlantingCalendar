@@ -45,7 +45,7 @@ namespace PlantingCalendar.DataAccess
                 {
                     ActionId = x.Id,
                     ActionName = x.ActionName,
-                    ActionDescription = x.ActionDescription,
+                    Description = x.ActionDescription,
                     ActionType = x.ActionType,
                     IsDisplay = x.IsDisplay,
                     DisplayChar = x.DisplayChar != null ? x.DisplayChar.First() : null,
@@ -71,7 +71,7 @@ namespace PlantingCalendar.DataAccess
                 {
                     ActionId = sowAction.ActionId,
                     ActionName = sowAction.ActionName,
-                    ActionDescription = sowAction.ActionDescription,
+                    Description = sowAction.ActionDescription,
                     ActionType = sowAction.ActionType,
                     DisplayChar = sowAction.DisplayChar != null ? sowAction.DisplayChar.First() : 'S',
                     IsDisplay = true,
@@ -87,7 +87,7 @@ namespace PlantingCalendar.DataAccess
                 model.SowAction = new SeedAction
                 {
                     ActionName = "Sow",
-                    ActionDescription = "Sow the seed",
+                    Description = "Sow the seed",
                     ActionType = ActionTypeEnum.Sow,
                     IsDisplay = true,
                     DisplayChar = 'S',
@@ -103,7 +103,7 @@ namespace PlantingCalendar.DataAccess
                 {
                     ActionId = harvestAction.ActionId,
                     ActionName = harvestAction.ActionName,
-                    ActionDescription = harvestAction.ActionDescription,
+                    Description = harvestAction.ActionDescription,
                     ActionType = harvestAction.ActionType,
                     IsDisplay = true,
                     DisplayChar = harvestAction.DisplayChar != null ? harvestAction.DisplayChar.First() : 'H',
@@ -119,7 +119,7 @@ namespace PlantingCalendar.DataAccess
                 model.HarvestAction = new SeedAction
                 {
                     ActionName = "Harvest",
-                    ActionDescription = "Harvest the crop",
+                    Description = "Harvest the crop",
                     ActionType = ActionTypeEnum.Harvest,
                     IsDisplay = true,
                     DisplayChar = 'H',
@@ -152,11 +152,11 @@ namespace PlantingCalendar.DataAccess
                 {
                     ActionId = x.ActionId,
                     ActionName = x.ActionName,
-                    ActionDescription = x.ActionDescription,
+                    ActionDescription = x.Description,
                     ActionType = ActionTypeEnum.Custom,
                     IsDisplay = x.IsDisplay,
-                    DisplayChar = x.DisplayChar,
-                    DisplayColour = x.DisplayColour.TrimStart('#'),
+                    DisplayChar = x.IsDisplay ? x.DisplayChar : null,
+                    DisplayColour = x.IsDisplay ? x.DisplayColour.TrimStart('#') : null,
                     StartDate = x.StartDateDay + x.StartDateMonth,
                     EndDate = x.EndDateDay + x.EndDateMonth
                 }).ToList()
@@ -166,9 +166,9 @@ namespace PlantingCalendar.DataAccess
             {
                 ActionId = seed.SowAction.ActionId,
                 ActionName = seed.SowAction.ActionName,
-                ActionDescription = seed.SowAction.ActionDescription,
+                ActionDescription = seed.SowAction.Description,
                 ActionType = ActionTypeEnum.Sow,
-                IsDisplay = seed.SowAction.IsDisplay,
+                IsDisplay = true,
                 DisplayChar = seed.SowAction.DisplayChar,
                 DisplayColour = seed.SowAction.DisplayColour.TrimStart('#'),
                 StartDate = seed.SowAction.StartDateDay + seed.SowAction.StartDateMonth,
@@ -179,9 +179,9 @@ namespace PlantingCalendar.DataAccess
             {
                 ActionId = seed.HarvestAction.ActionId,
                 ActionName = seed.HarvestAction.ActionName,
-                ActionDescription = seed.HarvestAction.ActionDescription,
+                ActionDescription = seed.HarvestAction.Description,
                 ActionType = ActionTypeEnum.Harvest,
-                IsDisplay = seed.HarvestAction.IsDisplay,
+                IsDisplay = true,
                 DisplayChar = seed.HarvestAction.DisplayChar,
                 DisplayColour = seed.HarvestAction.DisplayColour.TrimStart('#'),
                 StartDate = seed.HarvestAction.StartDateDay + seed.HarvestAction.StartDateMonth,

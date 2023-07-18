@@ -20,35 +20,31 @@
                         </span>
                     </div>
 
-                    <toggle ng-model="showExpired" ng-change="toggleExpired()" on="Expired Included" off="Expired Hidden" on-class="btn-success text-nowrap" off-class="btn-danger text-nowrap"></toggle>
+                    <toggle ng-model="showExpired" on="Expired Included" off="Expired Hidden" on-class="btn-success text-nowrap" off-class="btn-danger text-nowrap"></toggle>
 
-                    <button type="button" class="btn btn-secondary text-nowrap" ng-disabled="selectedSeedId == null" ng-click="setInformationDisplay(null)">New Seed</button>
+                    <button type="button" class="btn btn-secondary text-nowrap" ng-disabled="selectedSeedId == null" ng-click="setInformationDisplay(null)"><span class="fa fa-plus"></span> New Seed</button>
                 </div>
                 <div class="flex">
                     <table class="table table-hover">
                         <thead class="thead-dark">
                             <tr>
-                                <th ng-click="orderBy('plantType')" class="col-3">Plant Type</th>
+                                <th ng-click="orderBy('plantType')" class="col-4">Plant Type</th>
                                 <th ng-click="orderBy('breed')" class="col-3">Breed</th>
                                 <th ng-click="orderBy('sunRequirement')" class="col-2">Sun Requirement</th>
                                 <th ng-click="orderBy('waterRequirement')" class="col-2">Water Requirement</th>
-                                <th class="width1"></th>
+                                <th class="col-1"></th>
                             </tr>
                         </thead>
                         <tbody id="plantList">
                             <tr ng-hide="seedList.length > 0">
-                                <td></td>
-                                <td></td>
-                                <td>No Seeds Found...</td>
-                                <td></td>
-                                <td></td>
+                                <td colspan="5">No Seeds Found...</td>
                             </tr>
-                            <tr ng-hide="seedList.length == 0" ng-repeat="seed in seedList | orderBy:order | filter:shouldShow  | filter:filter " ng-click="setInformationDisplay(seed)">
-                                <td class="width3" ng-class="{'table-active': seed.id == selectedSeedId, 'table-danger': seed.isExpired}">{{seed.plantType}}</td>
-                                <td class="width3" ng-class="{'table-active': seed.id == selectedSeedId, 'table-danger': seed.isExpired}">{{seed.breed}}</td>
-                                <td class="width2" ng-class="{'table-active': seed.id == selectedSeedId, 'table-danger': seed.isExpired}">{{seed.sunRequirement}}</td>
-                                <td class="width3" ng-class="{'table-active': seed.id == selectedSeedId, 'table-danger': seed.isExpired}">{{seed.waterRequirement}}</td>
-                                <td class="width1" ng-class="{'table-active': seed.id == selectedSeedId, 'table-danger': seed.isExpired}">{{seed.isExpired ? 'EXPIRED' : ''}} </td>
+                            <tr ng-hide="seedList.length == 0" ng-repeat="seed in seedList | orderBy:order | filter:shouldShow | filter:filter " ng-class="{'table-active': seed.id == selectedSeedId, 'table-danger': seed.isExpired}" ng-click="setInformationDisplay(seed)">
+                                <td>{{seed.plantType}}</td>
+                                <td>{{seed.breed}}</td>
+                                <td>{{seed.sunRequirement}}</td>
+                                <td>{{seed.waterRequirement}}</td>
+                                <td>{{seed.isExpired ? 'EXPIRED' : ''}} </td>
 
                             </tr>
                         </tbody>

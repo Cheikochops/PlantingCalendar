@@ -15,27 +15,19 @@ function EditCalendarSeedController($http) {
 
     var ctrl = this;
 
-    ctrl.allSeedList = null;
-    ctrl.currentSeedList = ctrl.currentSeeds;
-    ctrl.availableSeeds = null;
+    ctrl.allSeedList = [];
+    ctrl.currentSeedList = [];
+    ctrl.availableSeeds = [];
 
     ctrl.seedListFilter = "";
 
     ctrl.addSeed = function (seed) {
-        ctrl.currentSeedList.push({
-            id: seed.id,
-            plantTypeName: seed.plantType,
-            plantBreed: seed.breed
-        })
+        ctrl.currentSeedList.push(seed)
         ctrl.allSeedList.splice(ctrl.allSeedList.indexOf(seed), 1);
     }
 
     ctrl.removeSeed = function (seed) {
-        ctrl.allSeedList.push({
-            id: seed.id,
-            breed: seed.plantBreed,
-            plantType: seed.plantTypeName
-        })
+        ctrl.allSeedList.push(seed)
         ctrl.currentSeedList.splice(ctrl.currentSeedList.indexOf(seed), 1);
     }
 
@@ -47,14 +39,22 @@ function EditCalendarSeedController($http) {
             function (response) {
                 ctrl.availableSeeds = response.data;
                 ctrl.allSeedList = structuredClone(ctrl.availableSeeds);
-                ctrl.currentSeedList.forEach(function (c) {
-                    ctrl.allSeedList.forEach(function (a) {
-                        if (c.id == a.id) {
-                            ctrl.allSeedList.splice(ctrl.allSeedList.indexOf(a), 1)
-                        }
+
+                if (ctrl.currentSeeds != null) {
+                    ctrl.currentSeeds.forEach(function (c) {
+                        ctrl.allSeedList.forEach(function (a) {
+                            if (c.id == a.id) {
+                                ctrl.currentSeedList.push(a);
+                                ctrl.allSeedList.splice(ctrl.allSeedList.indexOf(a), 1)
+                            }
+                        })
                     })
-                });
+                }
             });
+
+
+        console.log(ctrl.currentSeedList)
+        console.log(ctrl.allSeedList)
     };
 
     ctrl.saveCalendarSeeds = function () {
@@ -78,18 +78,21 @@ function EditCalendarSeedController($http) {
     }
 
     ctrl.$onChanges = function (changes) {
-        ctrl.currentSeedList = structuredClone(ctrl.currentSeeds);
         ctrl.allSeedList = structuredClone(ctrl.availableSeeds);
 
-        if (ctrl.currentSeedList != null && ctrl.allSeedList != null) {
-            ctrl.currentSeedList.forEach(function (c) {
+        if (ctrl.currentSeeds != null) {
+            ctrl.currentSeeds.forEach(function (c) {
                 ctrl.allSeedList.forEach(function (a) {
                     if (c.id == a.id) {
+                        ctrl.currentSeedList.push(a);
                         ctrl.allSeedList.splice(ctrl.allSeedList.indexOf(a), 1)
                     }
                 })
-            });
+            })
         }
+
+        console.log(ctrl.currentSeedList)
+        console.log(ctrl.allSeedList)
     }
 
     ctrl.loadSeedList();

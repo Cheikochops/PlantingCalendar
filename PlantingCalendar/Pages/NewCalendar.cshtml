@@ -7,89 +7,98 @@
 <script src="~/js/new-calendar.js" asp-append-version="true"></script>
 
 <div ng-app="newCalendarApp" ng-controller="calendar">
-    <div class="flex mainbox">
-        <div id="seedDisplay" class="col-6">
-            <div class="text-center">
-                All Seeds
-            </div>
-            <div>
-                <input placeholder="Search..." id="searchBar" ng-model="fullListfilter" />
-            </div>
-            <div class="flex">
-                <table class="col-12">
-                    <tr>
-                        <th class="col-6">Plant Type</th>
-                        <th Class="col-6">Breed</th>
-                        <th class="col-1"></th>
-                    </tr>
-                    <tbody id="plantList">
-                        <tr ng-hide="allSeedList.length > 0">
-                            <td></td>
-                            <td>No Seeds!.</td>
-                            <td></td>
-                        </tr>
-                        <tr ng-hide="allSeedList.length == 0" ng-repeat="seed in allSeedList | orderBy:'plantType' | filter:fullListfilter">
-                            <td>{{seed.plantType}}</td>
-                            <td>{{seed.breed}}</td>
-                            <td ng-click="addSeed(seed)"> ADD </td>
-                        </tr>
-                    </tbody>
-                </table>
-            </div>
-        </div>
-        <div id="calendarSetup" class="col-6">
-            <div class="text-center">
-                Your Calendar
-            </div>
+    <div class="mainbox w-100">
+        <form name="calendarForm">
+            <div class="row col-12">
+                <div class="col pe-5 pt-4 ps-1">
+                    <div class="input-group rounded">
+                        <input type="search" class="form-control rounded" placeholder="Search" aria-label="Search" aria-describedby="search-addon" ng-model="fullListfilter" />
+                        <span class="input-group-text border-0" id="search-addon">
+                            <i class="fas fa-search"></i>
+                        </span>
+                    </div>
+                </div>
+                <div class="col">
+                    <div class="form-group row">
+                        <div class="col">
+                            <label for="calendarName">Calendar Name</label>
+                            <input type="text" class="form-control my-input" id="calendarName" ng-model="calendarName" required>
+                        </div>
 
-            <div class="flex">
-                <div class="col-6">
-                    <div class="col-2">
-                        Calendar Name
-                    </div>
-                    <div>
-                        <input type="text" ng-model="calendarName" />
-                    </div>
-                </div>
-            </div>
-            <div class="flex">
-                <div class="col-6">
-                    <div class="col-2">
-                        Year
-                    </div>
-                    <div>
-                        <input type="number" min="2000" max="2500" ng-model="calendarYear" />
-                    </div>
-                    <div>
-                        <button ng-click="createCalendar()">Create Calendar!</button>
+                        <div class="col">
+                            <label for="year">Year</label>
+                            <input type="number" class="form-control my-input" id="year" min="2000" max="2500" ng-model="calendarYear" required>
+                        </div>
+
+                        <div class="col-2 text-bottom text-end">
+                            <button ng-click="confirmSave()" ng-show="!isConfirmSave && !isSaving" class="btn btn-primary" ng-disabled="calendarForm.$invalid"> <span class="fas fa-save"></span> Save</button>
+                            <button ng-click="createCalendar()" ng-show="isConfirmSave && !isSaving" class="btn btn-danger" ng-disabled="calendarForm.$invalid">Confirm?</button>
+                            <button disabled ng-show="isSaving" class="btn btn-primary">
+                                <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
+                                Saving...
+                            </button>
+                        </div>
                     </div>
                 </div>
             </div>
-            <div id="calendarSeedList">
-                <div id="calendarSeedDisplay" class="col-6">
-                    <div class="flex">
-                        <table class="col-12">
-                            <tr>
-                                <th class="col-6">Plant Type</th>
-                                <th Class="col-6">Breed</th>
-                                <th class="col-1"></th>
-                            </tr>
-                            <tbody id="plantList">
-                                <tr ng-hide="selectedSeedList.length > 0">
-                                    <td></td>
-                                    <td>No Seeds!</td>
-                                    <td></td>
+            <div class="row col-12 mt-4">
+                <div id="seedDisplay" class="col col-6">
+                    <div class="row col-12">
+                        <table class="table table-hover">
+                            <thead class="thead-dark">
+                                <tr>
+                                    <th class="col-4">Plant Type</th>
+                                    <th Class="col-3">Breed</th>
+                                    <th class="col-3">Sun Requirement</th>
+                                    <th class="col-3">Water Requirement</th>
+                                    <th class="col-1"></th>
                                 </tr>
-                                <tr ng-hide="selectedSeedList.length == 0" ng-repeat="seed in selectedSeedList | orderBy:'plantType'">
-                                    <td>{{seed.plantType}}</td>
-                                    <td>{{seed.breed}}</td>
-                                    <td ng-click="removeSeed(seed)"> REMOVE </td>
+                            </thead>
+                            <tbody id="plantList">
+                                <tr ng-hide="allSeedList.length > 0">
+                                    <td colspan="4" class="text-center">No Seeds!</td>
+                                </tr>
+                                <tr ng-hide="allSeedList.length == 0" ng-repeat="seed in allSeedList | orderBy:'plantType' | filter:fullListfilter" ng-class="{'table-danger': seed.isExpired}">
+                                    <td ng-click="addSeed(seed)">{{seed.plantType}}</td>
+                                    <td ng-click="addSeed(seed)">{{seed.breed}}</td>
+                                    <td ng-click="addSeed(seed)">{{seed.sunRequirement}}</td>
+                                    <td ng-click="addSeed(seed)">{{seed.waterRequirement}}</td>
+                                    <td>{{seed.isExpired ? 'EXPIRED' : ''}} </td>
                                 </tr>
                             </tbody>
                         </table>
                     </div>
                 </div>
+                <div id="calendarSetup" class="col col-6">
+                    <div id="calendarSeedDisplay" class="row">
+                        <div class="flex col-12">
+                            <table class="table table-hover">
+                                <thead class="thead-dark">
+                                    <tr>
+                                        <th class="col-4">Plant Type</th>
+                                        <th Class="col-3">Breed</th>
+                                        <th class="col-2">Sun Requirement</th>
+                                        <th class="col-2">Water Requirement</th>
+                                        <th class="col-1"></th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr ng-hide="selectedSeedList.length > 0">
+                                        <td colspan="4" class="text-center">No Seeds!</td>
+                                    </tr>
+                                    <tr ng-hide="selectedSeedList.length == 0" ng-repeat="seed in selectedSeedList | orderBy:'plantType' | filter:fullListfilter" ng-class="{'table-danger': seed.isExpired}">
+                                        <td ng-click="removeSeed(seed)">{{seed.plantType}}</td>
+                                        <td ng-click="removeSeed(seed)">{{seed.breed}}</td>
+                                        <td ng-click="removeSeed(seed)">{{seed.sunRequirement}}</td>
+                                        <td ng-click="removeSeed(seed)">{{seed.waterRequirement}}</td>
+                                        <td ng-click="removeSeed(seed)">{{seed.isExpired ? 'EXPIRED' : ''}} </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
             </div>
-        </div>
+        </form>
     </div>
 </div>

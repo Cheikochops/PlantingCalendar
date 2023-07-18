@@ -103,10 +103,9 @@ Begin
 					cs.Id,
 					sa.Name,
 					sa.Description,
-					0,
 					case 
-						when sa.StartDate = sa.EndDate then 1
-						else 0
+						when sa.StartDate = sa.EndDate then 0
+						else 1
 					end,
 					case 
 						when sa.StartDate = sa.EndDate then null
@@ -116,6 +115,10 @@ Begin
 						when sa.StartDate = sa.EndDate then null
 						else Parse(concat(c.Year, '-', right(sa.EndDate, 2), '-', left(sa.EndDate, 2)) as date)
 					end,
+					case 
+						when sa.StartDate = sa.EndDate then  Parse(concat(c.Year, '-', right(sa.StartDate, 2), '-', left(sa.StartDate, 2)) as date)
+						else null
+					end,
 					sa.DisplayChar,
 					sa.DisplayColour,
 					0,
@@ -124,7 +127,6 @@ Begin
 					plantbase.CalendarSeed cs
 					join plantbase.SeedAction sa on cs.FK_SeedId = sa.FK_SeedId	
 					join plantbase.Calendar c on cs.FK_CalendarId = c.Id and c.Id = @calendarId
-					join @newCalendarSeedId ncs on cs.Id = ncs.Id
 				Where
 					coalesce(sa.StartDate, '') != ''
 					and coalesce(sa.EndDate, '') != ''

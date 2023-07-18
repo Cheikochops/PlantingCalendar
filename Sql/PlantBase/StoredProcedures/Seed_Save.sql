@@ -46,7 +46,9 @@ declare @SeedTable table (
 
 	declare @seedId bigint = (Select Top 1 Id from @SeedTable)
 -- Save or update Actions
-	
+		
+	Delete from plantbase.SeedAction Where FK_SeedId = @seedId
+
 		Merge 
 			plantbase.SeedAction as target
 			using (
@@ -86,8 +88,6 @@ declare @SeedTable table (
 				target.DisplayChar = source.DisplayChar,
 				target.DisplayColour = source.DisplayColour,
 				target.StartDate = source.StartDate,
-				target.EndDate = source.EndDate
-		WHEN NOT MATCHED BY SOURCE then
-			Delete;
+				target.EndDate = source.EndDate;
 		
 End

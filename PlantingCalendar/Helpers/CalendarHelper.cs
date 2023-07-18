@@ -30,45 +30,53 @@ namespace PlantingCalendar.DataAccess
             var months = GetMonths(first.Year);
             var seeds = MakeSeeds(calendarDetails, months);
 
-            foreach (var seed in seeds)
+            try
             {
-                var dict = new Dictionary<int, List<CalendarTask>>();
-
-                foreach (var month in months)
+                foreach (var seed in seeds)
                 {
-                    dict.Add(month.Order, calendarDetails
-                            .Where(y => y.SeedId == seed.Id)
-                            .Where(y => (!y.IsRanged && y.SetDate.Value.Month == month.Order)
-                            || (y.IsRanged &&
-                                month.Order <= y.RangeEndDate.Value.Month &&
-                                month.Order >= y.RangeStartDate.Value.Month))
-                            .Select(y => new CalendarTask
-                            {
-                                Id = y.TaskId.Value,
-                                IsDisplay = y.IsDisplay.Value,
-                                DisplayChar = y.IsDisplay.Value ? y.DisplayChar?.First() : null,
-                                DisplayColour = y.IsDisplay.Value ? '#' + y.DisplayColour : null,
-                                IsComplete = y.IsComplete.Value,
-                                IsRanged = y.IsRanged,
-                                TaskDate = y.SetDate,
-                                TaskEndDate = y.RangeEndDate,
-                                TaskStartDate = y.RangeStartDate,
-                                TaskDescription = y.TaskDescription,
-                                TaskName = y.TaskName
-                            }).ToList());
+                    var dict = new Dictionary<int, List<CalendarTask>>();
+
+                    foreach (var month in months)
+                    {
+                        dict.Add(month.Order, calendarDetails
+                                .Where(y => y.SeedId == seed.Id)
+                                .Where(y => (!y.IsRanged && y.SetDate.Value.Month == month.Order)
+                                || (y.IsRanged &&
+                                    month.Order <= y.RangeEndDate.Value.Month &&
+                                    month.Order >= y.RangeStartDate.Value.Month))
+                                .Select(y => new CalendarTask
+                                {
+                                    Id = y.TaskId.Value,
+                                    IsDisplay = y.IsDisplay.Value,
+                                    DisplayChar = y.IsDisplay.Value ? y.DisplayChar?.First() : null,
+                                    DisplayColour = y.IsDisplay.Value ? '#' + y.DisplayColour : null,
+                                    IsComplete = y.IsComplete.Value,
+                                    IsRanged = y.IsRanged,
+                                    TaskDate = y.SetDate,
+                                    TaskEndDate = y.RangeEndDate,
+                                    TaskStartDate = y.RangeStartDate,
+                                    TaskDescription = y.TaskDescription,
+                                    TaskName = y.TaskName
+                                }).ToList());
+                    }
+
+                    seed.Tasks = dict;
                 }
 
-                seed.Tasks = dict;
-            }
 
-            return new CalendarDetailsModel
+                return new CalendarDetailsModel
+                {
+                    CalendarId = first.CalendarId,
+                    CalendarName = first.CalendarName,
+                    Year = first.Year,
+                    Seeds = seeds,
+                    Months = months.ToList()
+                };
+            }
+            catch (Exception ex)
             {
-                CalendarId = first.CalendarId,
-                CalendarName = first.CalendarName,
-                Year = first.Year,
-                Seeds = seeds,
-                Months = months.ToList()
-            };
+                throw;
+            }
 
         }
 
