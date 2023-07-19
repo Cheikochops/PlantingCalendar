@@ -62,58 +62,6 @@ body {
     padding-bottom: 10px;
 }
 
-.width8p {
-    width: 8%;
-}
-
-.width1 {
-    width: 8.333%;
-}
-
-.width2 {
-    width: 16.666%;
-}
-
-.width3 {
-    width: 25%;
-}
-
-.width4 {
-    width: 33.333%;
-}
-
-.width5 {
-    width: 41.666%;
-}
-
-.width6 {
-    width: 50%;
-}
-
-.width7 {
-    width: 58.333%;
-}
-
-.width8 {
-    width: 66.666%;
-}
-
-.width9 {
-    width: 75%;
-}
-
-.width10 {
-    width: 83.333%;
-}
-
-.width11 {
-    width: 91.666%;
-}
-
-.width12 {
-    width: 100%;
-}
-
 .flex-column {
     display: flex;
     flex-direction: column;
@@ -145,14 +93,6 @@ body {
         background-color: coral;
     }
 
-.scroll-table {
-    width: 100%;
-}
-
-.scroll-table-div {
-    overflow-x: scroll;
-    width: 100%;
-}
 
 .td {
     width: 150px;
@@ -166,59 +106,21 @@ body {
     color: white;
 }
 
+.calendarSeed {
+    min-width: 300px;
+    width: 300px;
+    min-height: 100px;
+    height: 100px;
+}
+
 .informationPopup {
     height: 100%;
     border: 1px solid black;
     padding: 10px;
 }
 
-.navTitle {
-}
-
 .navLink {
     vertical-align: central
-}
-
-.dropbtn {
-    background-color: #4CAF50;
-    color: white;
-    padding: 16px;
-    font-size: 16px;
-    border: none;
-    cursor: pointer;
-}
-
-.dropdown {
-    position: relative;
-    display: inline-block;
-}
-
-.dropdown-content {
-    display: none;
-    position: absolute;
-    background-color: #f9f9f9;
-    min-width: 300px;
-    box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
-    z-index: 1;
-}
-
-    .dropdown-content a {
-        color: black;
-        padding: 12px 16px;
-        text-decoration: none;
-        display: block;
-    }
-
-        .dropdown-content a:hover {
-            background-color: #f1f1f1
-        }
-
-.dropdown:hover .dropdown-content {
-    display: block;
-}
-
-.dropdown:hover .dropbtn {
-    background-color: #3e8e41;
 }
 
 .space-between {
@@ -241,4 +143,8 @@ body {
 
 .my-input.ng-invalid {
     border-color: red;
+}
+
+.calendarTable td:hover {
+    background-color: rgba(0,0,0,.075);
 }

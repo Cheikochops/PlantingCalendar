@@ -53,7 +53,7 @@ function NewTaskController($http) {
             calendarId: ctrl.calendarId,
             seeds: ctrl.seedIds,
             name: ctrl.name,
-            description: ctrl.description,
+            description: ctrl.taskDescription,
             isRanged: ctrl.isRanged,
             rangeStartDate: ctrl.rangeStartDate,
             rangeEndDate: ctrl.rangeEndDate,
@@ -76,6 +76,7 @@ function NewTaskController($http) {
         }).then(function mySuccess(response) {
             ctrl.isSaving = false;
             ctrl.isConfirmSave = false;
+            ctrl.refresh();
 
         }, function myError(response) {
             ctrl.isSaving = false;
@@ -88,7 +89,7 @@ function NewTaskController($http) {
         ctrl.isRanged = false
         ctrl.name = null
         ctrl.seedIds = []
-        ctrl.description = null
+        ctrl.taskDescription = null
         ctrl.rangeStartDate = null
         ctrl.rangeEndDate = null
         ctrl.setDate = null

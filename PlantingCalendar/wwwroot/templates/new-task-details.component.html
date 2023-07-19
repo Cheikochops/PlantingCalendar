@@ -25,21 +25,26 @@
 
             <div class="form-group col">
                 <label for="description">Description</label>
-                <textarea type="text" class="form-control my-input" id="description" ng-model="$ctrl.description" rows="4">
-                    {{$ctrl.description}}
+                <textarea type="text" class="form-control my-input" id="description" ng-model="$ctrl.taskDescription" rows="4">
+                    {{$ctrl.taskDescription}}
                 </textarea>
             </div>
         </div>
 
 
-        <div class="form-group mt-4">
-            <input class="form-check-input" type="checkbox" ng-model="$ctrl.isDisplay" id="isDisplay">
-            <label class="form-check-label" for="isDisplay">
-                Display on Yearly Calendar
-            </label>
+
+        <div class="form-group row">
+            <div class="col m-4">
+                <input class="form-check-input" type="checkbox" ng-model="$ctrl.isDisplay" id="isDisplay">
+                <label class="form-check-label" for="isDisplay">
+                    Display on Yearly Calendar
+                </label>
+            </div>
         </div>
 
-        <div class="form-group row mt-2" ng-show="$ctrl.isDisplay">
+
+
+        <div class="form-group row mt-2" >
 
             <div class="form-group col">
                 <label for="character">Display Character</label>
@@ -53,11 +58,13 @@
 
         </div>
 
-        <div class="form-group mt-4">
-            <input class="form-check-input" type="checkbox" ng-model="$ctrl.isRanged" id="isRanged">
-            <label class="form-check-label" for="isRanged">
-                Is A Ranged Task
-            </label>
+        <div class="row">
+            <div class="form-group m-4">
+                <input class="form-check-input" type="checkbox" ng-model="$ctrl.isRanged" id="isRanged">
+                <label class="form-check-label" for="isRanged">
+                    Is A Ranged Task
+                </label>
+            </div>
         </div>
 
         <div ng-show="$ctrl.isRanged">
@@ -79,7 +86,7 @@
             <div class="row">
                 <div class="form-group col">
                     <label for="repeateableType">Repeat</label>
-                    <select class="form-control" id="repeateableType" ng-model="$ctrl.newTaskRepeatableType" required>
+                    <select class="form-control" id="repeateableType" ng-model="$ctrl.newTaskRepeatableType" ng-required="!$ctrl.isRanged">
                         <option ng-repeat="option in $ctrl.repeatableTypes" value="{{$index}}">{{option}}</option>
                     </select>
                 </div>

@@ -51,10 +51,6 @@ function EditCalendarSeedController($http) {
                     })
                 }
             });
-
-
-        console.log(ctrl.currentSeedList)
-        console.log(ctrl.allSeedList)
     };
 
     ctrl.saveCalendarSeeds = function () {
@@ -90,9 +86,6 @@ function EditCalendarSeedController($http) {
                 })
             })
         }
-
-        console.log(ctrl.currentSeedList)
-        console.log(ctrl.allSeedList)
     }
 
     ctrl.loadSeedList();

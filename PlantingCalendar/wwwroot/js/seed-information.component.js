@@ -72,9 +72,6 @@ function SeedInfoController($http, $timeout) {
     }
 
     ctrl.removeRow = function (index) {
-        console.log(index)
-        console.log(ctrl.seedData.actions)
-
         ctrl.seedData.actions.splice(index, 1);
     }
 

@@ -6,9 +6,11 @@ namespace PlantingCalendar.Models
 
         public string? TaskDescription { get; set; }
 
-        public string DisplayChar { get; set; }
+        public bool IsDisplay { get; set; }
 
-        public string DisplayColour { get; set; }
+        public string? DisplayChar { get; set; }
+
+        public string? DisplayColour { get; set; }
 
         public bool IsRanged { get; set; }
 

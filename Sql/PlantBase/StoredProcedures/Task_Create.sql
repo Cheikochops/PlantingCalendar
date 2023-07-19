@@ -23,7 +23,16 @@ Begin
 		)
 	Select
 			cs.Id,
-			t.*
+			t.Name,
+			t.Description,
+			t.IsRanged,
+			t.RangeStartDate,
+			t.RangeEndDate,
+			t.SetDate,
+			t.DisplayChar,
+			t.DisplayColour,
+			0,
+			t.IsDisplay
 		From
 			OPENJSON(@TaskDetailsJson)
 			With

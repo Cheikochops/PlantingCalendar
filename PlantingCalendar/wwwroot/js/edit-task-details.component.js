@@ -44,15 +44,15 @@ function EditTaskController($http, $timeout) {
         var colour = null;
         var character = null;
         if (ctrl.thisTask.isDisplay) {
-            colour = ctrl.displayColour
-            character = ctrl.displayChar
+            colour = ctrl.thisTask.displayColour
+            character = ctrl.thisTask.displayChar
         }
 
         var data = {
             taskId: ctrl.thisTask.taskId,
             taskName: ctrl.thisTask.taskName,
             taskDescription: ctrl.thisTask.taskDescription,
-            isDisplay: ctrl.isDisplay,
+            isDisplay: ctrl.thisTask.isDisplay,
             displayChar: character,
             displayColour: colour,
             isRanged: ctrl.thisTask.isRanged,
@@ -105,6 +105,7 @@ function EditTaskController($http, $timeout) {
             headers: { 'Content-Type': 'application/json' },
         }).then(function mySuccess(response) {
             ctrl.thisTask.isComplete = !ctrl.thisTask.isComplete;
+            ctrl.refresh();
         }, function myError(response) {
         });
     }
@@ -112,6 +113,8 @@ function EditTaskController($http, $timeout) {
     ctrl.$onChanges = function () {
         ctrl.thisTask = structuredClone(ctrl.task)
         ctrl.thisSeed = structuredClone(ctrl.seed)
+
+        console.log(ctrl.thisTask);
 
         ctrl.confirmSave = false;
         ctrl.isSaving = false;

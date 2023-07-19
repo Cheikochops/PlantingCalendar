@@ -81,7 +81,7 @@
 
                     <div class="form-group col">
                         <label for="displayColour">Display Colour</label>
-                        <input name="displayColour" type="color" ng-model="$ctrl.seedData.sowAction.displayColour" class="form-control my-input" ng-disabled="!$ctrl.seedData.sowAction.isDisplay" ng-required="$ctrl.seedData.sowAction.isDisplay"  ng-readonly="$ctrl.readOnly">
+                        <input name="displayColour" type="color" ng-model="$ctrl.seedData.sowAction.displayColour" class="form-control my-input" ng-disabled="!$ctrl.seedData.sowAction.isDisplay || $ctrl.readOnly" ng-required="$ctrl.seedData.sowAction.isDisplay"  ng-readonly="$ctrl.readOnly">
                     </div>
                 </div>
                 <div class="row mt-2">
@@ -138,7 +138,7 @@
 
                     <div class="form-group col">
                         <label for="displayColour">Display Colour</label>
-                        <input name="displayColour" type="color" ng-model="$ctrl.seedData.harvestAction.displayColour" class="form-control my-input" ng-disabled="!$ctrl.seedData.harvestAction.isDisplay" ng-required="$ctrl.seedData.harvestAction.isDisplay" ng-readonly="$ctrl.readOnly">
+                        <input name="displayColour" type="color" ng-model="$ctrl.seedData.harvestAction.displayColour" class="form-control my-input" ng-disabled="!$ctrl.seedData.harvestAction.isDisplay || $ctrl.readOnly" ng-required="$ctrl.seedData.harvestAction.isDisplay" ng-readonly="$ctrl.readOnly">
                     </div>
                 </div>
                 <div class="row mt-2">
@@ -170,7 +170,7 @@
 
             <div ng-repeat="action in $ctrl.seedData.actions">
                 <div class="bg-light p-4 border b-4 m-4">
-                    <div class="row ms-4 me-4 mb-4">
+                    <div class="row ms-4 me-4 mb-4" ng-hide="$ctrl.readOnly">
                         <button ng-click="$ctrl.removeRow($index)" class="btn btn-secondary float-right"><span class="fas fa-times"></span></button>
                     </div>
                     <div class="row">
@@ -185,7 +185,7 @@
                     </div>
                     <div class="row mt-2 ms-2">
                         <div class="form-group col align-self-center">
-                            <input class="form-check-input" type="checkbox" ng-model="action.isDisplay" id="isDisplay">
+                            <input class="form-check-input" type="checkbox" ng-model="action.isDisplay" id="isDisplay" ng-readonly="$ctrl.readOnly">
                             <label class="form-check-label" for="isDisplay">
                                 Display on Yearly Calendar
                             </label>
@@ -193,12 +193,12 @@
 
                         <div class="form-group col">
                             <label for="character">Display Character</label>
-                            <input name="character" type="text" maxlength="1" ng-model="action.displayChar" class="form-control my-input" ng-disabled="!action.isDisplay" ng-required="action.isDisplay" />
+                            <input name="character" type="text" maxlength="1" ng-model="action.displayChar" class="form-control my-input" ng-disabled="!action.isDisplay" ng-required="action.isDisplay" ng-readonly="$ctrl.readOnly" />
                         </div>
 
                         <div class="form-group col">
                             <label for="displayColour">Display Colour</label>
-                            <input name="displayColour" type="color" ng-model="action.displayColour" class="form-control my-input" ng-disabled="!action.isDisplay" ng-required="action.isDisplay">
+                            <input name="displayColour" type="color" ng-model="action.displayColour" class="form-control my-input" ng-disabled="!action.isDisplay || $ctrl.readOnly" ng-required="action.isDisplay">
                         </div>
                     </div>
                     <div class="row mt-2">

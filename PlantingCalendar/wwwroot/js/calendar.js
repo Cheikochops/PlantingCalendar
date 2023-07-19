@@ -18,13 +18,7 @@ angular.module('seedApp').controller('calendar', function ($scope, $http) {
             function (response) {
                 $scope.calendar = response.data;
                 $scope.months = response.data.months;
-
-                console.log($scope.calendar)
             });
-    }
-
-    $scope.toggleComplete = function (taskId) {
-
     }
 
     $scope.showMonth = function (month) {
@@ -37,11 +31,12 @@ angular.module('seedApp').controller('calendar', function ($scope, $http) {
             days = []
 
             currentTasks = s.tasks[month];
-
             $scope.chosenMonth.days.forEach(function (d) {
                 tasks = []
 
                 currentTasks.forEach(function (x) {
+                    console.log(x)
+
                     if (x.taskDate != null && x.taskDate != undefined) {
                         if (new Date(x.taskDate).getUTCDate() == d.day) {
                             tasks.push({
@@ -58,9 +53,9 @@ angular.module('seedApp').controller('calendar', function ($scope, $http) {
                         }
                     }
                     else {
-                        startDate = new Date(x.taskStartDate)
-                        endDate = new Date(x.taskEndDate)
-                        dayDate = new Date($scope.calendar.year, month-1, d.day)
+                        startDate = new Date(x.taskStartDate).setHours(0, 0, 0, 0);
+                        endDate = new Date(x.taskEndDate).setHours(0, 0, 0, 0);
+                        dayDate = new Date($scope.calendar.year, month - 1, d.day).setHours(0, 0, 0, 0);
 
                         if (startDate <= dayDate && endDate >= dayDate) {
                             tasks.push({
@@ -68,8 +63,8 @@ angular.module('seedApp').controller('calendar', function ($scope, $http) {
                                 taskId: x.id,
                                 taskName: x.taskName,
                                 taskDescription: x.taskDescription,
-                                taskStartDate: startDate,
-                                taskEndDate: endDate,
+                                taskStartDate: new Date(x.taskStartDate),
+                                taskEndDate: new Date(x.taskEndDate),
                                 isComplete: x.isComplete,
                                 isDisplay: x.isDisplay,
                                 displayColour: x.displayColour,
@@ -90,10 +85,11 @@ angular.module('seedApp').controller('calendar', function ($scope, $http) {
                 plantId: s.id,
                 plantBreed: s.plantBreed,
                 plantTypeName: s.plantTypeName,
-                dayTasks: days
+                dayTasks: days,
+                month: month
             })
 
-            console.log($scope.seedsByMonth);
+            console.log($scope.seedsByMonth)
         });
 
         $scope.showSingleMonth = true;        
@@ -139,6 +135,8 @@ angular.module('seedApp').controller('calendar', function ($scope, $http) {
         var popupBackgroundId = 'editTaskPopupBackground';
         var popupId = 'editTaskPopup';
 
+        console.log(task);
+
         $scope.editPopupTask = task;
         $scope.editPopupSeed = seed;
         $scope.togglePopup(popupBackgroundId, popupId)
@@ -159,6 +157,7 @@ angular.module('seedApp').controller('calendar', function ($scope, $http) {
 
     $scope.refresh = function () {
         $scope.getCalendar();
+        $scope.showCalendar();
     }
 
     window.onclick = function (event) {

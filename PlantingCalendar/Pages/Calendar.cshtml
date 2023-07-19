@@ -12,59 +12,86 @@
 
 <div ng-app="seedApp" class="mainbox">
     <div ng-controller="calendar">
+        <form name="calendarForm" class="my-form">
+            <div class="row">
+                <div class="col">
+                    <h2>{{calendar.calendarName}} - {{calendar.year}}</h2>
+                </div>
+                <div class="col text-end align-content-end">
+                    <button type="button" class="btn btn-secondary text-nowrap" ng-click="loadNewSeedPopup(null)">Edit Seeds</button>
+                    <button type="button" class="btn btn-secondary text-nowrap" ng-click="loadNewTaskPopup(null)">New Task</button>
+                </div>
 
-        <div class="text-center flex">
-            <div><h1 class="display-4">{{calendar.calendarName}} - {{calendar.year}}</h1></div>
-            <div><button ng-click="loadNewSeedPopup()">Edit Seeds</button></div>
-            <div><button ng-click="loadNewTaskPopup()">New Task</button></div>
-        </div>
-
-        <div ng-show="!showSingleMonth">
-            <table class="non-scroll-table">
-                <tr>
-                    <th class="col-2">Seeds</th>
-                    <th ng-repeat="month in months" ng-click="showMonth(month.order)" class="header"> {{month.monthName}} </th>
-                </tr>
-                <tr ng-repeat="seed in calendar.seeds">
-                    <td ng-click="loadSeedInfoPopup(seed.id)">{{seed.plantTypeName}} - {{seed.plantBreed}}</td>
-                    <td ng-repeat="(month, taskmonth) in seed.tasks" ng-click="showMonth(month)" class="td">
-                        <div ng-repeat="task in taskmonth | filter: {isDisplay:true}">
-                            <div ng-style="{'color': task.displayColour }">{{task.displayChar}}</div>
-                        </div>
-                    </td>
-                </tr>
-            </table>
-        </div>
-        <div ng-show="showSingleMonth">
-            <div class="text-center">{{chosenMonth.monthName}}</div>
-            <div ng-click="showCalendar()" class="text-center">Back</div>
-             
-            <div class="scroll-table-div">
-                <table class="scroll-table">
-                    <tr>
-                        <th class="col-2">Seeds</th>
-                        <th ng-repeat="day in chosenMonth.days" class="header">
-                            <div class="text-center">
-                                {{day.day}}
-                            </div>
-                            <div class="text-center">
-                                {{day.dayName}}
-                            </div>
-                        </th>
-                    </tr>
-                    <tr ng-repeat="seed in seedsByMonth">
-                        <td ng-click="loadSeedInfoPopup(seed.id)">{{seed.plantTypeName}} - {{seed.plantBreed}}</td>
-
-                        <td ng-repeat="day in seed.dayTasks" class="td">
-                            <div ng-repeat="task in day.tasks" class="task" ng-click="loadTaskInfoPopup(task, seed)">
-                                <input type="checkbox" ng-model="task.isComplete" />
-                                {{task.taskName}} - {{task.taskDescription}}
-                            </div>
-                        </td>
-                    </tr>
-                </table>
             </div>
-        </div>
+
+            <div class="row">
+                <div ng-show="!showSingleMonth">
+                    <div class="row">
+                    </div>
+                    <div class="table-responsive">
+                        <table class="table calendarTable">
+                            <thead class="thead-dark">
+                                <tr>
+                                    <th>Seeds</th>
+                                    <th ng-repeat="month in months" ng-click="showMonth(month.order)" class="header"> {{month.monthName}} </th>
+                                </tr>
+                            </thead>
+                            <tr ng-repeat="seed in calendar.seeds">
+                                <td class="calendarSeed align-items-center" ng-click="loadSeedInfoPopup(seed.id)">{{seed.plantTypeName}} - {{seed.plantBreed}}</td>
+
+                                <td ng-repeat="(month, taskmonth) in seed.tasks" ng-click="showMonth(month)" class="td">
+                                    <div ng-repeat="task in taskmonth | filter: {isDisplay:true}">
+                                        <div ng-style="{'color': task.displayColour }">{{task.displayChar}}</div>
+                                    </div>
+                                </td>
+                            </tr>
+                        </table>
+                    </div>
+                </div>
+                <div ng-show="showSingleMonth">
+                    <div class="row mb-2">
+                        <div class="col text-center">
+                            <div class="text-center">{{chosenMonth.monthName}}</div>
+                            <button type="button" class="btn btn-secondary" ng-click="showCalendar()">Back</button>
+                        </div>
+                    </div>
+
+                    <div class="table-responsive">
+                        <table class="table">
+                            <thead class="thead-dark">
+                                <tr>
+                                    <th>Seeds</th>
+                                    <th ng-repeat="day in chosenMonth.days" class="header">
+                                        <div class="text-center">
+                                            {{day.day}}
+                                        </div>
+                                        <div class="text-center">
+                                            {{day.dayName}}
+                                        </div>
+                                    </th>
+                                </tr>
+                            </thead>
+                            <tr ng-repeat="seed in seedsByMonth">
+                                <td class="calendarSeed align-items-center" ng-click="loadSeedInfoPopup(seed.plantId)">{{seed.plantTypeName}} - {{seed.plantBreed}}</td>
+
+                                <td ng-repeat="day in seed.dayTasks">
+                                    <div ng-repeat="task in day.tasks | orderBy: task.taskId" class="bg-light hover-overlay m-4 p-4" ng-click="loadTaskInfoPopup(task, seed)">
+                                        <div class="row text-center">
+                                            <div ng-class="task.isComplete ? 'text-success' : 'text-danger'" ng-model="task.isComplete">{{task.isComplete ? 'Complete' : 'Incomplete'}}</div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="text-center">
+                                                {{task.taskName}}
+                                            </div>
+                                        </div>
+                                    </div>
+                                </td>
+                            </tr>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </form>
 
         <div id="popupBackground" class="popupBackground">
             <div id="seedInfoPopup" class="popupBox">

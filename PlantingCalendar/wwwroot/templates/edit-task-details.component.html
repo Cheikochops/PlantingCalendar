@@ -4,7 +4,7 @@
         <div class="flex">
             <div class="col-6">
                 <div>
-                    {{$ctrl.thisSeed.plantTypeName}} - {{$ctrl.thisSeed.plantBreed}}
+                    <h2>{{$ctrl.thisSeed.plantTypeName}} - {{$ctrl.thisSeed.plantBreed}}</h2>
                 </div>
             </div>
 
@@ -12,7 +12,7 @@
                 <div class="flex justify-content-end">
                     <div>
                         <button ng-click="$ctrl.toggleComplete()" ng-show="$ctrl.thisTask.isComplete" class="btn btn-success">Complete</button>
-                        <button ng-click="$ctrl.toggleComplete()" ng-show="!$ctrl.thisTask.isComplete" class="btn btn-secondary">Incomplete</button>
+                        <button ng-click="$ctrl.toggleComplete()" ng-show="!$ctrl.thisTask.isComplete" class="btn btn-danger">Incomplete</button>
                     </div>
                     <div>
                         <button ng-click="$ctrl.editConfirmSave()" ng-show="!$ctrl.isConfirmSave && !$ctrl.isSaving" class="btn btn-primary" ng-disabled="editTaskForm.$invalid || $ctrl.thisTask.isComplete">Save</button>
@@ -37,16 +37,16 @@
 
     <div>
         <div class="form-group mt-2">
-            <label for="name">Description</label>
+            <label for="name">Name</label>
             <input type="text" class="form-control my-input" id="name" ng-model="$ctrl.thisTask.taskName" required ng-disabled="$ctrl.thisTask.isComplete">
         </div>
 
         <div class="form-group mt-2">
-            <label for="name">Name</label>
-            <textarea type="text" class="form-control my-input" id="name" description="{{$ctrl.thisTask.taskDescription}}" ng-disabled="$ctrl.thisTask.isComplete">{{$ctrl.thisTask.taskDescription}}</textarea>
+            <label for="description">Description</label>
+            <textarea type="text" class="form-control my-input" id="description" ng-model="$ctrl.thisTask.taskDescription" ng-disabled="$ctrl.thisTask.isComplete">{{$ctrl.thisTask.taskDescription}}</textarea>
         </div>
 
-        <div class="form-group mt-4">
+        <div class="form-group mt-4 ps-4">
             <input class="form-check-input" type="checkbox" ng-model="$ctrl.thisTask.isDisplay" id="isDisplay" ng-disabled="$ctrl.thisTask.isComplete">
             <label class="form-check-label" for="isDisplay">
                 Display on Yearly Calendar
@@ -69,7 +69,7 @@
 
 
         <div class="row mt-4">
-            <div class="form-group col">
+            <div class="form-group col ps-4">
                 <input class="form-check-input" type="checkbox" ng-model="$ctrl.thisTask.isRanged" id="isRanged" ng-disabled="$ctrl.thisTask.isComplete">
                 <label class="form-check-label" for="isRanged">
                     Is A Ranged Task
@@ -80,18 +80,18 @@
         <div ng-show="!$ctrl.thisTask.isRanged" class="row">
             <div class="form-group col">
                 <label for="taskSetDate">Date</label>
-                <input class="form-control my-input" type="date" ng-model="$ctrl.thisTask.taskSetDate" id="taskSetDate" ng-disabled="$ctrl.thisTask.isComplete">
+                <input class="form-control my-input" type="date" ng-model="$ctrl.thisTask.taskSetDate" id="taskSetDate" ng-disabled="$ctrl.thisTask.isComplete" ng-required="!$ctrl.thisTask.isRanged">
             </div>
         </div>
 
         <div class="row" ng-show="$ctrl.thisTask.isRanged">
             <div class="form-group col">
                 <label for="taskStartDate">Range Start</label>
-                <input class="form-control  my-input" type="date" ng-model="$ctrl.thisTask.taskStartDate" id="taskStartDate" ng-disabled="$ctrl.thisTask.isComplete">
+                <input class="form-control  my-input" type="date" ng-model="$ctrl.thisTask.taskStartDate" id="taskStartDate" ng-disabled="$ctrl.thisTask.isComplete" ng-required="$ctrl.thisTask.isRanged">
             </div>
             <div class="form-group col">
                 <label for="taskEndDate">Range End</label>
-                <input class="form-control my-input" type="date" ng-model="$ctrl.thisTask.taskEndDate" id="taskEndDate" ng-disabled="$ctrl.thisTask.isComplete">
+                <input class="form-control my-input" type="date" ng-model="$ctrl.thisTask.taskEndDate" id="taskEndDate" ng-disabled="$ctrl.thisTask.isComplete" ng-required="$ctrl.thisTask.isRanged">
             </div>
         </div>
     </div>

@@ -1,3 +1,4 @@
+using Microsoft.VisualBasic;
 using Newtonsoft.Json;
 using PlantingCalendar.Interfaces;
 using PlantingCalendar.Models;
@@ -9,18 +10,25 @@ namespace PlantingCalendar.DataAccess
     public class TaskHelper : ITaskHelper
     {
         private ITaskDataAccess TaskDataAccess { get; set; }
+        private ICalendarDataAccess CalendarDataAccess { get; set; }
 
-        public TaskHelper(ITaskDataAccess taskDataAccess)
+        public TaskHelper(ITaskDataAccess taskDataAccess, ICalendarDataAccess calendarDataAccess)
         {
             TaskDataAccess = taskDataAccess;
+            CalendarDataAccess = calendarDataAccess;
         }
 
         public async Task CreateNewTask(UploadNewTask task)
         {
+            var calendarDetails = (await CalendarDataAccess.GetCalendar(task.CalendarId)).First();
+
             //Validate
             if (string.IsNullOrEmpty(task.Name)
                 || !task.Seeds.Any()
-                || (task.IsRanged && (task.RangeEndDate == null || task.RangeStartDate == null)))
+                || (task.IsRanged && (task.RangeEndDate == null || task.RangeStartDate == null))
+                || (task.IsRanged && (task.RangeEndDate?.Year != calendarDetails.Year || task.RangeStartDate?.Year != calendarDetails.Year))
+                || (!task.IsRanged && task.SingleDate == null)
+                || (!task.IsRanged && task.SingleDate?.Year != calendarDetails.Year))
             {
                 throw new ValidationException("Validation for task failed");
             }
@@ -43,14 +51,14 @@ namespace PlantingCalendar.DataAccess
                                 IsRanged = task.IsRanged,
                                 SeedId = seed,
                                 IsDisplay = task.IsDisplay,
-                                DisplayChar = task.DisplayChar?.First(),
-                                DisplayColour = task.DisplayColour,
+                                DisplayChar = task.IsDisplay ? task.DisplayChar?.First() : null,
+                                DisplayColour = task.IsDisplay ? task.DisplayColour?.Replace("#", "") : null,
                                 SetDate = task.SingleDate
                             });
                             break;
                         case RepeatableTypeEnum.Weekly:
 
-                            for (var date = task.FromDate.Value; date <= task.ToDate; date.AddDays(7))
+                            for (var date = task.FromDate.Value; date <= task.ToDate; date = date.AddDays(7))
                             {
                                 tasks.Add(new SqlSaveNewTaskModel
                                 {
@@ -59,8 +67,8 @@ namespace PlantingCalendar.DataAccess
                                     IsRanged = task.IsRanged,
                                     SeedId = seed,
                                     IsDisplay = task.IsDisplay,
-                                    DisplayChar = task.DisplayChar.First(),
-                                    DisplayColour = task.DisplayColour,
+                                    DisplayChar = task.IsDisplay ? task.DisplayChar?.First() : null,
+                                    DisplayColour = task.IsDisplay ? task.DisplayColour?.Replace("#", "") : null,
                                     SetDate = date
                                 });
                             }
@@ -97,8 +105,8 @@ namespace PlantingCalendar.DataAccess
                                     IsRanged = task.IsRanged,
                                     SeedId = seed,
                                     IsDisplay = task.IsDisplay,
-                                    DisplayChar = task.DisplayChar.First(),
-                                    DisplayColour = task.DisplayColour,
+                                    DisplayChar = task.IsDisplay ? task.DisplayChar?.First() : null,
+                                    DisplayColour = task.IsDisplay ? task.DisplayColour?.Replace("#", "") : null,
                                     SetDate = currentDate
                                 });
                             }
@@ -106,7 +114,7 @@ namespace PlantingCalendar.DataAccess
                             break;
                         case RepeatableTypeEnum.Fortnightly:
 
-                            for (var date = task.FromDate.Value; date <= task.ToDate; date.AddDays(14))
+                            for (var date = task.FromDate.Value; date <= task.ToDate; date = date.AddDays(14))
                             {
                                 tasks.Add(new SqlSaveNewTaskModel
                                 {
@@ -115,8 +123,8 @@ namespace PlantingCalendar.DataAccess
                                     IsRanged = task.IsRanged,
                                     SeedId = seed,
                                     IsDisplay = task.IsDisplay,
-                                    DisplayChar = task.DisplayChar.First(),
-                                    DisplayColour = task.DisplayColour,
+                                    DisplayChar = task.IsDisplay ?  task.DisplayChar.First() : null,
+                                    DisplayColour = task.IsDisplay ? task.DisplayColour?.Replace("#", "") : null,
                                     SetDate = date
                                 });
                             }
@@ -133,8 +141,8 @@ namespace PlantingCalendar.DataAccess
                         IsRanged = task.IsRanged,
                         SeedId = seed,
                         IsDisplay = task.IsDisplay,
-                        DisplayChar = task.DisplayChar.First(),
-                        DisplayColour = task.DisplayColour,
+                        DisplayChar = task.IsDisplay ? task.DisplayChar.First() : null,
+                        DisplayColour = task.IsDisplay ? task.DisplayColour?.Replace("#", "") : null,
                         RangeEndDate = task.RangeEndDate,
                         RangeStartDate = task.RangeStartDate,
                         SetDate = null
@@ -150,8 +158,8 @@ namespace PlantingCalendar.DataAccess
 
         public async Task EditTask(long taskId, UploadTaskDetails taskDetails)
         {
-            taskDetails.DisplayColour = taskDetails.DisplayColour.Replace("#", "");
-            taskDetails.DisplayChar = taskDetails.DisplayChar.First().ToString();
+            taskDetails.DisplayColour = taskDetails.IsDisplay ? taskDetails.DisplayColour.Replace("#", "") : null;
+            taskDetails.DisplayChar = taskDetails.IsDisplay ? taskDetails.DisplayChar.First().ToString() : null;
 
             if (taskDetails.IsRanged)
             {
