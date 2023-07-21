@@ -1,5 +1,6 @@
 using Microsoft.AspNetCore.Mvc;
 using PlantingCalendar.Models;
+using PlantingCalendar.Models.Sql;
 using System.Net;
 using Xunit;
 
@@ -7,38 +8,83 @@ namespace PlantingCalendar.UnitTests
 {
     public class CalendarTests
     {
-        [Fact]
-        public async Task GetCalendar()
-        {
-            var fixture = new IntegrationFixture();
+        private readonly IntegrationFixture _integrationFixture;
 
+        public CalendarTests ()
+        {
+            _integrationFixture = new IntegrationFixture();
+        }
+
+        [Fact]
+        public async Task RunIntegrationCalendarTests()
+        {
             try
             {
-                await fixture.TestDataAccess.SetupTestData();
+                await _integrationFixture.TestDataAccess.SetupTestData();
 
-                var calendarIds = await fixture.TestDataAccess.GetTestCalendarIds();
-                var calendarId = calendarIds.First(x => x.Name.Contains("Current"));
+                var calendar = await GetCalendar(_integrationFixture.TestDataAccess.CalendarId, "IntegrationTest: Greenhouse Calendar");
+                Assert.Single(calendar.Seeds);
+                Assert.Equal(_integrationFixture.TestDataAccess.SeedIds.First(), calendar.Seeds.First().Id);
 
-                var calendarDetails = await fixture.CalendarController.GetCalendar(calendarId.Id);
+                await UpdateCalendarSeeds(_integrationFixture.TestDataAccess.CalendarId, new long[] { _integrationFixture.TestDataAccess.SeedIds.Last() });
+                calendar = await GetCalendar(_integrationFixture.TestDataAccess.CalendarId, "IntegrationTest: Greenhouse Calendar");
+                Assert.Single(calendar.Seeds);
+                Assert.Equal(_integrationFixture.TestDataAccess.SeedIds.First(), calendar.Seeds.Last().Id);
 
-                Assert.IsType<OkObjectResult>(calendarDetails);
 
-                var okObjectResult = calendarDetails as OkObjectResult;
-                Assert.NotNull(okObjectResult);
+                var newCalendar = new GenerateCalendarModel
+                {
+                    CalendarName = "IntegrationTest: NewTestCalendar",
+                    CalendarYear = 2023,
+                    Seeds = _integrationFixture.TestDataAccess.SeedIds
+                };
 
-                var data = okObjectResult.Value as CalendarDetailsModel;
-                Assert.NotNull(data);
-
-                Assert.Equal(12, data.Months.Count());
-                Assert.Equal(2023, data.Year);
-                Assert.Single(data.Seeds);
-                Assert.Equal(calendarId.Name, data.CalendarName);
-                Assert.Equal(calendarId.Id, data.CalendarId);
+                var calendarId = await GenerateNewCalendar(newCalendar);
+                calendar = await GetCalendar(calendarId, newCalendar.CalendarName);
+                foreach (var seed in _integrationFixture.TestDataAccess.SeedIds)
+                {
+                    Assert.Contains(seed, calendar.Seeds.Select(x => x.Id));
+                }
+                //Add soemthing to remove calendar + calendarseed + task
             }
             finally
             {
-                await fixture.TestDataAccess.RemoveTestData();
+                await _integrationFixture.TestDataAccess.RemoveTestData();
             }
+
+        }
+
+        private async Task<CalendarDetailsModel> GetCalendar(long calendarId, string expectedCalendarName)
+        {
+            var result = await _integrationFixture.CalendarController.GetCalendar(calendarId);
+
+            Assert.Equal(typeof(OkObjectResult), result.GetType());
+
+            var calendar = (result as OkObjectResult).Value as CalendarDetailsModel;
+  
+            Assert.Equal(calendarId, calendar.CalendarId);
+            Assert.Equal(2023, calendar.Year);
+            Assert.Equal(expectedCalendarName, calendar.CalendarName);        
+            Assert.Equal(12, calendar.Months.Count());
+
+            return calendar;
+        }
+
+        private async Task UpdateCalendarSeeds(long calendarId, long[] seedIds)
+        {
+            var result = await _integrationFixture.CalendarController.UpdateCalendarSeeds(calendarId, seedIds);
+
+            Assert.Equal(typeof(OkResult), result.GetType());
+        }
+
+        private async Task<long> GenerateNewCalendar(GenerateCalendarModel newCalendarModel)
+        {
+            var result = await _integrationFixture.CalendarController.GenerateCalendar(newCalendarModel);
+
+            Assert.Equal(typeof(OkObjectResult), result.GetType());
+            var calendar = (result as OkObjectResult).Value as SqlIdModel;
+
+            return calendar.Id.Value;
         }
     }
 }

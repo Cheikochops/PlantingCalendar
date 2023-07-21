@@ -17,18 +17,10 @@ namespace PlantingCalendar.UnitTests
         public SeedController SeedController { get; set; }
         public CalendarController CalendarController { get; set; }
         public TaskController TaskController { get; set; }
-
         public TestDataAccess TestDataAccess { get; set; }
 
         public IntegrationFixture ()
         {
-            //These tests will assume that you have data in the database.
-
-            DataAccessSettings = new DataAccessSettings()
-            {
-                Plantbase = "Server=DESKTOP-K7D69O4\\SQLEXPRESS;Database=Plantbase;User Id=sa;Password=Pass.word!;"
-            };
-
             var options = Options.Create(DataAccessSettings);
 
             SeedDataAccess = new SeedDataAccess(options);
@@ -37,7 +29,7 @@ namespace PlantingCalendar.UnitTests
 
             SeedHelper = new SeedHelper(SeedDataAccess);
             CalendarHelper = new CalendarHelper(CalendarDataAccess);
-            TaskHelper = new TaskHelper(TaskDataAccess);
+            TaskHelper = new TaskHelper(TaskDataAccess, CalendarDataAccess);
 
             SeedController = new SeedController(SeedHelper);
             CalendarController = new CalendarController(CalendarHelper);
