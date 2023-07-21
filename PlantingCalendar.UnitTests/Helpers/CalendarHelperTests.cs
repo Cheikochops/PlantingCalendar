@@ -47,6 +47,7 @@ namespace PlantingCalendar.UnitTests
                     TaskName = "Sow",
                     TaskDescription = "Sow a seed",
                     TaskId = 1,
+                    IsDisplay = true,
                     DisplayChar = "S",
                     DisplayColour = "00000",
                     IsRanged = true,
@@ -66,6 +67,7 @@ namespace PlantingCalendar.UnitTests
                     TaskName = "Harvest",
                     TaskDescription = "Harvest a seed",
                     TaskId = 2,
+                    IsDisplay = true,
                     DisplayChar = "S",
                     DisplayColour = "00000",
                     IsRanged = true,
@@ -85,6 +87,7 @@ namespace PlantingCalendar.UnitTests
                     TaskName = "Trim Lower Leaves",
                     TaskDescription = "Trim Lower Leaves of plants",
                     TaskId = 3,
+                    IsDisplay = true,
                     DisplayChar = "T",
                     DisplayColour = "00000",
                     IsRanged = false,
@@ -104,6 +107,7 @@ namespace PlantingCalendar.UnitTests
                     TaskName = "Trim Lower Leaves",
                     TaskDescription = "Trim Lower Leaves of plants",
                     TaskId = 4,
+                    IsDisplay = true,
                     DisplayChar = "T",
                     DisplayColour = "00000",
                     IsRanged = false,
@@ -111,6 +115,26 @@ namespace PlantingCalendar.UnitTests
                     RangeStartDate = null,
                     SetDate = new DateTime(2022, 07, 15),
                     IsComplete = false
+                },
+                new SqlCalendarDetailsModel
+                {
+                    CalendarId = 1,
+                    CalendarName = "Test Calendar",
+                    Year = 2022,
+                    PlantBreed = "Basic",
+                    PlantTypeName = "Celery",
+                    SeedId = 2,
+                    TaskName = "Water",
+                    TaskDescription = "Water the seeds",
+                    TaskId = 5,
+                    IsDisplay = false,
+                    DisplayChar = "X",
+                    DisplayColour = "00000",
+                    IsRanged = false,
+                    RangeEndDate = null,
+                    RangeStartDate = null,
+                    SetDate = new DateTime(2022, 10, 15),
+                    IsComplete = true
                 }
             };
 
@@ -137,6 +161,22 @@ namespace PlantingCalendar.UnitTests
             Assert.Equal(6, tomatoSeed.Tasks.Where(x => x.Value.Any(y => y.Id == 1)).Count());
             Assert.Equal(3, tomatoSeed.Tasks.Where(x => x.Value.Any(y => y.Id == 2)).Count());
             Assert.Single(tomatoSeed.Tasks[7]);
+
+            var completeTask = celerySeed.Tasks[10].First(x => x.Id == 5);
+            Assert.NotNull(completeTask);
+            Assert.True(completeTask.IsComplete);
+            Assert.False(completeTask.IsDisplay);
+            Assert.False(completeTask.IsRanged);
+            Assert.Null(completeTask.DisplayColour);
+            Assert.Null(completeTask.DisplayChar);
+
+            var rangedTask = tomatoSeed.Tasks[2].First();
+            Assert.True(rangedTask.IsRanged);
+            Assert.True(rangedTask.IsDisplay);
+            Assert.NotNull(rangedTask.DisplayColour);
+            Assert.NotNull(rangedTask.DisplayChar);
+            Assert.False(rangedTask.IsComplete);
+
 
             foreach(var month in calendar.Months)
             {
@@ -177,40 +217,44 @@ namespace PlantingCalendar.UnitTests
             calendarDataAccess.Verify();
         }
 
-        //[Fact]
-        //public async Task RemoveSeedFromCalendar()
-        //{
-        //    var seedId = long.MaxValue;
-        //    var calendarId = long.MaxValue - 5;
+        [Fact]
+        public async Task UpdateCalendarSeeds_Valid()
+        {
+            var calendarId = long.MaxValue;
+            var seedIds = new List<long>()
+            {
+                1,
+                2,
+                long.MaxValue
+            };
 
-        //    var calendarDataAccess = new Mock<ICalendarDataAccess>(MockBehavior.Strict);
-        //    calendarDataAccess.Setup(x => x.RemoveSeedFromCalendar(seedId, calendarId))
-        //        .Returns(Task.CompletedTask)
-        //        .Verifiable();
+            var calendarDataAccess = new Mock<ICalendarDataAccess>(MockBehavior.Strict);
+            calendarDataAccess.Setup(x => x.UpdateCalendarSeeds(calendarId, seedIds))
+                .Returns(Task.CompletedTask)
+                .Verifiable();
 
-        //    var calendarHelper = new CalendarHelper(calendarDataAccess.Object);
+            var calendarHelper = new CalendarHelper(calendarDataAccess.Object);
 
-        //    await calendarHelper.RemoveSeedFromCalendar(seedId, calendarId);
+            await calendarHelper.UpdateCalendarSeeds(calendarId, seedIds);
 
-        //    calendarDataAccess.Verify();
-        //}
+            calendarDataAccess.Verify();
+        }
 
-        //[Fact]
-        //public async Task AddSeedToCalendar()
-        //{
-        //    var seedId = long.MaxValue;
-        //    var calendarId = long.MaxValue - 5;
+        [Fact]
+        public async Task UpdateCalendarSeeds_Invalid()
+        {
+            var calendarId = long.MaxValue;
+            var seedIds = new List<long>()
+            {
 
-        //    var calendarDataAccess = new Mock<ICalendarDataAccess>(MockBehavior.Strict);
-        //    calendarDataAccess.Setup(x => x.AddSeedToCalendar(seedId, calendarId))
-        //        .Returns(Task.CompletedTask)
-        //        .Verifiable();
+            };
 
-        //    var calendarHelper = new CalendarHelper(calendarDataAccess.Object);
+            var calendarDataAccess = new Mock<ICalendarDataAccess>(MockBehavior.Strict);
+            var calendarHelper = new CalendarHelper(calendarDataAccess.Object);
 
-        //    await calendarHelper.AddSeedToCalendar(seedId, calendarId);
+            await Assert.ThrowsAnyAsync<ValidationException>(async () => { await calendarHelper.UpdateCalendarSeeds(calendarId, seedIds); });
 
-        //    calendarDataAccess.Verify();
-        //}
+            calendarDataAccess.Verify();
+        }
     }
 }

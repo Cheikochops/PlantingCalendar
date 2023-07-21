@@ -78,7 +78,7 @@ namespace PlantingCalendar.DataAccess
 
                             var isEndOfMonth = task.FromDate.Value.Day == DateTime.DaysInMonth(task.FromDate.Value.Year, task.FromDate.Value.Month);
 
-                            for (var month = task.FromDate.Value.Month; month < task.ToDate.Value.Month && month < 12; month++)
+                            for (var month = task.FromDate.Value.Month; month <= task.ToDate.Value.Month && month < 12; month++)
                             {
                                 DateTime currentDate;
                                 var endOfMonth = DateTime.DaysInMonth(task.FromDate.Value.Year, month);

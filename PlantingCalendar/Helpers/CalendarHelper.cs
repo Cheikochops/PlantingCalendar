@@ -124,6 +124,11 @@ namespace PlantingCalendar.DataAccess
 
         public async Task UpdateCalendarSeeds(long calendarId, List<long> seedIds)
         {
+            if (!seedIds.Any())
+            {
+                throw new ValidationException("A calendar requires seeds");
+            }
+
             await _calendarDataAccess.UpdateCalendarSeeds(calendarId, seedIds);
         }
     }
