@@ -59,17 +59,18 @@ namespace PlantingCalendar.UnitTests
         public async Task UpdateTask()
         {
             var taskId = long.MaxValue;
+            var calendarId = long.MinValue;
 
             var task = new UploadTaskDetails
             {
                 TaskName = "This is a task"
             };
 
-            _taskHelper.Setup(x => x.EditTask(taskId, task))
+            _taskHelper.Setup(x => x.EditTask(calendarId, taskId, task))
                 .Returns(Task.CompletedTask)
                 .Verifiable();
 
-            var result = await _taskController.UpdateTask(taskId, task);
+            var result = await _taskController.UpdateTask(calendarId, taskId, task);
 
             Assert.Equal(typeof(OkResult), result.GetType());
 

@@ -35,9 +35,9 @@ namespace PlantingCalendar.UnitTests
                 DisplayColour = "#000000",
                 Name = "Test Task",
                 IsRanged = true,
-                RangeStartDate = new DateTime(2023, 07, 20),
-                RangeEndDate = new DateTime(2023, 09, 10),
-                SingleDate = new DateTime(2023, 09, 09),
+                RangeStartDate = "20/07/2023",
+                RangeEndDate = "10/09/2023",
+                SingleDate = "09/09/2023",
                 Seeds = new List<long>
                 {
                     1
@@ -63,8 +63,8 @@ namespace PlantingCalendar.UnitTests
                     Assert.Single(tasks);
                     var task = tasks.First();
 
-                    Assert.Equal(newTask.RangeStartDate, task.RangeStartDate);
-                    Assert.Equal(newTask.RangeEndDate, task.RangeEndDate);
+                    Assert.Equal(DateTime.Parse(newTask.RangeStartDate), task.RangeStartDate);
+                    Assert.Equal(DateTime.Parse(newTask.RangeEndDate), task.RangeEndDate);
                     Assert.Null(task.SetDate);
 
                     Assert.True(task.IsRanged);
@@ -89,9 +89,9 @@ namespace PlantingCalendar.UnitTests
                 DisplayColour = "#123456",
                 Name = "Test Task",
                 IsRanged = false,
-                RangeStartDate = new DateTime(2023, 07, 20),
-                RangeEndDate = new DateTime(2023, 09, 10),
-                SingleDate = new DateTime(2023, 01, 01),
+                RangeStartDate = "20-07-2023",
+                RangeEndDate = "10-09-2023",
+                SingleDate = "01-01-2023",
                 RepeatableType = "0",
                 Seeds = new List<long>
                 {
@@ -126,12 +126,12 @@ namespace PlantingCalendar.UnitTests
                     seed1.SeedId = long.MaxValue;
                     seed2.SeedId = long.MaxValue;
 
-                    Assert.Equal(JsonConvert.SerializeObject(seed1), 
+                    Assert.Equal(JsonConvert.SerializeObject(seed1),
                         JsonConvert.SerializeObject(seed2));
 
                     Assert.Null(seed1.RangeStartDate);
                     Assert.Null(seed1.RangeEndDate);
-                    Assert.Equal(newTask.SingleDate, seed1.SetDate);
+                    Assert.Equal(DateTime.Parse(newTask.SingleDate), seed1.SetDate);
 
                     Assert.False(seed1.IsRanged);
                     Assert.True(seed1.IsDisplay);
@@ -157,11 +157,11 @@ namespace PlantingCalendar.UnitTests
                 DisplayColour = "#123456",
                 Name = "Test Task",
                 IsRanged = false,
-                RangeStartDate = new DateTime(2023, 07, 20),
-                RangeEndDate = new DateTime(2023, 09, 10),
-                SingleDate = new DateTime(2023, 01, 01),
-                FromDate = new DateTime(2023, 01, 05),
-                ToDate = new DateTime(2023, 02, 10),
+                RangeStartDate = "20-07-2023",
+                RangeEndDate = "10-09-2023",
+                SingleDate = "01-01-2023",
+                FromDate = "05-01-2023",
+                ToDate = "10-02-2023",
                 RepeatableType = "1",
                 Seeds = new List<long>
                 {
@@ -229,11 +229,11 @@ namespace PlantingCalendar.UnitTests
                 DisplayColour = "#123456",
                 Name = "Test Task",
                 IsRanged = false,
-                RangeStartDate = new DateTime(2023, 07, 20),
-                RangeEndDate = new DateTime(2023, 09, 10),
-                SingleDate = new DateTime(2023, 01, 01),
-                FromDate = new DateTime(2023, 01, 05),
-                ToDate = new DateTime(2023, 02, 10),
+                RangeStartDate = "20-07-2023",
+                RangeEndDate = "10-09-2023",
+                SingleDate = "01-01-2023",
+                FromDate = "05-01-2023",
+                ToDate = "10-02-2023",
                 RepeatableType = "2",
                 Seeds = new List<long>
                 {
@@ -298,11 +298,11 @@ namespace PlantingCalendar.UnitTests
                 DisplayColour = "#123456",
                 Name = "Test Task",
                 IsRanged = false,
-                RangeStartDate = new DateTime(2023, 07, 20),
-                RangeEndDate = new DateTime(2023, 09, 10),
-                SingleDate = new DateTime(2023, 01, 01),
-                FromDate = new DateTime(2023, 01, 05),
-                ToDate = new DateTime(2023, 04, 10),
+                RangeStartDate = null,
+                RangeEndDate = null,
+                SingleDate = "01-01-2023",
+                FromDate = "05-01-2023",
+                ToDate = "10-04-2023",
                 RepeatableType = "3",
                 Seeds = new List<long>
                 {
@@ -368,11 +368,11 @@ namespace PlantingCalendar.UnitTests
                 DisplayColour = "#123456",
                 Name = "Test Task",
                 IsRanged = false,
-                RangeStartDate = new DateTime(2023, 07, 20),
-                RangeEndDate = new DateTime(2023, 09, 10),
-                SingleDate = new DateTime(2023, 01, 01),
-                FromDate = new DateTime(2023, 01, 31),
-                ToDate = new DateTime(2023, 05, 31),
+                RangeStartDate = null,
+                RangeEndDate = null,
+                SingleDate = null,
+                FromDate = "31-01-2023",
+                ToDate = "31-05-2023",
                 RepeatableType = "3",
                 Seeds = new List<long>
                 {
@@ -432,6 +432,8 @@ namespace PlantingCalendar.UnitTests
         public async Task EditTask_Ranged()
         {
             var taskId = long.MaxValue;
+            var calendarId = long.MinValue;
+
             var taskDetails = new UploadTaskDetails
             {
                 IsRanged = true,
@@ -440,10 +442,19 @@ namespace PlantingCalendar.UnitTests
                 DisplayColour = "#123876",
                 TaskName = "Test Name",
                 TaskDescription = "This is the task",
-                TaskStartDate = new DateTime(2023, 03, 01),
-                TaskEndDate = new DateTime(2023, 07, 10),
-                TaskSetDate = new DateTime(2023, 01, 01)
+                TaskStartDate = "01/03/2023",
+                TaskEndDate = "10/07/2023",
+                TaskSetDate = "01/01/2023"
             };
+
+            _calendarDataAccessMock.Setup(x => x.GetCalendar(calendarId))
+                .ReturnsAsync(new List<SqlCalendarDetailsModel>
+                {
+                                new SqlCalendarDetailsModel
+                                {
+                                    Year = 2023
+                                }
+                }).Verifiable();
 
             _taskDataAccessMock.Setup(x => x.UpdateTask(taskId, It.IsAny<string>()))
                 .Returns(Task.CompletedTask)
@@ -462,7 +473,7 @@ namespace PlantingCalendar.UnitTests
                     Assert.Equal(taskDetails.TaskStartDate, editTask.TaskStartDate);
                 }).Verifiable();
 
-            await _taskHelper.EditTask(taskId, taskDetails);
+            await _taskHelper.EditTask(calendarId, taskId, taskDetails);
 
             _mockRepository.Verify();
         }
@@ -471,6 +482,8 @@ namespace PlantingCalendar.UnitTests
         public async Task EditTask_Single()
         {
             var taskId = long.MaxValue;
+            var calendarId = long.MinValue;
+
             var taskDetails = new UploadTaskDetails
             {
                 IsRanged = false,
@@ -479,10 +492,19 @@ namespace PlantingCalendar.UnitTests
                 DisplayColour = "#123876",
                 TaskName = "Test Name",
                 TaskDescription = "This is the task",
-                TaskStartDate = new DateTime(2023, 03, 01),
-                TaskEndDate = new DateTime(2023, 07, 10),
-                TaskSetDate = new DateTime(2023, 01, 01)
+                TaskStartDate = "01/03/2023",
+                TaskEndDate = "10/07/2023",
+                TaskSetDate = "01/01/2023"
             };
+
+            _calendarDataAccessMock.Setup(x => x.GetCalendar(calendarId))
+                .ReturnsAsync(new List<SqlCalendarDetailsModel>
+                {
+                                new SqlCalendarDetailsModel
+                                {
+                                    Year = 2023
+                                }
+                }).Verifiable();
 
             _taskDataAccessMock.Setup(x => x.UpdateTask(taskId, It.IsAny<string>()))
                 .Returns(Task.CompletedTask)
@@ -501,13 +523,13 @@ namespace PlantingCalendar.UnitTests
                     Assert.Null(editTask.TaskStartDate);
                 }).Verifiable();
 
-            await _taskHelper.EditTask(taskId, taskDetails);
+            await _taskHelper.EditTask(calendarId, taskId, taskDetails);
 
             _mockRepository.Verify();
         }
 
         [Fact]
-        public async Task GetRepeatableTypes ()
+        public async Task GetRepeatableTypes()
         {
             var types = _taskHelper.GetRepeatableTypes();
 

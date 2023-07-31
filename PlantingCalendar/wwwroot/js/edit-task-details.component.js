@@ -5,6 +5,7 @@ angular.module('seedApp')
         controller: EditTaskController,
         bindings: {
             task: '<',
+            calendarId: '<',
             seed: '<',
             refresh: '&'
         }
@@ -36,7 +37,7 @@ function EditTaskController($http, $timeout) {
     }
 
     ctrl.saveTask = function () {
-        var url = "api/tasks?taskId=" + ctrl.thisTask.taskId;
+        var url = "api/tasks?taskId=" + ctrl.thisTask.taskId + "&calendarId=" + ctrl.calendarId;
 
         clearTimeout(ctrl.saveTimeout)
         ctrl.isSaving = true;
@@ -56,10 +57,12 @@ function EditTaskController($http, $timeout) {
             displayChar: character,
             displayColour: colour,
             isRanged: ctrl.thisTask.isRanged,
-            taskStartDate: ctrl.thisTask.taskStartDate ?? null,
-            taskEndDate: ctrl.thisTask.taskEndDate ?? null,
-            taskSetDate: ctrl.thisTask.taskSetDate ?? null
+            taskStartDate: ctrl.thisTask.taskStartDate != null ? ctrl.thisTask.taskStartDate.toLocaleDateString('af-ZA') : null,
+            taskEndDate: ctrl.thisTask.taskEndDate != null ? ctrl.thisTask.taskEndDate.toLocaleDateString('af-ZA') : null,
+            taskSetDate: ctrl.thisTask.taskSetDate != null ? ctrl.thisTask.taskSetDate.toLocaleDateString('af-ZA') : null
         }
+
+        console.log(data);
 
         $http({
             url: url,

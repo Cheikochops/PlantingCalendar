@@ -75,6 +75,8 @@ function EditCalendarSeedController($http) {
 
     ctrl.$onChanges = function (changes) {
         ctrl.allSeedList = structuredClone(ctrl.availableSeeds);
+        ctrl.currentSeedList = [];
+
 
         if (ctrl.currentSeeds != null) {
             ctrl.currentSeeds.forEach(function (c) {

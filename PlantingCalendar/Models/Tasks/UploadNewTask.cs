@@ -12,17 +12,17 @@ namespace PlantingCalendar.Models
 
         public bool IsRanged { get; set; }
 
-        public DateTime? RangeStartDate { get; set; }
+        public string? RangeStartDate { get; set; }
 
-        public DateTime? RangeEndDate { get; set; }
+        public string? RangeEndDate { get; set; }
 
         public string? RepeatableType { get; set; }
 
-        public DateTime? SingleDate { get; set;}
+        public string? SingleDate { get; set;}
 
-        public DateTime? FromDate { get; set; }
+        public string? FromDate { get; set; }
 
-        public DateTime? ToDate { get; set; }
+        public string? ToDate { get; set; }
 
         public bool IsDisplay { get; set; }
 

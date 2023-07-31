@@ -35,10 +35,8 @@ angular.module('seedApp').controller('calendar', function ($scope, $http) {
                 tasks = []
 
                 currentTasks.forEach(function (x) {
-                    console.log(x)
-
                     if (x.taskDate != null && x.taskDate != undefined) {
-                        if (new Date(x.taskDate).getUTCDate() == d.day) {
+                        if (new Date(x.taskDate).getDate() == d.day) {
                             tasks.push({
                                 isRanged: x.isRanged,
                                 taskId: x.id,
@@ -88,9 +86,9 @@ angular.module('seedApp').controller('calendar', function ($scope, $http) {
                 dayTasks: days,
                 month: month
             })
-
-            console.log($scope.seedsByMonth)
         });
+
+        console.log($scope.seedsByMonth);
 
         $scope.showSingleMonth = true;        
     }
@@ -134,8 +132,6 @@ angular.module('seedApp').controller('calendar', function ($scope, $http) {
     $scope.loadTaskInfoPopup = function (task, seed) {
         var popupBackgroundId = 'editTaskPopupBackground';
         var popupId = 'editTaskPopup';
-
-        console.log(task);
 
         $scope.editPopupTask = task;
         $scope.editPopupSeed = seed;

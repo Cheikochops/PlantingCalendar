@@ -14,10 +14,10 @@ namespace PlantingCalendar.Models
 
         public bool IsRanged { get; set; }
 
-        public DateTime? TaskStartDate { get; set; }
+        public string? TaskStartDate { get; set; }
 
-        public DateTime? TaskEndDate { get; set; }
+        public string? TaskEndDate { get; set; }
 
-        public DateTime? TaskSetDate { get; set; }
+        public string? TaskSetDate { get; set; }
     }
 }

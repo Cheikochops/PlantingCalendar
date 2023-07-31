@@ -28,9 +28,9 @@ public class TaskController : ControllerBase
     }
 
     [HttpPost("")]
-    public async Task<ActionResult> UpdateTask(long taskId, [FromBody]UploadTaskDetails task)
+    public async Task<ActionResult> UpdateTask(long calendarId, long taskId, [FromBody]UploadTaskDetails task)
     {
-        await _taskHelper.EditTask(taskId, task);
+        await _taskHelper.EditTask(calendarId, taskId, task);
         return Ok();
     }
 

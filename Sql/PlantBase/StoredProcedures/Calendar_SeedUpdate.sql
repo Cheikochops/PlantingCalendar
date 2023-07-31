@@ -127,6 +127,7 @@ Begin
 					plantbase.CalendarSeed cs
 					join plantbase.SeedAction sa on cs.FK_SeedId = sa.FK_SeedId	
 					join plantbase.Calendar c on cs.FK_CalendarId = c.Id and c.Id = @calendarId
+					join @newCalendarSeedId n on cs.Id = n.Id
 				Where
 					coalesce(sa.StartDate, '') != ''
 					and coalesce(sa.EndDate, '') != ''
