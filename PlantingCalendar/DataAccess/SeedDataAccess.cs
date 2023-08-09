@@ -36,8 +36,6 @@ namespace PlantingCalendar.DataAccess
         {
             try
             {
-                //FIX: task duplication issue
-                //Sow and harvest not saving colour
                 var seeds = await ExecuteSql<SqlSeedDetailsModel>($"Exec plantbase.Seed_Details_Read @seedId, @includeDeleted", new Dictionary<string, object>
                 {
                     { "@seedId", seedId },

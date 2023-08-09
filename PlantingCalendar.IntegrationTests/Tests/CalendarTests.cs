@@ -10,7 +10,7 @@ namespace PlantingCalendar.UnitTests
     {
         private readonly IntegrationFixture _integrationFixture;
 
-        public CalendarTests ()
+        public CalendarTests()
         {
             _integrationFixture = new IntegrationFixture();
         }
@@ -29,8 +29,7 @@ namespace PlantingCalendar.UnitTests
                 await UpdateCalendarSeeds(_integrationFixture.TestDataAccess.CalendarId, new long[] { _integrationFixture.TestDataAccess.SeedIds.Last() });
                 calendar = await GetCalendar(_integrationFixture.TestDataAccess.CalendarId, "IntegrationTest: Greenhouse Calendar");
                 Assert.Single(calendar.Seeds);
-                Assert.Equal(_integrationFixture.TestDataAccess.SeedIds.First(), calendar.Seeds.Last().Id);
-
+                Assert.Equal(_integrationFixture.TestDataAccess.SeedIds.Last(), calendar.Seeds.Last().Id);
 
                 var newCalendar = new GenerateCalendarModel
                 {
@@ -41,11 +40,14 @@ namespace PlantingCalendar.UnitTests
 
                 var calendarId = await GenerateNewCalendar(newCalendar);
                 calendar = await GetCalendar(calendarId, newCalendar.CalendarName);
+
                 foreach (var seed in _integrationFixture.TestDataAccess.SeedIds)
                 {
                     Assert.Contains(seed, calendar.Seeds.Select(x => x.Id));
                 }
-                //Add soemthing to remove calendar + calendarseed + task
+
+                await _integrationFixture.TestDataAccess.RemoveCalendar(calendarId);
+
             }
             finally
             {
@@ -61,10 +63,10 @@ namespace PlantingCalendar.UnitTests
             Assert.Equal(typeof(OkObjectResult), result.GetType());
 
             var calendar = (result as OkObjectResult).Value as CalendarDetailsModel;
-  
+
             Assert.Equal(calendarId, calendar.CalendarId);
             Assert.Equal(2023, calendar.Year);
-            Assert.Equal(expectedCalendarName, calendar.CalendarName);        
+            Assert.Equal(expectedCalendarName, calendar.CalendarName);
             Assert.Equal(12, calendar.Months.Count());
 
             return calendar;
@@ -82,9 +84,9 @@ namespace PlantingCalendar.UnitTests
             var result = await _integrationFixture.CalendarController.GenerateCalendar(newCalendarModel);
 
             Assert.Equal(typeof(OkObjectResult), result.GetType());
-            var calendar = (result as OkObjectResult).Value as SqlIdModel;
+            var calendar = (long)(result as OkObjectResult).Value;
 
-            return calendar.Id.Value;
+            return calendar;
         }
     }
 }

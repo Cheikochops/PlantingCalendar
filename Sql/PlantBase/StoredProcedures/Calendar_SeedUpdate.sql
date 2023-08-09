@@ -13,11 +13,6 @@ Begin
 	declare @newCalendarSeedId table (
 		Id bigint
 	)
-	
-	declare @RemovableCalendarSeedIds table
-	(
-		Id bigint
-	)
 
 	Insert Into 
 			@seedIds
@@ -26,37 +21,18 @@ Begin
 			From
 				Openjson(@SeedJson) o
 
-	Insert Into
-			@RemovableCalendarSeedIds
-		Select
-				cs.Id
-			From
-				plantbase.CalendarSeed cs
-			Where
-				cs.FK_CalendarId = @CalendarId
-				and not exists (Select * from @seedIds where Id = cs.FK_SeedId)
-
-
-		Delete From
-				plantbase.Task
-			Where
-				FK_CalendarSeedId in
-				(
-					Select
-							Id 
-						From
-							@RemovableCalendarSeedIds
-				)
-
 		Delete From
 				plantbase.CalendarSeed
 			Where
 				Id in
 				(
 					Select
-							Id 
+							cs.Id
 						From
-							@RemovableCalendarSeedIds
+							plantbase.CalendarSeed cs
+						Where
+							cs.FK_CalendarId = @CalendarId
+							and not exists (Select * from @seedIds where Id = cs.FK_SeedId)
 				)
 
 

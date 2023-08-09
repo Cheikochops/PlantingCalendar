@@ -40,6 +40,7 @@ namespace PlantingCalendar.DataAccess
                     {
                         dict.Add(month.Order, calendarDetails
                                 .Where(y => y.SeedId == seed.Id)
+                                .Where(y => y.TaskId != null)
                                 .Where(y => (!y.IsRanged && y.SetDate.Value.Month == month.Order)
                                 || (y.IsRanged &&
                                     month.Order <= y.RangeEndDate.Value.Month &&

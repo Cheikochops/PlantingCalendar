@@ -62,8 +62,6 @@ function EditTaskController($http, $timeout) {
             taskSetDate: ctrl.thisTask.taskSetDate != null ? ctrl.thisTask.taskSetDate.toLocaleDateString('af-ZA') : null
         }
 
-        console.log(data);
-
         $http({
             url: url,
             data: data,
@@ -116,8 +114,6 @@ function EditTaskController($http, $timeout) {
     ctrl.$onChanges = function () {
         ctrl.thisTask = structuredClone(ctrl.task)
         ctrl.thisSeed = structuredClone(ctrl.seed)
-
-        console.log(ctrl.thisTask);
 
         ctrl.confirmSave = false;
         ctrl.isSaving = false;

@@ -54,7 +54,7 @@ BEGIN
 		EndDate varchar(4) not null, --format DDMM
 		IsDisplay bit default(0),
 		PRIMARY KEY (Id),
-		FOREIGN KEY (FK_SeedId) REFERENCES plantbase.Seed(Id)
+		FOREIGN KEY (FK_SeedId) REFERENCES plantbase.Seed(Id) ON DELETE CASCADE
 	)
 
 END
@@ -96,8 +96,8 @@ BEGIN
 		FK_CalendarId bigint not null,
 		FK_SeedId bigint not null,
 		PRIMARY KEY (Id),
-		FOREIGN KEY (FK_SeedId) REFERENCES plantbase.Seed(Id),
-		FOREIGN KEY (FK_CalendarId) REFERENCES plantbase.Calendar(Id)
+		FOREIGN KEY (FK_SeedId) REFERENCES plantbase.Seed(Id) ON DELETE CASCADE,
+		FOREIGN KEY (FK_CalendarId) REFERENCES plantbase.Calendar(Id) ON DELETE CASCADE
 	)
 
 END
@@ -128,7 +128,7 @@ BEGIN
 		DisplayColour varchar(6) null, --colour code
 		IsComplete bit default(0),
 		PRIMARY KEY (Id),
-		FOREIGN KEY (FK_CalendarSeedId) REFERENCES plantbase.CalendarSeed(Id)
+		FOREIGN KEY (FK_CalendarSeedId) REFERENCES plantbase.CalendarSeed(Id) ON DELETE CASCADE
 	)
 
 END

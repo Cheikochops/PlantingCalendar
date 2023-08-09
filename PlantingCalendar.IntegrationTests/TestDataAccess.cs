@@ -2,7 +2,6 @@ using Microsoft.Extensions.Options;
 using PlantingCalendar.DataAccess;
 using PlantingCalendar.Models;
 using PlantingCalendar.Models.Sql;
-using System.Runtime.CompilerServices;
 
 namespace PlantingCalendar.UnitTests
 {
@@ -31,29 +30,31 @@ namespace PlantingCalendar.UnitTests
 
         public async Task RemoveTestData()
         {
-            foreach (var task in Tasks)
+            await RemoveCalendar(CalendarId);
+
+            foreach (var seed in SeedIds)
             {
-                await ExecuteSql($"Delete from plantbase.Task where id = {task}");
+                await RemoveSeed(seed);
             }
+        }
 
-            await ExecuteSql($"Delete from plantbase.CalendarSeed where id = {CalendarSeedId}");
+        public async Task RemoveCalendar(long calendarId)
+        {
+            await ExecuteSql($"Delete from plantbase.Calendar where id = {calendarId}");
+        }
 
-            await ExecuteSql($"Delete from plantbase.Calendar where id = {CalendarId}");
-
-            foreach (var seedAction in SeedActionIds)
-            {
-                await ExecuteSql($"Delete from plantbase.SeedAction where id = {seedAction}");
-            }
-
-            await ExecuteSql($"Delete from plantbase.Seed where id = {SeedIds.First()}");
+        public async Task RemoveSeed(long seedId)
+        {
+            await ExecuteSql($"Delete from plantbase.Seed where id = {seedId}");
         }
 
         private async Task SetupTestSeed()
         {
-            var seedId = await ExecuteSql<SqlIdModel>("Insert Into plantbase.Seed PlantType, Breed, Description, WaterRequirement, SunRequirement, ExpiryDate ) Output INSERTED.Id VALUES ( 'IntegrationTest: Tomato', 'Gardener''s Delight', 'A high production small fruit, vine variety', '1 - 2 inches per week', '8 - 16 hours', '2023-05-10' ), ( 'TEST: Courgette', 'Ambassador F1 ', 'An early variety with the production of dark green fruits', '1 + inch per week', 'Full Sun, 6 - 8 hours', '2023-07-10' )");
+            var seedId = await ExecuteSql<SqlIdModel>("Insert Into plantbase.Seed (PlantType, Breed, Description, WaterRequirement, SunRequirement, ExpiryDate ) Output INSERTED.Id VALUES ( 'IntegrationTest: Tomato', 'Gardener''s Delight', 'A high production small fruit, vine variety', '1 - 2 inches per week', '8 - 16 hours', '2023-05-10' ), ( 'TEST: Courgette', 'Ambassador F1 ', 'An early variety with the production of dark green fruits', '1 + inch per week', 'Full Sun, 6 - 8 hours', '2023-07-10' )");
             SeedIds = seedId.Select(x => x.Id.Value).ToList();
 
-            var seedActionId = await ExecuteSql<SqlIdModel>($"Insert Into plantbase.SeedAction ( Name, Description, FK_SeedId, StartDate, EndDate, Enum_ActionTypeId, IsDisplay, DisplayColour, DisplayChar ) OUTPUT inserted.Id VALUES ( 'Sow', 'Sow the plant', @tomatoSeedId, '0102', '3004', 1, 1, '00000F', 'S' ), ( 'Harvest', 'Harvest the plant', @tomatoSeedId, '1007', '2010', 2, 1, '111111', 'H' )");
+            var tomatoSeedId = SeedIds.First();
+            var seedActionId = await ExecuteSql<SqlIdModel>($"Insert Into plantbase.SeedAction ( Name, Description, FK_SeedId, StartDate, EndDate, Enum_ActionTypeId, IsDisplay, DisplayColour, DisplayChar ) OUTPUT inserted.Id VALUES ( 'Sow', 'Sow the plant', {tomatoSeedId}, '0102', '3004', 1, 1, '00000F', 'S' ), ( 'Harvest', 'Harvest the plant', {tomatoSeedId}, '1007', '2010', 2, 1, '111111', 'H' )");
             SeedActionIds = seedActionId.Select(x => x.Id.Value).ToList();
         }
 

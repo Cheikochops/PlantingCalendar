@@ -21,6 +21,11 @@ namespace PlantingCalendar.UnitTests
 
         public IntegrationFixture ()
         {
+            DataAccessSettings = new DataAccessSettings()
+            {
+                Plantbase = "Server=DESKTOP-K7D69O4\\SQLEXPRESS;Database=Plantbase;User Id=sa;Password=Pass.word!;"
+            };
+
             var options = Options.Create(DataAccessSettings);
 
             SeedDataAccess = new SeedDataAccess(options);
