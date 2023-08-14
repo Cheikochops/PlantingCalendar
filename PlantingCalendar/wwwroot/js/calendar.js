@@ -6,7 +6,7 @@ angular.module('seedApp').controller('calendar', function ($scope, $http) {
     calendarUrl = "api/calendar"
 
     if (calendarId != null) {
-        calendarUrl += "?id=" + calendarId;
+        calendarUrl += "?calendarId=" + calendarId;
     }
 
     $scope.displaySeedId = null;
