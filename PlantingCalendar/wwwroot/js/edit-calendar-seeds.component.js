@@ -11,7 +11,7 @@ angular.module('seedApp')
         }
     });
 
-function EditCalendarSeedController($http) {
+function EditCalendarSeedController($http, $timeout) {
 
     var ctrl = this;
 
@@ -20,6 +20,16 @@ function EditCalendarSeedController($http) {
     ctrl.availableSeeds = [];
 
     ctrl.seedListFilter = "";
+
+    ctrl.isConfirmSave = false;
+    ctrl.isSaving = false;
+
+    ctrl.editConfirmSave = function () {
+        ctrl.isConfirmSave = true
+        ctrl.saveTimeout = $timeout(() => {
+            ctrl.isConfirmSave = false;
+        }, 3000);
+    }
 
     ctrl.addSeed = function (seed) {
         ctrl.currentSeedList.push(seed)
@@ -56,6 +66,9 @@ function EditCalendarSeedController($http) {
     ctrl.saveCalendarSeeds = function () {
         var url = "api/calendar/seeds?calendarId=" + ctrl.calendarId;
 
+        clearTimeout(ctrl.saveTimeout)
+        ctrl.isSaving = true;
+
         data = [];
         ctrl.currentSeedList.forEach(function (s) {
             data.push(s.id)
@@ -67,9 +80,12 @@ function EditCalendarSeedController($http) {
             method: "POST",
             headers: { 'Content-Type': 'application/json' },
         }).then(function mySuccess(response) {
+            ctrl.isSaving = false;
+            ctrl.isConfirmSave = false;
             ctrl.refresh();
         }, function myError(response) {
-
+            ctrl.isSaving = false;
+            ctrl.isConfirmSave = false;
         });
     }
 

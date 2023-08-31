@@ -11,7 +11,7 @@ angular.module('seedApp')
         }
     });
 
-function NewTaskController($http) {
+function NewTaskController($http, $timeout) {
 
     var ctrl = this;
     ctrl.repeatableType = [];
@@ -22,10 +22,9 @@ function NewTaskController($http) {
 
     ctrl.confirmSave = function () {
         ctrl.isConfirmSave = true
-        ctrl.confirmSaveTimeout = setTimeout(
-            function () {
-                ctrl.isConfirmSave = false;
-            }, 3000);
+        ctrl.saveTimeout = $timeout(() => {
+            ctrl.isConfirmSave = false;
+        }, 3000);
     }
 
     ctrl.getRepeatableType = function () {
@@ -40,7 +39,7 @@ function NewTaskController($http) {
     ctrl.saveNewTask = function () {
         var url = "api/tasks/new";
 
-        clearTimeout(ctrl.confirmSaveTimeout);
+        clearTimeout(ctrl.saveTimeout);
 
         var colour = null;
         var character = null;
